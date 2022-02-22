@@ -23,7 +23,8 @@ library(shiny)
 library(shinyalert)
 library(shinyjs)
 library(shinycssloaders)
-
+library(xml2)
+library(rsvg) 
 
 ui <-dashboardPage(
     
