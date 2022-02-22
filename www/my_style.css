@@ -1,0 +1,72 @@
+/* header title font */
+.main-header .logo {
+  font-family: Arial, Verdana, sans-serif;
+  font-weight: bold;
+  font-size: 28px;
+  text-align: center;
+}
+
+/* background color of header (logo part) */
+.skin-blue .main-header .logo {/* 1/6 of the screen*/
+          min-height: 16.7%; /* 1/6 of a 20'' screen (1600x1200px) */
+          height: 20%;
+          background-color: #E5F8F5; /* For browsers that do not support gradients */
+          background-image: linear-gradient(to bottom left, #E5F8F5, #ECFAE9); /* CRAG institutional gradient 2 */
+}
+        
+/* logo when hovered */
+.skin-blue .main-header .logo:hover {
+          background-color: gray;
+}
+                              
+/* background color for remaining part of the header */
+.skin-blue .main-header .navbar {
+          min-height: 16.7%; /* 1/6 of a 20'' screen (1600x1200px) */
+          height: 20%;
+          background-color: #E5F8F5; /* For browsers that do not support gradients */
+          background-image: linear-gradient(to bottom right, #E5F8F5, #ECFAE9); /* CRAG institutional gradient 2 */
+}
+
+/* custom logo */
+.navbar-custom-menu {
+       float: center!important;
+       max-height: 18%;
+}
+                              
+/* toggle button when hovered  */                    
+.skin-blue .main-header .navbar .sidebar-toggle:hover{
+         background-color: gray;
+}
+                              
+/* main sidebar */
+.skin-blue .main-sidebar {
+         background-color: #E5F8F5;
+} 
+                      
+/* active sidebar menu item */
+.skin-blue .main-sidebar .sidebar .sidebar-menu .active a{
+        background-color: white;
+        color: black
+}
+                          
+/* sidebar menuitems when mouse hover */
+.skin-blue .main-sidebar .sidebar .sidebar-menu a:hover{
+        background-color: gray;
+        color:white;
+}
+                              
+/* body */
+.content-wrapper, .right-side {
+   background-color: white;
+}
+
+.box.box-solid.box-primary>.box-header {
+  background: white;
+}
+
+.box.box-solid.box-primary{
+  border-bottom-color:#FFFFFF;
+  border-left-color:#FFFFFF;
+  border-right-color:#FFFFFF;
+  border-top-color:#FFFFFF;
+}
