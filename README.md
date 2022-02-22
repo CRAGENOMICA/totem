@@ -1,10 +1,10 @@
 # shinyTOTEM
 New TOTEM webtool based on R and Shiny
 
-# Dependencies
+## Dependencies
 R (>3.0.2)
 
-# R packages dependencies
+## R packages dependencies
 shinydashboard
 shiny
 shinyalert
