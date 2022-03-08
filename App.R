@@ -98,11 +98,12 @@ ui <-dashboardPage(
                            
                            # Output functions:
                            
-                           ## A text (1)
-                           verbatimTextOutput(outputId = "experiment_description",placeholder = TRUE),
+                           ## A text with the experiment description
+                           tags$label(class = "control-label","Selected experiment details"),
+                           htmlOutput(outputId = "experiment_description"),
                            
                            ## A image
-                           imageOutput(outputId = "blank_image")
+                           imageOutput(outputId = "blank_image",)
                     )
             ),
             
@@ -199,12 +200,17 @@ server <- function(input, output, session) {
     experiment_path<<-normalizePath(paste("./experiments",input$specie,input$experiment_id,sep = "/"))
 
     ## Text box with description of the experiment
-    output$experiment_description <- renderText({
+    #output$experiment_description <- renderText({
         
         # Get description from text file
+    #    description <- readLines(normalizePath(paste(experiment_path,"experiment_description.txt",sep = "/")))
+    #    expr = description
+    #    })
+    
+    output$experiment_description <- renderUI({
         description <- readLines(normalizePath(paste(experiment_path,"experiment_description.txt",sep = "/")))
-        expr = description
-        })
+        HTML(description)
+    })
 
     ## Blank Image
     
@@ -212,9 +218,15 @@ server <- function(input, output, session) {
         {
             # Read image
             filename <- normalizePath(paste(experiment_path,"blank_image.png",sep = "/"))
+            
+            # Read myImage's width and height. These are reactive values, so this
+            # expression will re-run whenever they change.
+            width  <- session$clientData$output_blank_image_width
+            height <- session$clientData$output_blank_image_height
+            
             list(src=filename,
-                 width=400,
-                 height=600)
+                 width=width,
+                 height=height)
             }, deleteFile = FALSE
         )
     })
