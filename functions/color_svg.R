@@ -32,7 +32,7 @@ color_svg<-function(input_svg,tissue_colors,output_file) {
   
   ## 2 Analyze xml and reach the child <g>
   ## Tissues names present in the svg image
-  tissues<-xml_contents(xml_child(svg,search = 5))
+  tissues<-xml_contents(xml_child(svg,search = 3))
   
   ## Provide the tissues present in the vector names
   mytissues<-names(tissue_colors)

@@ -83,7 +83,7 @@ ui <-dashboardPage(
                            textAreaInput(inputId = "user_genelist",
                                          label = "Gene list",
                                          value = "Paste you gene list here e.g:\nAT1G012032",
-                                         width = "200px",height = "400px"
+                                         rows = 12
                            ),
                            
                            # Calculate enrichment button
