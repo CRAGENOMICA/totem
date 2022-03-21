@@ -103,6 +103,10 @@ ui <-dashboardPage(
                            htmlOutput(outputId = "experiment_description"),
                            
                            ## A image
+                           tags$head(tags$style(### adjust image to the windows size
+                             type = "text/css",
+                             "#blank_image img {max-width: 100%; width: auto; max-height: 200%; height: auto}" 
+                           )),
                            imageOutput(outputId = "blank_image",)
                     )
             ),
@@ -112,16 +116,20 @@ ui <-dashboardPage(
             tabItem(tabName = "results",
                     
                     column(6,
-                           
+                           downloadButton(outputId = "download_colored_svg"), ### I think these buttons better in the upper part -> do not overlap with the image
                            # Output image
-                           imageOutput(outputId = "colored_svg"),
-                           downloadButton(outputId = "download_colored_svg"),
-                           
+                           tags$head(tags$style(### adjust image to the windows size
+                             type = "text/css",
+                             "#colored_svg img {max-width: 100%; width: auto; max-height: 200%; height: auto}" 
+                           )),
                            # Select color
                            selectInput(inputId = "color",
                                        label = "Change color",
                                        choices = c("salmon","steelblue","olivedrab"),
-                                       multiple = FALSE)
+                                       multiple = FALSE),
+                           # Output image
+                           imageOutput(outputId = "colored_svg"),
+                           
                            ),
                     
                     column(6,
@@ -134,17 +142,20 @@ ui <-dashboardPage(
                            uiOutput(outputId = "tissue_finder"),
                            
                            # Finder text box
-                           verbatimTextOutput(outputId = "genes_in_tissue",placeholder = TRUE),
+                           box(style = 'wzidth:400px;overflow-x: scroll;height:100px;overflow-y: scroll;',### add a scroll bar
+                               verbatimTextOutput(outputId = "genes_in_tissue",placeholder = TRUE)),
                            
                            # Not enriched in any tissue box
                            box(title="Genes (yours) not enriched in any tissue", 
-                               solidHeader=FALSE, collapsible=TRUE, width = 12,
+                               solidHeader=FALSE, collapsible=TRUE, width = 12, 
+                               style = 'width:400px;overflow-x: scroll;height:100px;overflow-y: scroll;', ### add a scroll bar
                                verbatimTextOutput(outputId = "not_enriched")),
                            
                            # Not found box
                            box(title="Genes (yours) not found in the experiment", 
-                               solidHeader=FALSE, collapsible=TRUE, width = 12,
-                               verbatimTextOutput(outputId = "not_found")),
+                               solidHeader=FALSE, collapsible=TRUE, width = 12, 
+                               style = 'width:400px;overflow-x: scroll;height:100px;overflow-y: scroll;', ### add a scroll bar
+                               verbatimTextOutput(outputId = "not_found"))
                            
                            )
                     
