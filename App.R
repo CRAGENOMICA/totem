@@ -115,7 +115,7 @@ ui <-dashboardPage(
             ## Tab results
             tabItem(tabName = "results",
                     
-                    column(6,
+                    column(width = 5,
                            downloadButton(outputId = "download_colored_svg"), ### I think these buttons better in the upper part -> do not overlap with the image
                            # Output image
                            tags$head(tags$style(### adjust image to the windows size
@@ -132,33 +132,49 @@ ui <-dashboardPage(
                            
                            ),
                     
-                    column(6,
-                           
+                    column(width = 7,
                            # Output barplot
-                           imageOutput(outputId = "barplot"),
+                           imageOutput(outputId = "barplot", inline = TRUE),
                            downloadButton(outputId = "download_barplot"),
                            
-                           # Tissue finder selector
-                           uiOutput(outputId = "tissue_finder"),
+                           hr(),
                            
-                           # Finder text box
-                           box(style = 'wzidth:400px;overflow-x: scroll;height:100px;overflow-y: scroll;',### add a scroll bar
-                               verbatimTextOutput(outputId = "genes_in_tissue",placeholder = TRUE)),
+                           column(5,
+                                  # Tissue finder selector
+                                  uiOutput(outputId = "tissue_finder"),
+                                  # Finder text box
+                                  box(style = 'height:80px;overflow-y: scroll;',### add a scroll bar
+                                      solidHeader = TRUE,width = 12,
+                                      verbatimTextOutput(outputId = "genes_in_tissue",placeholder = TRUE)),
+                                  
+                                  actionButton(inputId = "GOterm",
+                                              label = "Calculate GO term enrichment"),
+                                  ),
+                                 
+                          hr(),
                            
-                           # Not enriched in any tissue box
-                           box(title="Genes (yours) not enriched in any tissue", 
-                               solidHeader=FALSE, collapsible=TRUE, width = 12, 
-                               style = 'width:400px;overflow-x: scroll;height:100px;overflow-y: scroll;', ### add a scroll bar
-                               verbatimTextOutput(outputId = "not_enriched")),
                            
-                           # Not found box
-                           box(title="Genes (yours) not found in the experiment", 
-                               solidHeader=FALSE, collapsible=TRUE, width = 12, 
-                               style = 'width:400px;overflow-x: scroll;height:100px;overflow-y: scroll;', ### add a scroll bar
-                               verbatimTextOutput(outputId = "not_found"))
+                           column(6,
+                                  # Not enriched in any tissue box
+                                   box(title="Genes (yours) not enriched in any tissue", 
+                                     solidHeader=F, collapsible=TRUE, width = 12, 
+                                     style = 'height:80px;overflow-y: scroll;', ### add a scroll bar
+                                     verbatimTextOutput(outputId = "not_enriched"),),
+                                     actionButton(inputId = "GOterm",
+                                                  label = "Calculate GO term enrichment"),
+                                  
+                                  hr(),
                            
+                                  # Not found box
+                                  box(title="Genes (yours) not found in the experiment", 
+                                     solidHeader=FALSE, collapsible=TRUE, width = 12, 
+                                     style = 'height:80px;overflow-y: scroll;', ### add a scroll bar
+                                     verbatimTextOutput(outputId = "not_found"),),
+                                     actionButton(inputId = "GOterm",
+                                                  label = "Calculate GO term enrichment"),
+                          
+                                  )
                            )
-                    
             ),
             
             ## Tab Functional characterization
@@ -271,7 +287,7 @@ server <- function(input, output, session) {
         # Create a list of available tissues for function finder
         output$tissue_finder<-renderUI({
             selectInput(inputId = "tissue_finder",
-                        label = "Select a tissue to deploy genes",
+                        label = "Select a tissue to deploy tissue-specific genes",
                         choices = names(tissue_atlas),
                         multiple = FALSE
                         )
@@ -328,8 +344,8 @@ server <- function(input, output, session) {
                 # Read image
                 filename <-normalizePath("enrichment_result_barplot.png")
                 list(src=filename,
-                     width=400,
-                     height=400)
+                     width="50%",
+                     height="50%")
             }, deleteFile = FALSE
         )
         

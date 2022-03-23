@@ -5,4 +5,4 @@ datasets.<br/>
 
 Tissue identification with experimentally-tested marker genes and pseudotime analysis reveals 43 different cell populations in the Arabidopsis root.<br/>
  
-A gene is cell population-enriched if its expression is at least the double comparing the rest of the cell populations, if it is expressed in at least the 25% of all cells in the atlas, if its p-value is less than 0,1 and if its log2 fold change is higher than 1. 
+A gene is cell population-enriched if its expression is at least the double comparing the rest of the cell populations, if it is expressed in at least the 25% of all cells in the atlas, if its p-value is less than 0,01 and if its log2 fold change is higher than 1. 
