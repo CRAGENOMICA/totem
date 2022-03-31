@@ -43,7 +43,6 @@ ui <-dashboardPage(
             id = "tabs",
             menuItem(text = "New search",tabName = "new_search",icon = icon("dashboard")),
             sidebarMenuOutput(outputId = "tabs"),
-            menuItem("Functional char.",tabName = "functional_char",icon = icon("th")),
             menuItem("About",tabName = "about",icon = icon("th"))
         )
     ),
@@ -146,9 +145,6 @@ ui <-dashboardPage(
                                   box(style = 'height:80px;overflow-y: scroll;',### add a scroll bar
                                       solidHeader = TRUE,width = 12,
                                       verbatimTextOutput(outputId = "genes_in_tissue",placeholder = TRUE)),
-                                  
-                                  actionButton(inputId = "GOterm",
-                                              label = "Calculate GO term enrichment"),
                                   ),
                                  
                           hr(),
@@ -160,8 +156,6 @@ ui <-dashboardPage(
                                      solidHeader=F, collapsible=TRUE, width = 12, 
                                      style = 'height:80px;overflow-y: scroll;', ### add a scroll bar
                                      verbatimTextOutput(outputId = "not_enriched"),),
-                                     actionButton(inputId = "GOterm",
-                                                  label = "Calculate GO term enrichment"),
                                   
                                   hr(),
                            
@@ -170,17 +164,69 @@ ui <-dashboardPage(
                                      solidHeader=FALSE, collapsible=TRUE, width = 12, 
                                      style = 'height:80px;overflow-y: scroll;', ### add a scroll bar
                                      verbatimTextOutput(outputId = "not_found"),),
-                                     actionButton(inputId = "GOterm",
-                                                  label = "Calculate GO term enrichment"),
-                          
                                   )
-                           )
+                           ),
+                    column(width = 12,
+                           
+                           hr(),
+                           actionButton(inputId = "FunctCharact",
+                                        label = "Functional characterization"),
+                           
+                    )
             ),
             
             ## Tab Functional characterization
             tabItem(tabName = "functional_char",
                     
                     # Here functions to be implemented
+                    h3("Select set of genes for functional characterization: "),
+                    
+                    column(width = 5, align = "center",
+                           uiOutput(outputId = "select_tissue"),
+                    ),
+                    column(width = 12, align = "center",     
+                           actionButton(inputId = "func_char_tiss", label = "Tissue-specific genes", width = "30%"),
+                           actionButton(inputId = "func_char_notenr", label = "Not enriched genes", width = "30%"),
+                           actionButton(inputId = "func_char_notfound", label = "Not found genes", width = "30%"),
+                           
+                    ),
+                    
+                    column(12,
+                           box(title = "Annotation of selected genes",solidHeader=FALSE, collapsible=TRUE, width = 12, 
+                               style = 'height:150px;overflow-y: scroll;overflow-x: scroll;', ### add a scroll bar
+                               tableOutput('ann_table')
+                           )
+                    ),
+                    
+                    hr(),
+                    
+                    column(12,
+                           box(title = "Gene Ontology analysis of selected genes",solidHeader=FALSE, collapsible=TRUE,width = 12,
+                               style = 'overflow-y: scroll;overflow-x: scroll;',
+                               column(3,
+                                      selectInput(inputId = "select_ontology",
+                                                  label = "Select the ontology",
+                                                  choices = c("Biological process" = "BP",
+                                                              "Molecular function" = "MF",
+                                                              "Celular component" = "CC", 
+                                                              "All" = "ALL"),
+                                                  selected = "BP", multiple = FALSE),
+                                      selectInput(inputId = "select_padjmethod",
+                                                  label = "Select the method for p-value adjustment",
+                                                  choices = c("Bonferroni" = "bonferroni", "Benjamini & Hochberg" = "BH", 
+                                                              "Holm" = "holm", "Hochberg" = "hochberg", "Hommel" = "hommel", 
+                                                              "Benjamini & Yekutieli" = "BY", "None" = "none"),
+                                                  selected = "BH", multiple = FALSE),
+                                      numericInput("select_pvalcutoff", "p-value cut-off", 0.05),
+                                      numericInput("select_qvalcutoff", "q-value cut-off", 0.05),
+                               ),
+                               column(9,
+                                      downloadButton(outputId = "download_GOEA", label = "Download GOEA plots"),
+                                      plotOutput(outputId = "GOplot")
+                               )
+                               
+                           )
+                    )
                     
             ),
             
@@ -417,10 +463,197 @@ server <- function(input, output, session) {
                                               selected = "results")
                            }
                        })
-        }
+      }
+      else if (current_tab=="results" && input$tabs=="functional_char"){
+        updateTabItems(session = session,
+                       inputId = "tabs",
+                       selected = "functional_char")
+      }
+      
     })
     
-    ## ADDITIONAL TAB
+    ## FUNCTIONAL CHARACTERIZATION TAB
+    ## Functional characterization of genes
+    observeEvent(input$FunctCharact, {
+      
+      # Parse gene list
+      source("./functions/parse_input_genes.R")
+      parsed_user_genelist<-parse_input_genes(input = input$user_genelist)
+      
+      # Observe first if genes input are OK. If not do not create results tab and show error mssg
+      {}
+      
+      ## Generate func char menu item
+      output$tabs <- renderMenu({
+        sidebarMenu(
+          menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("bar-chart-o"))
+        )
+      })
+      
+      # Redirect to results page
+      updateTabItems(session = session,
+                     inputId = "tabs",
+                     selected = "functional_char")
+      
+      # 1. Load RData of the selected experiment
+      load(paste(experiment_path,"data_with_annotation.RData",sep = "/"))
+      
+      # Create reactive value for plots
+      v = reactiveValues(data = NULL)
+      
+      observeEvent(input$tabset, {
+        v$data <- FALSE
+      }) 
+      
+      ## Not enriched in any tissue box
+      observeEvent(input$func_char_notenr,{
+        
+        source("./functions/not_enriched.R")
+        ## Not enriched function
+        v$data = not_enriched(user_genes = parsed_user_genelist,
+                              tissue_atlas = tissue_atlas)
+        
+      })
+      ## Not found box
+      observeEvent(input$func_char_notfound,{
+        # Not found box
+        v$data = paste(setdiff(parsed_user_genelist,geneuniverse),collapse = "\n")
+      })
+      
+      ## tissue specific box
+      # Create a list of available tissues for function finder
+      output$select_tissue<-renderUI({
+        selectInput(inputId = "select_tissue",
+                    label = "Select a tissue",
+                    choices = names(tissue_atlas),
+                    multiple = FALSE
+        )
+      })
+      
+      observeEvent(input$func_char_tiss,{
+        # Run enrichment
+        source("./functions/tissue_enrichment.R")
+        enrich_values<-tissue_enrichment(user_genelist=parsed_user_genelist,
+                                         tissue_atlas=tissue_atlas,
+                                         geneuniverse = geneuniverse)
+        
+        # Tissue-specific genes box
+        source("./functions/tissue_gene_finder.R")
+        v$data = tissue_gene_finder(user_genes = parsed_user_genelist,
+                                    tissue = input$select_tissue,
+                                    tissue_atlas = tissue_atlas)
+        
+      })
+      
+      ## Annotation of genes
+      source("./functions/functional_characterization.R")
+      annotation <- reactive({functional_characterization(input_genes=parse_input_genes(input=v$data),
+                                                          annotation_file = annotation_file)
+        
+      })
+      
+      output$ann_table <- renderTable({
+        if(is.null(v$data)) return()
+        annotation()
+      })
+      
+      
+      ##GO plots
+      source("./functions/GO_plots.R")
+      plotGO <- reactive({GO_plots(input_genes=parse_input_genes(input=v$data),
+                                   annotation_file = annotation_file, #from RData
+                                   specie = input$specie,
+                                   ontology= input$select_ontology,
+                                   padjmethod = input$select_padjmethod,
+                                   pvalcutoff = input$select_pvalcutoff,
+                                   qvalcutoff = input$select_qvalcutoff,
+                                   outputfile = "GOplots.png")
+      })
+      
+      output$GOplot <- renderImage({
+        if (is.null(v$data)) return()
+        # Progress bar
+        # withProgress(message = 'Analysis in progress\n',
+        #              detail = 'This may take a while...', value = 0, {
+        #                for (i in 1:30) {
+        #                  incProgress(1/30)
+        #                  Sys.sleep(2)
+        #                }
+        #              })
+        #Generate plot
+        plotGO()
+        # Read image
+        filename <-normalizePath("GOplots.png")
+        list(src=filename,
+             width="100%",
+             height="200%")
+      }, deleteFile = FALSE
+      )
+      
+      # Download button for plot
+      output$download_GOEA <- downloadHandler(file = "GOplots.png",content = normalizePath("GOplots.png"))
+      
+      # Observer func charac 
+      observeEvent(input$tabs, {
+        if (input$tabs == "functional_char") {
+          current_tab<<-"functional_char"
+        }
+      })
+      
+      observeEvent(input$tabs, {
+        if (current_tab=="functional_char" && input$tabs=="new_search") {
+          shinyalert(title = "NEW SEARCH",
+                     text="A new search will destroy current results",
+                     showCancelButton = TRUE,showConfirmButton = TRUE,
+                     callbackR = function(x) {
+                       if (x != FALSE) {
+                         updateTabItems(session = session,
+                                        inputId = "tabs",
+                                        selected = "new_search")
+                         current_tab<<-"new_search"
+                         output$tabs <- renderMenu({
+                           sidebarMenu(
+                             #menuItem(text = "Results",tabName = "results",icon = icon("calendar"))
+                           )
+                         })
+                         
+                         # Reset and close results tab
+                       } else {
+                         updateTabItems(session = session,
+                                        inputId = "tabs",
+                                        selected = "functional_char")
+                       }
+                     })
+        }
+        else if (current_tab=="functional_char" && input$tabs=="results") {
+          shinyalert(title = "REDIRECTING TO RESULTS",
+                     text="Functional characterization will be closed",
+                     showCancelButton = TRUE,showConfirmButton = TRUE,
+                     callbackR = function(x) {
+                       if (x != FALSE) {
+                         updateTabItems(session = session,
+                                        inputId = "tabs",
+                                        selected = "results")
+                         current_tab<<-"results"
+                         output$tabs <- renderMenu({
+                           sidebarMenu(
+                             #menuItem(text = "Results",tabName = "results",icon = icon("calendar"))
+                           )
+                         })
+                         
+                         # Reset and close results tab
+                       } else {
+                         updateTabItems(session = session,
+                                        inputId = "tabs",
+                                        selected = "functional_char")
+                       }
+                     })
+        }
+      })
+    })
+    
+    
+    
     ## ABOUT TAB
     
 }
