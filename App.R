@@ -43,6 +43,8 @@ ui <-dashboardPage(
             id = "tabs",
             menuItem(text = "New search",tabName = "new_search",icon = icon("dashboard")),
             sidebarMenuOutput(outputId = "tabs"),
+            menuItem(text = "Enrichment results",tabName = "results",icon = icon("bar-chart-o")),
+            menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table")),
             menuItem("About",tabName = "about",icon = icon("th"))
         )
     ),
@@ -164,15 +166,12 @@ ui <-dashboardPage(
                                      solidHeader=FALSE, collapsible=TRUE, width = 12, 
                                      style = 'height:80px;overflow-y: scroll;', ### add a scroll bar
                                      verbatimTextOutput(outputId = "not_found"),),
-                                  )
-                           ),
-                    column(width = 12,
+                                  ),
                            
                            hr(),
                            actionButton(inputId = "FunctCharact",
-                                        label = "Functional characterization"),
-                           
-                    )
+                                        label = "Functional characterization of gene sets")
+                          )
             ),
             
             ## Tab Functional characterization
@@ -219,11 +218,32 @@ ui <-dashboardPage(
                                                   selected = "BH", multiple = FALSE),
                                       numericInput("select_pvalcutoff", "p-value cut-off", 0.05),
                                       numericInput("select_qvalcutoff", "q-value cut-off", 0.05),
+                                      selectInput(inputId = "select_color",
+                                                  label = "Select color for GO/KEGG plots",
+                                                  choices = c("tomato","steelblue","olivedrab")),
+                                      
+                                      hr(),
+                                      # downloadButton(outputId = "download_GOEA", label = "Download GOEA plots"),
+                                      
+                                      hr(),
+                                      # downloadButton(outputId = "download_KEGG", label = "Download KEGG plots"),
                                ),
-                               column(9,
-                                      downloadButton(outputId = "download_GOEA", label = "Download GOEA plots"),
-                                      plotOutput(outputId = "GOplot")
+                               column(4,
+                                      plotOutput(outputId = "dotplotGO", width = "50%")
+                               ),
+                               column(4,
+                                      plotOutput(outputId = "dotplotKEGG", width = "50%")
+                               ),
+                               column(6,
+                                      plotOutput(outputId = "netGO", width = "50%")
+                               ),
+                               column(6,
+                                      plotOutput(outputId = "netgenesGO", width = "50%")
+                               ),
+                               column(12,
+                                      plotOutput(outputId = "heatmapKEGG", width = "100%")
                                )
+                               
                                
                            )
                     )
@@ -315,12 +335,12 @@ server <- function(input, output, session) {
         # Observe first if genes input are OK. If not do not create results tab and show error mssg
         {}
         
-        # Generate results menu item
-        output$tabs <- renderMenu({
-            sidebarMenu(
-                menuItem(text = "Results",tabName = "results",icon = icon("calendar"))
-            )
-            })
+        # # Generate results menu item
+        # output$tabs <- renderMenu({
+        #     sidebarMenu(
+        #         menuItem(text = "Results",tabName = "results",icon = icon("calendar"))
+        #     )
+        #     })
         
         # Redirect to results page
         updateTabItems(session = session,
@@ -438,36 +458,36 @@ server <- function(input, output, session) {
             current_tab<<-"results"
         }
         })
-    
+
     observeEvent(input$tabs, {
-        if (current_tab=="results" && input$tabs=="new_search") {
-            shinyalert(title = "NEW SEARCH",
-                       text="A new search will destroy current results",
-                       showCancelButton = TRUE,showConfirmButton = TRUE,
-                       callbackR = function(x) {
-                           if (x != FALSE) {
-                               updateTabItems(session = session,
-                                              inputId = "tabs",
-                                              selected = "new_search")
-                               current_tab<<-"new_search"
-                               output$tabs <- renderMenu({
-                                   sidebarMenu(
+      if (current_tab=="results" && input$tabs=="new_search") {
+          shinyalert(title = "NEW SEARCH",
+                     text="A new search will destroy current results",
+                     showCancelButton = TRUE,showConfirmButton = TRUE,
+                     callbackR = function(x) {
+                       if (x != FALSE) {
+                         #Remove plots from the results tab
+                         output$colored_svg <- NULL
+                         output$barplot <- NULL
+                         updateTabItems(session = session,
+                                        inputId = "tabs",
+                                        selected = "new_search")
+                         current_tab<<-"new_search"
+                         output$tabs <- renderMenu({
+                           sidebarMenu(
                                        #menuItem(text = "Results",tabName = "results",icon = icon("calendar"))
-                                   )
-                                   })
+                           )
+                         })
+                         ## remove the plots and gene lists
+                         
                                    
                                # Reset and close results tab
-                           } else {
+                        } else {
                                updateTabItems(session = session,
                                               inputId = "tabs",
                                               selected = "results")
                            }
                        })
-      }
-      else if (current_tab=="results" && input$tabs=="functional_char"){
-        updateTabItems(session = session,
-                       inputId = "tabs",
-                       selected = "functional_char")
       }
       
     })
@@ -483,12 +503,12 @@ server <- function(input, output, session) {
       # Observe first if genes input are OK. If not do not create results tab and show error mssg
       {}
       
-      ## Generate func char menu item
-      output$tabs <- renderMenu({
-        sidebarMenu(
-          menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("bar-chart-o"))
-        )
-      })
+      # ## Generate func char menu item
+      # output$tabs <- renderMenu({
+      #   sidebarMenu(
+      #     menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table"))
+      #   )
+      # })
       
       # Redirect to results page
       updateTabItems(session = session,
@@ -560,18 +580,51 @@ server <- function(input, output, session) {
       
       ##GO plots
       source("./functions/GO_plots.R")
-      plotGO <- reactive({GO_plots(input_genes=parse_input_genes(input=v$data),
+      dotplotGO <- reactive({dotplotGO(input_genes=parse_input_genes(input=v$data),
+                                       specie = input$specie,
+                                        annotation_file = annotation_file, #from RData
+                                        ontology= input$select_ontology,
+                                        padjmethod = input$select_padjmethod,
+                                        pvalcutoff = input$select_pvalcutoff,
+                                        qvalcutoff = input$select_qvalcutoff,
+                                        color = input$select_color)
+      })
+      netGO <- reactive({netGO(input_genes=parse_input_genes(input=v$data),
+                               specie = input$specie,
                                    annotation_file = annotation_file, #from RData
-                                   specie = input$specie,
                                    ontology= input$select_ontology,
                                    padjmethod = input$select_padjmethod,
                                    pvalcutoff = input$select_pvalcutoff,
                                    qvalcutoff = input$select_qvalcutoff,
-                                   outputfile = "GOplots.png")
+                                   color = input$select_color)
+      })
+      netgenesGO <- reactive({netgenesGO(input_genes=parse_input_genes(input=v$data),
+                                         specie = input$specie,
+                                   annotation_file = annotation_file, #from RData
+                                   ontology= input$select_ontology,
+                                   padjmethod = input$select_padjmethod,
+                                   pvalcutoff = input$select_pvalcutoff,
+                                   qvalcutoff = input$select_qvalcutoff,
+                                   color = input$select_color)
       })
       
-      output$GOplot <- renderImage({
-        if (is.null(v$data)) return()
+      dotplotKEGG <- reactive({dotplotKEGG(input_genes=parse_input_genes(input=v$data),
+                                           specie = input$specie,
+                                   annotation_file = annotation_file, #from RData
+                                   padjmethod = input$select_padjmethod,
+                                   pvalcutoff = input$select_pvalcutoff,
+                                   qvalcutoff = input$select_qvalcutoff,
+                                   color = input$select_color)
+      })
+      heatmapKEGG <- reactive({heatmapKEGG(input_genes=parse_input_genes(input=v$data),
+                                           specie = input$specie,
+                                       annotation_file = annotation_file, #from RData
+                                       padjmethod = input$select_padjmethod,
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       qvalcutoff = input$select_qvalcutoff,
+                                       color = input$select_color)
+      })
+      output$dotplotGO <- renderPlot({
         # Progress bar
         # withProgress(message = 'Analysis in progress\n',
         #              detail = 'This may take a while...', value = 0, {
@@ -581,17 +634,68 @@ server <- function(input, output, session) {
         #                }
         #              })
         #Generate plot
-        plotGO()
-        # Read image
-        filename <-normalizePath("GOplots.png")
-        list(src=filename,
-             width="100%",
-             height="200%")
-      }, deleteFile = FALSE
-      )
+        dotplotGO()
+      })
+      output$netGO <- renderPlot({
+        # Progress bar
+        # withProgress(message = 'Analysis in progress\n',
+        #              detail = 'This may take a while...', value = 0, {
+        #                for (i in 1:30) {
+        #                  incProgress(1/30)
+        #                  Sys.sleep(2)
+        #                }
+        #              })
+        #Generate plot
+        netGO()
+      })
+      output$netgenesGO <- renderPlot({
+        # Progress bar
+        # withProgress(message = 'Analysis in progress\n',
+        #              detail = 'This may take a while...', value = 0, {
+        #                for (i in 1:30) {
+        #                  incProgress(1/30)
+        #                  Sys.sleep(2)
+        #                }
+        #              })
+        #Generate plot
+        netgenesGO()
+      })
+      output$dotplotKEGG <- renderPlot({
+        # Progress bar
+        # withProgress(message = 'Analysis in progress\n',
+        #              detail = 'This may take a while...', value = 0, {
+        #                for (i in 1:30) {
+        #                  incProgress(1/30)
+        #                  Sys.sleep(2)
+        #                }
+        #              })
+        #Generate plot
+        dotplotKEGG()
+      })
+      output$heatmapKEGG <- renderPlot({
+        # Progress bar
+        # withProgress(message = 'Analysis in progress\n',
+        #              detail = 'This may take a while...', value = 0, {
+        #                for (i in 1:30) {
+        #                  incProgress(1/30)
+        #                  Sys.sleep(2)
+        #                }
+        #              })
+        #Generate plot
+        heatmapKEGG()
+      })
       
       # Download button for plot
-      output$download_GOEA <- downloadHandler(file = "GOplots.png",content = normalizePath("GOplots.png"))
+      # output$download_GOEA <- downloadHandler(filename = "GOplots.png",content = function(file){
+      #                                                                                       png(file)
+      #                                                                                       print(plotGO())
+      #                                                                                       dev.off()
+      #                                                                                       })
+      # output$download_KEGG <- downloadHandler(filename = "KEGGplots.png",content = function(file){
+      #                                                                                         png(file)
+      #                                                                                         print(plotKEGG())
+      #                                                                                         dev.off()
+      #                                                                                         })
       
       # Observer func charac 
       observeEvent(input$tabs, {
@@ -607,6 +711,9 @@ server <- function(input, output, session) {
                      showCancelButton = TRUE,showConfirmButton = TRUE,
                      callbackR = function(x) {
                        if (x != FALSE) {
+                         output$ann_table <- NULL
+                         output$GOplot <- NULL
+                         output$KEGGplot <- NULL
                          updateTabItems(session = session,
                                         inputId = "tabs",
                                         selected = "new_search")
@@ -625,31 +732,9 @@ server <- function(input, output, session) {
                        }
                      })
         }
-        else if (current_tab=="functional_char" && input$tabs=="results") {
-          shinyalert(title = "REDIRECTING TO RESULTS",
-                     text="Functional characterization will be closed",
-                     showCancelButton = TRUE,showConfirmButton = TRUE,
-                     callbackR = function(x) {
-                       if (x != FALSE) {
-                         updateTabItems(session = session,
-                                        inputId = "tabs",
-                                        selected = "results")
-                         current_tab<<-"results"
-                         output$tabs <- renderMenu({
-                           sidebarMenu(
-                             #menuItem(text = "Results",tabName = "results",icon = icon("calendar"))
-                           )
-                         })
-                         
-                         # Reset and close results tab
-                       } else {
-                         updateTabItems(session = session,
-                                        inputId = "tabs",
-                                        selected = "functional_char")
-                       }
-                     })
-        }
+        
       })
+      
     })
     
     
