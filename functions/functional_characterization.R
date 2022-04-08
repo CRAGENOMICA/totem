@@ -24,7 +24,6 @@ functional_characterization<-function(input_genes, annotation_file) {
   ### Return a table with the genes annotation ####
   if(length(input_genes) > 0){
     table = subset(annotation_file, annotation_file$locusName %in% input_genes)
-    table[is.na(table)] = ""
     return(table)
   }
   else{
@@ -34,6 +33,6 @@ functional_characterization<-function(input_genes, annotation_file) {
     return(df)
   }
   # stop("Try other set of genes or parameters")
-
+  
 }
 
