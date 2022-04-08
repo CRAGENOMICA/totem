@@ -1,0 +1,218 @@
+
+
+.main-header {
+  max-height: 70px
+}
+
+/* background color of header (logo part) */
+.skin-blue .main-header .logo {
+          height: 70px;
+          background-color: white; /* For browsers that do not support gradients */
+}
+        
+/* logo when hovered */
+.skin-blue .main-header .logo:hover {
+          background-color: whitesmoke;
+}
+                              
+/* background color for remaining part of the header */
+.skin-blue .main-header .navbar {
+  height: 70px;
+  background-color: #09C3A2;  /*For browsers that do not support gradients */
+  background-image: linear-gradient(32deg, rgba(66,213,73,1) 0%, rgba(9,195,162,1) 100%); /*CRAG institutional gradient 2 */
+}
+
+/* custom logo */
+.navbar-custom-menu {
+       float: center!important;
+       max-height: 70px;
+}
+
+/* toggle button */                    
+.skin-blue .main-header .navbar .sidebar-toggle{
+  height: 70px;
+  padding-top: 25px !important;
+}
+                              
+/* toggle button when hovered  */                    
+.skin-blue .main-header .navbar .sidebar-toggle:hover{
+  height: 70px;
+  background-color: #96EF9B;
+}
+
+/* Font size sidebar */
+.main-sidebar { 
+  font-size: 15px;
+  font-weight: bold;
+  width: 250px;
+}
+
+.sidebar-collapse .main-sidebar {
+  display:none;
+}
+
+.main-header > .navbar {
+  margin-left: 250px;
+}
+
+.main-header .logo {
+  width: 250px;
+}
+
+.content-wrapper, .main-footer, .right-side {
+  margin-left: 250px;
+}
+                             
+/* main sidebar */
+.skin-blue .main-sidebar {
+  background-color: #42d549;
+  margin-top: 20px;
+} 
+
+.skin-blue .sidebar a {
+  color: whitesmoke;
+}
+                      
+/* active sidebar menu item */
+.skin-blue .main-sidebar .sidebar .sidebar-menu .active a{
+        background-color: white;
+        color: black
+}
+                          
+/* sidebar menuitems when mouse hover */
+.skin-blue .main-sidebar .sidebar .sidebar-menu a:hover{
+        background-color: #96EF9B;
+        color:whitesmoke;
+        border-color: #06AB11;
+}
+
+
+.skin-blue .left-side, .skin-blue .wrapper {
+  background-color: white;
+}
+                              
+/* body */
+.content-wrapper, .right-side {
+   background-color: white;
+}
+
+.box.box-solid.box-primary>.box-header {
+  background: white;
+}
+
+.box.box-solid.box-primary{
+  border-bottom-color:#FFFFFF;
+  border-left-color:#FFFFFF;
+  border-right-color:#FFFFFF;
+  border-top-color:#FFFFFF;
+}
+
+/* Experiment Description box I want it to scroll (Same style than input boxes) */
+#experiment_description{
+	width: 100%;
+	height: 100px;
+	overflow-y: scroll;
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(210,214,222)
+}
+
+/* Button enrichment */
+#submit{
+display: inline-block;
+background: #09C3A2;
+color: black;
+font-size: 15px;
+font-weight: bold
+}
+
+/* Buttons characterization */
+#func_char_tiss{
+  display: inline-block;
+  background: #09C3A2;
+  color: black;
+  font-size: 15px;
+}
+#func_char_notenr{
+  display: inline-block;
+  background: #09C3A2;
+  color: black;
+  font-size: 15px;
+}
+#func_char_notfound{
+  display: inline-block;
+  background: #09C3A2;
+  color: black;
+  font-size: 15px;
+}
+
+/* verbatimtext gene lists scroll */
+#genes_in_tissue{
+  overflow-y:scroll; 
+  height: 190px; 
+  background: ghostwhite;
+}
+#not_enriched{
+  overflow-y:scroll; 
+  height: 70px; 
+  background: ghostwhite;
+}
+#not_found{
+  overflow-y:scroll; 
+  height: 70px; 
+  background: ghostwhite;
+}
+
+/* Title (verbatim) of result and functional charac tab */
+#description{
+  width:100%; 
+  margin-top:10px; 
+  font-size: 20px;
+  font-style: bold;
+  background: white;
+  font-family: "Arial";
+  text-align: center;
+}
+#geneset{
+  width:100%; 
+  margin-top:10px; 
+  font-size: 20px;
+  font-style: bold;
+  background: white;
+  font-family: "Arial";
+  text-align: center;
+}
+
+/* General tabpanel design */
+.tabbable > .nav > li > a{
+background-color: #E5F8F5;
+color: black;
+font-size: 14px;
+}
+
+/* tabpanel selection */
+.tabbable > .nav > li[class=active] > a {
+background-color: #09C3A2;
+color: black;
+font-weight: bold;
+border-color: #007A66;
+}
+
+/* sliderinput color */
+.js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {
+  background: #09C3A2;
+}
+
+/* progress bar color */
+.progress-bar {
+  background-color: #09C3A2;
+}
+
+/* about tab logos */
+#images{
+  text-align: center;
+}
+
+
+
+
