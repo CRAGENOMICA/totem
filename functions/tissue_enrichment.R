@@ -23,8 +23,10 @@ tissue_enrichment<-function(user_genelist, tissue_atlas, geneuniverse) {
   
   # Avoid duplications in user-input genes
   mygenes<-unique(user_genelist)
-  # Case insensitive
+  
+  # Case insensitive -> be careful with IDs for sorghum/tomato (Sobic, Sb, Solyc identifiers) -> case insensitive in geneuniverse and tissue_atlas too
   mygenes<-toupper(mygenes)
+  geneuniverse<-toupper(geneuniverse)
   # Create a vector that will hold the pvalues of Fisher test per tissue
   myvector<-c()
   
@@ -33,10 +35,11 @@ tissue_enrichment<-function(user_genelist, tissue_atlas, geneuniverse) {
     # Genes detected in the microarray/RNAseq that are not in user-input
     nomygenes<-setdiff(geneuniverse,mygenes)
     # Generate contingency table
-    mytable<-rbind(c(length(which(mygenes%in%tissue_atlas[[i]])),#  genes in mylist & enriched in tissue iN
-                     length(which(mygenes%in%tissue_atlas[[i]]==FALSE))), #  genes in my list & NOT enriched in tissue iN
-                   c(length(which(nomygenes%in%tissue_atlas[[i]])), #  genes NOT in my list & enriched in tissue iN
-                     length(which(nomygenes%in%tissue_atlas[[i]]==FALSE)))) #  genes NOT in my list & NOT enriched in tissue iN
+    tissue_atlas_genes = toupper(tissue_atlas[[i]])
+    mytable<-rbind(c(length(which(mygenes%in%tissue_atlas_genes)),#  genes in mylist & enriched in tissue iN
+                     length(which(mygenes%in%tissue_atlas_genes==FALSE))), #  genes in my list & NOT enriched in tissue iN
+                   c(length(which(nomygenes%in%tissue_atlas_genes)), #  genes NOT in my list & enriched in tissue iN
+                     length(which(nomygenes%in%tissue_atlas_genes==FALSE)))) #  genes NOT in my list & NOT enriched in tissue iN
     # Add names to the contingency table (traceback)
     rownames(mytable)<-c("Mygenes","!Mygenes"); colnames(mytable)<-c("Enriched","!Enriched")
     # Append to myvector the Fishers exact test result (pvalue)
