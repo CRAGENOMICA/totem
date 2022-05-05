@@ -18,18 +18,20 @@
 ##
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-not_enriched<-function(user_genes,tissue_atlas) {
+not_found<-function(user_genes,geneuniverse) {
   
- # Case insensitive -> be careful with IDs for sorghum/tomato (Sobic, Sb, Solyc identifiers) -> case insensitive in tissue_atlas too
+  # Case insensitive -> be careful with IDs for sorghum/tomato (Sobic, Sb, Solyc identifiers) -> case insensitive in geneuniverse too
   user_genes<-unique(user_genes)
   mygenes<-toupper(user_genes)
-  tissue_atlas_genes<-toupper(unlist(tissue_atlas))
+  geneuniverse<-toupper(geneuniverse)
 
-  output<-setdiff(mygenes,tissue_atlas_genes)
+  output<-setdiff(mygenes,geneuniverse)
     
   if (length(output)>0) {
       return(paste(user_genes[mygenes %in% output],collapse = "\n"))
   } else {
-      return("All provided genes are enriched in at least one tissue")
+      return("All provided genes are found in the experiment")
    }
 }
+
+

@@ -191,17 +191,7 @@ ui <-dashboardPage(
               verbatimTextOutput(outputId = "geneset"),
               
               br(),
-            # conditionalPanel(
-            #   condition = "input.func_char_tiss%2==1",
-            #   tabPanel(
-            #     # "Summary",
-            #     h3("list hereeee"),
-            #   )
-            # ),
-              
-              # uiOutput(outputId = "select_tissue"),
-              
-              # Here functions to be implemented
+          
               
               column(12,
                      box(title = "Annotation of selected genes",solidHeader=FALSE, collapsible=TRUE, width = 12, 
@@ -318,6 +308,8 @@ server <- function(input, output, session) {
                       label = "Select an experiment",
                       choices = list.dirs(normalizePath(paste("./experiments",input$specie,sep = "/")),full.names = FALSE,recursive = FALSE)
     )
+    # Get the specie
+    selected_specie<<-as.character(input$specie)
   })
   
   ## Selected experiment path
@@ -327,12 +319,6 @@ server <- function(input, output, session) {
     experiment_path<<-normalizePath(paste("./experiments",input$specie,input$experiment_id,sep = "/"))
     
     ## Text box with description of the experiment
-    #output$experiment_description <- renderText({
-    
-    # Get description from text file
-    #    description <- readLines(normalizePath(paste(experiment_path,"experiment_description.txt",sep = "/")))
-    #    expr = description
-    #    })
     
     output$experiment_description <- renderUI({
       description <- readLines(normalizePath(paste(experiment_path,"experiment_description.txt",sep = "/")))
@@ -372,22 +358,28 @@ server <- function(input, output, session) {
     output$description <- renderText({
       return(input$user_description)
     })
+
+    
+    # 1. Load RData of the selected experiment
+    load(paste(experiment_path,"data_with_annotation.RData",sep = "/"))
+    
     
     # Parse gene list
     source("./functions/parse_input_genes.R")
-    parsed_user_genelist<-parse_input_genes(input = input$user_genelist)
+    parsed_user_genelist<-parse_input_genes(input = input$user_genelist, input_specie = selected_specie, annotation_file = annotation_file)
     
     # Observe first if genes input are OK. If not do not create results tab and show error mssg
     {}
+    
     
     # Redirect to results page
     updateTabItems(session = session,
                    inputId = "tabs",
                    selected = "results")
+
     
-    # 1. Load RData of the selected experiment
-    load(paste(experiment_path,"data.RData",sep = "/"))
-    
+    ## If the selected organism is sorghum, check the identifier version and translate it into version 3.1 identifier if it is version 1
+
     # Create a list of available tissues for function finder
     output$tissue_finder<-renderUI({
       selectInput(inputId = "tissue_finder",
@@ -402,7 +394,7 @@ server <- function(input, output, session) {
     source("./functions/tissue_enrichment.R")
     enrich_values<-tissue_enrichment(user_genelist=parsed_user_genelist,
                                      tissue_atlas=tissue_atlas,
-                                     geneuniverse = geneuniverse)
+                                     geneuniverse=geneuniverse)
     
     
     # Color SVG
@@ -413,7 +405,7 @@ server <- function(input, output, session) {
       colors<-generate_color_scale(input = enrich_values,color = input$color)
       # color_svg
       color_svg(input_svg=normalizePath(paste(experiment_path,paste(input$experiment_id,"svg",sep="."),sep = "/")),
-                tissue_color=colors,
+                tissue_colors=colors,
                 output_file="first_TOTEM_test.png")
     })
     
@@ -476,10 +468,12 @@ server <- function(input, output, session) {
     })
     
     # Not found box
+    source("./functions/not_found.R")
     output$not_found <- renderText({
       
-      ## Not enriched function
-      expr = paste(setdiff(parsed_user_genelist,geneuniverse),collapse = "\n")
+      expr = not_found(user_genes = parsed_user_genelist,
+                       geneuniverse=geneuniverse)
+      
     })
     
     # Modal: Show warning message when trying to return to new search page
@@ -532,10 +526,13 @@ server <- function(input, output, session) {
   
     ## Not enriched in any tissue box
     observeEvent(input$func_char_notenr,{
+      # 1. Load RData of the selected experiment
+      load(paste(experiment_path,"data_with_annotation.RData",sep = "/"))
+      
       
       # Parse gene list
       source("./functions/parse_input_genes.R")
-      parsed_user_genelist<-parse_input_genes(input = input$user_genelist)
+      parsed_user_genelist<-parse_input_genes(input = input$user_genelist, input_specie = selected_specie, annotation_file = annotation_file)
       
       # Observe first if genes input are OK. If not do not create results tab and show error mssg
       {}
@@ -549,8 +546,6 @@ server <- function(input, output, session) {
         return(paste("Characterization of genes not enriched in any tissue"))
       })
       
-      # 1. Load RData of the selected experiment
-      load(paste(experiment_path,"data_with_annotation.RData",sep = "/"))
       
       # Create reactive value for characterization
       v = reactiveValues(data = NULL)
@@ -563,9 +558,10 @@ server <- function(input, output, session) {
       v$data = not_enriched(user_genes = parsed_user_genelist,
                             tissue_atlas = tissue_atlas)
       
+      
       # Annotation of genes
       source("./functions/functional_characterization.R")
-      annotation <- reactive({functional_characterization(input_genes=parse_input_genes(input=v$data),
+      annotation <- reactive({functional_characterization(input_genes=strsplit(x = v$data,split = "\n")[[1]],
                                                           annotation_file = annotation_file)
       })
       output$ann_table <- DT::renderDataTable({
@@ -584,28 +580,28 @@ server <- function(input, output, session) {
       
       ##GO plots
       source("./functions/GO_plots.R")
-      dotGO <- reactive({dotplotGO(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                   annotation_file = annotation_file, #from RData
+      dotGO <- reactive({dotplotGO(input_genes=strsplit(x = v$data,split = "\n")[[1]],
+                                   specie = input$specie,annotation_file = annotation_file, #from RData
                                    ontology= input$select_ontology,padjmethod = input$select_padjmethod,
                                    pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                    color = input$select_color,nCategory = input$select_nCategory)})
-      net <- reactive({netGO(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                             annotation_file = annotation_file, #from RData
+      net <- reactive({netGO(input_genes=strsplit(x = v$data,split = "\n")[[1]],
+                             specie = input$specie,annotation_file = annotation_file, #from RData
                              ontology= input$select_ontology,padjmethod = input$select_padjmethod,
                              pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                              color = input$select_color,nCategory = input$select_nCategory)})
-      netgenes <- reactive({netgenesGO(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                       annotation_file = annotation_file, #from RData
+      netgenes <- reactive({netgenesGO(input_genes=strsplit(x = v$data,split = "\n")[[1]],
+                                       specie = input$specie,annotation_file = annotation_file, #from RData
                                        ontology= input$select_ontology,padjmethod = input$select_padjmethod,
                                        pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                        color = input$select_color,nCategory = input$select_nCategory)})
-      dotKEGG <- reactive({dotplotKEGG(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                       annotation_file = annotation_file, #from RData
+      dotKEGG <- reactive({dotplotKEGG(input_genes=strsplit(x = v$data,split = "\n")[[1]],
+                                       specie = input$specie,annotation_file = annotation_file, #from RData
                                        padjmethod = input$select_padjmethod,
                                        pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                        color = input$select_color,nCategory = input$select_nCategory)})
-      heatmap <- reactive({heatmapKEGG(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                       annotation_file = annotation_file, #from RData
+      heatmap <- reactive({heatmapKEGG(input_genes=strsplit(x = v$data,split = "\n")[[1]],
+                                       specie = input$specie,annotation_file = annotation_file, #from RData
                                        padjmethod = input$select_padjmethod,
                                        pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                        color = input$select_color,nCategory = input$select_nCategory)})
@@ -728,9 +724,12 @@ server <- function(input, output, session) {
     
     ## Not found box
     observeEvent(input$func_char_notfound,{
+      # 1. Load RData of the selected experiment
+      load(paste(experiment_path,"data_with_annotation.RData",sep = "/"))
+      
       # Parse gene list
       source("./functions/parse_input_genes.R")
-      parsed_user_genelist<-parse_input_genes(input = input$user_genelist)
+      parsed_user_genelist<-parse_input_genes(input = input$user_genelist, input_specie = selected_specie, annotation_file = annotation_file)
       
       # Observe first if genes input are OK. If not do not create results tab and show error mssg
       {}
@@ -745,10 +744,7 @@ server <- function(input, output, session) {
         return(paste("Characterization of genes not found in the experiment"))
       })
       
-      
-      # 1. Load RData of the selected experiment
-      load(paste(experiment_path,"data_with_annotation.RData",sep = "/"))
-      
+    
       # Create reactive value for characterization
       v = reactiveValues(data = NULL)
       
@@ -756,11 +752,13 @@ server <- function(input, output, session) {
         v$data <- FALSE
       }) 
       
-      v$data = paste(setdiff(parsed_user_genelist,geneuniverse),collapse = "\n")
-      
+      source("./functions/not_found.R")
+      v$data = not_found(user_genes = parsed_user_genelist,
+                         geneuniverse = geneuniverse)
+
       # Annotation of genes
       source("./functions/functional_characterization.R")
-      annotation <- reactive({functional_characterization(input_genes=parse_input_genes(input=v$data),
+      annotation <- reactive({functional_characterization(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
                                                           annotation_file = annotation_file)
       })
       output$ann_table <- DT::renderDataTable({
@@ -779,28 +777,28 @@ server <- function(input, output, session) {
       
       ##GO plots
       source("./functions/GO_plots.R")
-      dotGO <- reactive({dotplotGO(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                   annotation_file = annotation_file, #from RData
+      dotGO <- reactive({dotplotGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                   specie = input$specie,annotation_file = annotation_file, #from RData
                                    ontology= input$select_ontology,padjmethod = input$select_padjmethod,
                                    pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                    color = input$select_color,nCategory = input$select_nCategory)})
-      net <- reactive({netGO(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                             annotation_file = annotation_file, #from RData
+      net <- reactive({netGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                             specie = input$specie,annotation_file = annotation_file, #from RData
                              ontology= input$select_ontology,padjmethod = input$select_padjmethod,
                              pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                              color = input$select_color,nCategory = input$select_nCategory)})
-      netgenes <- reactive({netgenesGO(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                       annotation_file = annotation_file, #from RData
+      netgenes <- reactive({netgenesGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                       specie = input$specie,annotation_file = annotation_file, #from RData
                                        ontology= input$select_ontology,padjmethod = input$select_padjmethod,
                                        pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                        color = input$select_color,nCategory = input$select_nCategory)})
-      dotKEGG <- reactive({dotplotKEGG(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                       annotation_file = annotation_file, #from RData
+      dotKEGG <- reactive({dotplotKEGG(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                       specie = input$specie,annotation_file = annotation_file, #from RData
                                        padjmethod = input$select_padjmethod,
                                        pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                        color = input$select_color,nCategory = input$select_nCategory)})
-      heatmap <- reactive({heatmapKEGG(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                       annotation_file = annotation_file, #from RData
+      heatmap <- reactive({heatmapKEGG(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                       specie = input$specie,annotation_file = annotation_file, #from RData
                                        padjmethod = input$select_padjmethod,
                                        pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                        color = input$select_color,nCategory = input$select_nCategory)})
@@ -924,10 +922,14 @@ server <- function(input, output, session) {
     ## tissue specific box
     # Create a list of available tissues for function finder
     observeEvent(input$func_char_tiss,{
+      
+      # 1. Load RData of the selected experiment
+      load(paste(experiment_path,"data_with_annotation.RData",sep = "/"))
+      
 
       # Parse gene list
       source("./functions/parse_input_genes.R")
-      parsed_user_genelist<-parse_input_genes(input = input$user_genelist)
+      parsed_user_genelist<-parse_input_genes(input = input$user_genelist, input_specie = selected_specie, annotation_file = annotation_file)
       
       # Observe first if genes input are OK. If not do not create results tab and show error mssg
       {}
@@ -937,9 +939,7 @@ server <- function(input, output, session) {
                      inputId = "tabs",
                      selected = "functional_char")
       
-      # 1. Load RData of the selected experiment
-      load(paste(experiment_path,"data_with_annotation.RData",sep = "/"))
-      
+     
       # Create reactive value for characterization
       v = reactiveValues(data = NULL)
       
@@ -965,7 +965,7 @@ server <- function(input, output, session) {
       
       # Annotation of genes
       source("./functions/functional_characterization.R")
-      annotation <- reactive({functional_characterization(input_genes=parse_input_genes(input=v$data),
+      annotation <- reactive({functional_characterization(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
                                                           annotation_file = annotation_file)
       })
       output$ann_table <- DT::renderDataTable({
@@ -984,28 +984,28 @@ server <- function(input, output, session) {
       
       ##GO plots
       source("./functions/GO_plots.R")
-      dotGO <- reactive({dotplotGO(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                   annotation_file = annotation_file, #from RData
+      dotGO <- reactive({dotplotGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                   specie = input$specie,annotation_file = annotation_file, #from RData
                                    ontology= input$select_ontology,padjmethod = input$select_padjmethod,
                                    pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                    color = input$select_color,nCategory = input$select_nCategory)})
-      net <- reactive({netGO(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                             annotation_file = annotation_file, #from RData
+      net <- reactive({netGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                             specie = input$specie,annotation_file = annotation_file, #from RData
                              ontology= input$select_ontology,padjmethod = input$select_padjmethod,
                              pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                              color = input$select_color,nCategory = input$select_nCategory)})
-      netgenes <- reactive({netgenesGO(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                       annotation_file = annotation_file, #from RData
+      netgenes <- reactive({netgenesGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                       specie = input$specie,annotation_file = annotation_file, #from RData
                                        ontology= input$select_ontology,padjmethod = input$select_padjmethod,
                                        pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                        color = input$select_color,nCategory = input$select_nCategory)})
-      dotKEGG <- reactive({dotplotKEGG(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                       annotation_file = annotation_file, #from RData
+      dotKEGG <- reactive({dotplotKEGG(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                       specie = input$specie,annotation_file = annotation_file, #from RData
                                        padjmethod = input$select_padjmethod,
                                        pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                        color = input$select_color,nCategory = input$select_nCategory)})
-      heatmap <- reactive({heatmapKEGG(input_genes=parse_input_genes(input=v$data),specie = input$specie,
-                                       annotation_file = annotation_file, #from RData
+      heatmap <- reactive({heatmapKEGG(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                       specie = input$specie,annotation_file = annotation_file, #from RData
                                        padjmethod = input$select_padjmethod,
                                        pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
                                        color = input$select_color,nCategory = input$select_nCategory)})

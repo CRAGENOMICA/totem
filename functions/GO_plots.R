@@ -18,6 +18,8 @@
 ##
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+input_genes = c("Sobic.003G397400","Sobic.001G293200","Sobic.004G254900","Sobic.001G409400","Sobic.009G215700")
+
 library(clusterProfiler)
 library(patchwork)
 library(ggplot2)
@@ -26,9 +28,11 @@ library(org.At.tair.db)
 
 dotplotGO<-function(updateProgress = NULL, input_genes, specie, annotation_file, ontology, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
   
-  if(specie != "Arabidopsis"){ # keep genes annotated with an Arabidopsis ortholog in phytozome annotation file
+  if(specie != "Arabidopsis"){ # keep genes annotated as Arabidopsis ortholog in annotation file for GO and KEGG plots
     input_genes = toupper(input_genes)
-    genes = annotation_file$Best.hit.arabi.name[input_genes %in% annotation_file$locusName] 
+    arabidopsis_homologs = gsub("\\..", "", annotation_file$Arabidopsis_homolog)
+    all_loci = toupper(annotation_file$locusName)
+    genes = arabidopsis_homologs[all_loci%in%input_genes] 
   }
   else{
     genes = input_genes
@@ -66,9 +70,11 @@ dotplotGO<-function(updateProgress = NULL, input_genes, specie, annotation_file,
 }
 
 netGO<-function(input_genes, specie, annotation_file, ontology, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
-  if(specie != "Arabidopsis"){ # keep genes annotated with an Arabidopsis ortholog in phytozome annotation file
+  if(specie != "Arabidopsis"){ # keep genes annotated as Arabidopsis ortholog in annotation file for GO and KEGG plots
     input_genes = toupper(input_genes)
-    genes = annotation_file$Best.hit.arabi.name[input_genes %in% annotation_file$locusName]
+    arabidopsis_homologs = gsub("\\..", "", annotation_file$Arabidopsis_homolog)
+    all_loci = toupper(annotation_file$locusName)
+    genes = arabidopsis_homologs[all_loci%in%input_genes] 
   }
   else{
     genes = input_genes
@@ -107,9 +113,11 @@ netGO<-function(input_genes, specie, annotation_file, ontology, padjmethod, pval
   }
 }
 netgenesGO<-function(input_genes, specie,annotation_file, ontology, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
-  if(specie != "Arabidopsis"){ # keep genes annotated with an Arabidopsis ortholog in phytozome annotation file
+  if(specie != "Arabidopsis"){ # keep genes annotated as Arabidopsis ortholog in annotation file for GO and KEGG plots
     input_genes = toupper(input_genes)
-    genes = annotation_file$Best.hit.arabi.name[input_genes %in% annotation_file$locusName]
+    arabidopsis_homologs = gsub("\\..", "", annotation_file$Arabidopsis_homolog)
+    all_loci = toupper(annotation_file$locusName)
+    genes = arabidopsis_homologs[all_loci%in%input_genes] 
   }
   else{
     genes = input_genes
@@ -149,9 +157,11 @@ netgenesGO<-function(input_genes, specie,annotation_file, ontology, padjmethod, 
 }
 
 dotplotKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
-  if(specie != "Arabidopsis"){ # keep genes annotated with an Arabidopsis ortholog in phytozome annotation file
+  if(specie != "Arabidopsis"){ # keep genes annotated as Arabidopsis ortholog in annotation file for GO and KEGG plots
     input_genes = toupper(input_genes)
-    genes = annotation_file$Best.hit.arabi.name[input_genes %in% annotation_file$locusName]
+    arabidopsis_homologs = gsub("\\..", "", annotation_file$Arabidopsis_homolog)
+    all_loci = toupper(annotation_file$locusName)
+    genes = arabidopsis_homologs[all_loci%in%input_genes] 
   }
   else{
     genes = input_genes
@@ -186,9 +196,11 @@ dotplotKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcu
   # stop("Try other set of genes or parameters for KEGG enrichment analysis")
 }
 heatmapKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
-  if(specie != "Arabidopsis"){ # keep genes annotated with an Arabidopsis ortholog in phytozome annotation file
+  if(specie != "Arabidopsis"){ # keep genes annotated as Arabidopsis ortholog in annotation file for GO and KEGG plots
     input_genes = toupper(input_genes)
-    genes = annotation_file$Best.hit.arabi.name[input_genes %in% annotation_file$locusName]
+    arabidopsis_homologs = gsub("\\..", "", annotation_file$Arabidopsis_homolog)
+    all_loci = toupper(annotation_file$locusName)
+    genes = arabidopsis_homologs[all_loci%in%input_genes] 
   }
   else{
     genes = input_genes

@@ -21,8 +21,8 @@
 
 ## Parse input
 
-parse_input_genes<-function(input,external=FALSE) {
-  
+parse_input_genes<-function(input,input_specie,annotation_file,external=FALSE) {
+
   # Open an external file instead of an object?
   if (external) {
     user_genes<-readChar(input, nchars = 25000)
@@ -47,7 +47,22 @@ parse_input_genes<-function(input,external=FALSE) {
   genes_vector<-strsplit(x = user_genes,split = best_separator)[[1]]
   
   # Return a character vector
-  return(as.character(genes_vector))
+  genes_vector<-as.character(genes_vector)
+  
+  # check if the specie if sorghum to translate verion 1 identifiers to version 3.1
+  if(input_specie == "Sorghum") {
+    # Use annotation file for ID translation
+    ids_notexist <- genes_vector[genes_vector %in% annotation_file$locusName_Version1 == FALSE]
+    ids_translated <- annotation_file[annotation_file$locusName_Version1 %in% genes_vector,"locusName_Version3.1"]
+    genes_vector <- c(ids_notexist, ids_translated)
+  }
+  else{
+  genes_vector<-genes_vector
+  }
+  
+  # print(genes_vector)
+  # Return a character vector
+  return(genes_vector)
   
 }
 
