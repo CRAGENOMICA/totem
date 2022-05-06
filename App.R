@@ -416,6 +416,7 @@ server <- function(input, output, session) {
                  outputfile = "enrichment_result_barplot.png")
     })
     
+    
     ## Output colored SVG 
     output$colored_svg <- renderImage(
       {

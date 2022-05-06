@@ -1,0 +1,7 @@
+Arabidopsis leaf with single cell RNAseq resolution.<br/>
+
+Leaf scRNAseq atlas constructed by integrating <a href=\"https://academic.oup.com/plcell/article/33/3/511/6067477">Kim et al., 2021</a> and <a href=\"https://www.sciencedirect.com/science/article/pii/S1534580721002112?via%3Dihub">Lopez-Anido et al., 2021</a> single-cell RNAseq datasets.<br/>
+
+Tissue identification with experimentally-tested marker genes and pseudotime analysis reveals 34 different cell populations in different developmental stages in the Arabidopsis leaves.<br/>
+ 
+A gene is cell population-enriched if its expression is at least the double comparing the rest of the cell populations, if it is expressed in at least the 25% of all cells in the atlas, if its p-value is less than 0,01 and if its log2 fold change is higher than 0.58. 
