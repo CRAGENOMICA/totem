@@ -31,14 +31,7 @@ color_svg<-function(input_svg,tissue_colors,output_file) {
   svg<-read_xml(input_svg)
   
   ## 2 Analyze xml and reach the child <g>
-  ## Tissues names present in the svg image
-  if(grepl("Root_SingleCell", input_svg)){
-    g = 4
-  }
-  else{
-    g = 3
-  }
-  tissues<-xml_contents(xml_child(svg,search = g))
+  tissues<-xml_contents(xml_child(svg,search = 3))
   
   ## Provide the tissues present in the vector names
   mytissues<-names(tissue_colors)

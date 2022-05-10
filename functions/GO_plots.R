@@ -18,8 +18,6 @@
 ##
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-input_genes = c("Sobic.003G397400","Sobic.001G293200","Sobic.004G254900","Sobic.001G409400","Sobic.009G215700")
-
 library(clusterProfiler)
 library(patchwork)
 library(ggplot2)

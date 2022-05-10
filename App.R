@@ -87,7 +87,7 @@ ui <-dashboardPage(
                      ## User gene list
                      textAreaInput(inputId = "user_genelist",
                                    label = "Gene list",
-                                   value = "Paste you gene list here e.g:\nAT1G012032",
+                                   value = "Paste you gene list here e.g:\nAT1G012032 for Arabidopsis, Sobic.001G000700 or Sb01g000230 for Sorghum and Solyc00g011670 for Tomato",
                                    rows = 12,
                                    width = "100%"
                      ),
@@ -396,13 +396,15 @@ server <- function(input, output, session) {
                                      tissue_atlas=tissue_atlas,
                                      geneuniverse=geneuniverse)
     
+    # Run drawing vector to solve overlapping between tissues in the SVG
+    svg_enrich_values<-drawing_vector(enrich_values)
     
     # Color SVG
     source("./functions/generate_color_scale.R")
     source("./functions/color_svg.R")
     colored_svg<-reactive({
       ## Generate color scale
-      colors<-generate_color_scale(input = enrich_values,color = input$color)
+      colors<-generate_color_scale(input = svg_enrich_values,color = input$color) #use the new enrich values for overlapping avoidance
       # color_svg
       color_svg(input_svg=normalizePath(paste(experiment_path,paste(input$experiment_id,"svg",sep="."),sep = "/")),
                 tissue_colors=colors,
