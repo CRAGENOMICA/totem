@@ -134,7 +134,7 @@ ui <-dashboardPage(
                      # Output image
                      tags$head(tags$style(### adjust image to the windows size
                        type = "text/css",
-                       "#colored_svg img {max-width: 150%; width: auto; max-height: 200%; height: auto}" 
+                       "#colored_svg img {max-width: 100%; width: auto; max-height: 200%; height: auto}" 
                      )),
                      # Select color
                      selectInput(inputId = "color",
@@ -160,7 +160,13 @@ ui <-dashboardPage(
                                 # Tissue finder selector
                                 uiOutput(outputId = "tissue_finder"),
                                 # Finder text box
-                                verbatimTextOutput(outputId = "genes_in_tissue",placeholder = TRUE),
+                                column(3,
+                                       h6("Number of genes enriched"),
+                                       verbatimTextOutput(outputId = "number_genes_in_tissue",placeholder = TRUE)
+                                       ),
+                                column(9,
+                                       verbatimTextOutput(outputId = "genes_in_tissue",placeholder = TRUE)
+                                       ), 
                                 actionButton(inputId = "func_char_tiss", label = "Functional characterization", align = "center"))
                      ),
                      
@@ -168,17 +174,27 @@ ui <-dashboardPage(
                             # Not enriched in any tissue box
                             box(title="Genes not enriched in any tissue", 
                                 solidHeader=FALSE, collapsible=TRUE, width = 12, 
-                                verbatimTextOutput(outputId = "not_enriched"),
+                                column(3,
+                                       h6("Number of genes not enriched"),
+                                       verbatimTextOutput(outputId = "number_not_enriched",placeholder = TRUE)
+                                ),
+                                column(9,
+                                       verbatimTextOutput(outputId = "not_enriched"),
+                                ),
                                 actionButton(inputId = "func_char_notenr", label = "Functional characterization", align = "center")), 
-                            
-                            
+
                             hr(),
                             
                             # Not found box
                             box(title="Genes not found in the experiment", 
                                 solidHeader=FALSE, collapsible=TRUE, width = 12, 
-                                # style = 'height:50px;overflow-y: scroll;', ### add a scroll bar
-                                verbatimTextOutput(outputId = "not_found"),
+                                column(3,
+                                       h6("Number of genes not found"),
+                                       verbatimTextOutput(outputId = "number_not_found",placeholder = TRUE)
+                                ),
+                                column(9,
+                                       verbatimTextOutput(outputId = "not_found"),
+                                ),
                                 actionButton(inputId = "func_char_notfound", label = "Functional characterization", align = "center")), 
                      ),
                      hr(),
@@ -192,7 +208,6 @@ ui <-dashboardPage(
               
               br(),
           
-              
               column(12,
                      box(title = "Annotation of selected genes",solidHeader=FALSE, collapsible=TRUE, width = 12, 
                          style = 'overflow-x: scroll;', ### add a scroll bar
@@ -211,28 +226,28 @@ ui <-dashboardPage(
                                         
                                         selectInput(inputId = "select_ontology",
                                                     label = "Select the ontology",
-                                                    choices = c("Biological process" = "BP",
-                                                                "Molecular function" = "MF",
-                                                                "Celular component" = "CC", 
-                                                                "All" = "ALL"),
-                                                    selected = "BP", multiple = FALSE),
+                                                    choices = c("Biological process" = "GO:BP",
+                                                                "Molecular function" = "GO:MF",
+                                                                "Celular component" = "GO:CC"),
+                                                    selected = "GO:BP", multiple = FALSE),
                                         br(),# br() element to introduce extra vertical spacing
                                         selectInput(inputId = "select_padjmethod",
                                                     label = "Select the method for p-value adjustment",
-                                                    choices = c("Bonferroni" = "bonferroni", "Benjamini & Hochberg (FDR)" = "BH", 
-                                                                "Holm" = "holm", "Hochberg" = "hochberg", "Hommel" = "hommel", 
-                                                                "Benjamini & Yekutieli" = "BY", "None" = "none"),
-                                                    selected = "BH", multiple = FALSE),
+                                                    choices = c("Bonferroni" = "bonferroni", "Benjamini & Hochberg (FDR)" = "fdr", 
+                                                                "gSCS" = "gSCS"),
+                                                                # "Holm" = "holm", "Hochberg" = "hochberg", "Hommel" = "hommel", 
+                                                                # "Benjamini & Yekutieli" = "BY", "None" = "none"),
+                                                    selected = "fdr", multiple = FALSE),
                                         br(),
                                         numericInput("select_pvalcutoff", "p-value cut-off", 0.05, step = 0.01),
                                         br(),
-                                        numericInput("select_qvalcutoff", "q-value cut-off", 0.05, step = 0.01),
-                                        br(),
-                                        selectInput(inputId = "select_color",
-                                                    label = "Select color for GO/KEGG plots",
-                                                    choices = c("salmon","steelblue","olivedrab"),
-                                                    selected = "salmon", multiple = FALSE),
-                                        br(),
+                                        # numericInput("select_qvalcutoff", "q-value cut-off", 0.05, step = 0.01),
+                                        # br(),
+                                        # selectInput(inputId = "select_color",
+                                        #             label = "Select color for GO/KEGG plots",
+                                        #             choices = c("salmon","steelblue","olivedrab"),
+                                        #             selected = "salmon", multiple = FALSE),
+                                        # br(),
                                         sliderInput("select_nCategory", "Maximum number of GO categories to show", value = 20, min = 1, max = 50)
                                         
                            ),
@@ -249,7 +264,7 @@ ui <-dashboardPage(
                                                            br(),
                                                            downloadButton(outputId = "download_net", label = "Download GO term net"),
                                                            plotOutput(outputId = "net", width = "100%")),
-                                                  tabPanel("Net: Genes in GO terms", 
+                                                  tabPanel("Heatmap: Genes in GO terms", 
                                                            br(),
                                                            downloadButton(outputId = "download_netgenes", label = "Download GO term and genes net"),
                                                            plotOutput(outputId = "netgenes", width = "100%")),
@@ -354,7 +369,6 @@ server <- function(input, output, session) {
   observeEvent(input$submit, {
     
     # add description
-    
     output$description <- renderText({
       return(input$user_description)
     })
@@ -371,24 +385,19 @@ server <- function(input, output, session) {
     # Observe first if genes input are OK. If not do not create results tab and show error mssg
     {}
     
-    
     # Redirect to results page
     updateTabItems(session = session,
                    inputId = "tabs",
                    selected = "results")
 
-    
-    ## If the selected organism is sorghum, check the identifier version and translate it into version 3.1 identifier if it is version 1
-
     # Create a list of available tissues for function finder
     output$tissue_finder<-renderUI({
       selectInput(inputId = "tissue_finder",
-                  label = "Select a tissue to deploy genes",
+                  label = paste0("Select a tissue to deploy genes"),
                   choices = names(tissue_atlas),
                   multiple = FALSE
       )
     })
-    
     
     # Run enrichment
     source("./functions/tissue_enrichment.R")
@@ -396,7 +405,7 @@ server <- function(input, output, session) {
                                      tissue_atlas=tissue_atlas,
                                      geneuniverse=geneuniverse)
     
-    # Run drawing vector to solve overlapping between tissues in the SVG
+    # Run drawing vector to solve overlapping between tissues in the SVG image
     svg_enrich_values<-drawing_vector(enrich_values)
     
     # Color SVG
@@ -454,12 +463,26 @@ server <- function(input, output, session) {
     # Tissue-specific genes box
     source("./functions/tissue_gene_finder.R")
     output$genes_in_tissue <- renderText({
-      
       ## Finder function
       expr = tissue_gene_finder(user_genes = parsed_user_genelist,
                                 tissue = input$tissue_finder,
                                 tissue_atlas = tissue_atlas)
     })
+
+    # add number of genes enriched
+    output$number_genes_in_tissue <- renderText({
+      genes = strsplit(x = tissue_gene_finder(user_genes = parsed_user_genelist,
+                                               tissue = input$tissue_finder,
+                                               tissue_atlas = tissue_atlas),
+                        split = "\n")[[1]]
+      if("none" %in% genes){
+        return(0)
+      }
+      else{
+        return(length(genes))
+      }
+    })
+    
     
     # Not enriched in any tissue box
     source("./functions/not_enriched.R")
@@ -469,6 +492,18 @@ server <- function(input, output, session) {
       expr = not_enriched(user_genes = parsed_user_genelist,
                           tissue_atlas = tissue_atlas)
     })
+    # add number of genes not enriched
+    output$number_not_enriched <- renderText({
+      genes = strsplit(x = not_enriched(user_genes = parsed_user_genelist,
+                                         tissue_atlas = tissue_atlas),
+                       split = "\n")[[1]]
+      if("none" %in% genes){
+        return(0)
+      }
+      else{
+        return(length(genes))
+      }
+    })
     
     # Not found box
     source("./functions/not_found.R")
@@ -477,6 +512,18 @@ server <- function(input, output, session) {
       expr = not_found(user_genes = parsed_user_genelist,
                        geneuniverse=geneuniverse)
       
+    })
+    # add number of genes not enriched
+    output$number_not_found <- renderText({
+      genes = strsplit(x = not_found(user_genes = parsed_user_genelist,
+                                     geneuniverse=geneuniverse),
+                       split = "\n")[[1]]
+      if("none" %in% genes){
+        return(0)
+      }
+      else{
+        return(length(genes))
+      }
     })
     
     # Modal: Show warning message when trying to return to new search page
@@ -582,32 +629,32 @@ server <- function(input, output, session) {
       )
       
       ##GO plots
-      source("./functions/GO_plots.R")
+      source("./functions/GO_plots_new.R")
       dotGO <- reactive({dotplotGO(input_genes=strsplit(x = v$data,split = "\n")[[1]],
-                                   specie = input$specie,annotation_file = annotation_file, #from RData
+                                   specie = input$specie,
                                    ontology= input$select_ontology,padjmethod = input$select_padjmethod,
-                                   pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                   color = input$select_color,nCategory = input$select_nCategory)})
+                                   pvalcutoff = input$select_pvalcutoff,
+                                   nCategory = input$select_nCategory)})
       net <- reactive({netGO(input_genes=strsplit(x = v$data,split = "\n")[[1]],
-                             specie = input$specie,annotation_file = annotation_file, #from RData
+                             specie = input$specie,
                              ontology= input$select_ontology,padjmethod = input$select_padjmethod,
-                             pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                             color = input$select_color,nCategory = input$select_nCategory)})
-      netgenes <- reactive({netgenesGO(input_genes=strsplit(x = v$data,split = "\n")[[1]],
-                                       specie = input$specie,annotation_file = annotation_file, #from RData
+                             pvalcutoff = input$select_pvalcutoff,
+                             nCategory = input$select_nCategory)})
+      netgenes <- reactive({heatmapGO(input_genes=strsplit(x = v$data,split = "\n")[[1]],
+                                       specie = input$specie,
                                        ontology= input$select_ontology,padjmethod = input$select_padjmethod,
-                                       pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                       color = input$select_color,nCategory = input$select_nCategory)})
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       nCategory = input$select_nCategory)})
       dotKEGG <- reactive({dotplotKEGG(input_genes=strsplit(x = v$data,split = "\n")[[1]],
-                                       specie = input$specie,annotation_file = annotation_file, #from RData
+                                       specie = input$specie,
                                        padjmethod = input$select_padjmethod,
-                                       pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                       color = input$select_color,nCategory = input$select_nCategory)})
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       nCategory = input$select_nCategory)})
       heatmap <- reactive({heatmapKEGG(input_genes=strsplit(x = v$data,split = "\n")[[1]],
-                                       specie = input$specie,annotation_file = annotation_file, #from RData
+                                       specie = input$specie,
                                        padjmethod = input$select_padjmethod,
-                                       pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                       color = input$select_color,nCategory = input$select_nCategory)})
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       nCategory = input$select_nCategory)})
       output$dotGO <- renderPlot({
         withProgress(
           tryCatch( # avoid error text
@@ -779,32 +826,32 @@ server <- function(input, output, session) {
       )
       
       ##GO plots
-      source("./functions/GO_plots.R")
+      source("./functions/GO_plots_new.R")
       dotGO <- reactive({dotplotGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                                   specie = input$specie,annotation_file = annotation_file, #from RData
+                                   specie = input$specie,
                                    ontology= input$select_ontology,padjmethod = input$select_padjmethod,
-                                   pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                   color = input$select_color,nCategory = input$select_nCategory)})
+                                   pvalcutoff = input$select_pvalcutoff,
+                                   nCategory = input$select_nCategory)})
       net <- reactive({netGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                             specie = input$specie,annotation_file = annotation_file, #from RData
+                             specie = input$specie,
                              ontology= input$select_ontology,padjmethod = input$select_padjmethod,
-                             pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                             color = input$select_color,nCategory = input$select_nCategory)})
-      netgenes <- reactive({netgenesGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                                       specie = input$specie,annotation_file = annotation_file, #from RData
+                             pvalcutoff = input$select_pvalcutoff,
+                             nCategory = input$select_nCategory)})
+      netgenes <- reactive({heatmapGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                       specie = input$specie,
                                        ontology= input$select_ontology,padjmethod = input$select_padjmethod,
-                                       pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                       color = input$select_color,nCategory = input$select_nCategory)})
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       nCategory = input$select_nCategory)})
       dotKEGG <- reactive({dotplotKEGG(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                                       specie = input$specie,annotation_file = annotation_file, #from RData
+                                       specie = input$specie,
                                        padjmethod = input$select_padjmethod,
-                                       pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                       color = input$select_color,nCategory = input$select_nCategory)})
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       nCategory = input$select_nCategory)})
       heatmap <- reactive({heatmapKEGG(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                                       specie = input$specie,annotation_file = annotation_file, #from RData
+                                       specie = input$specie,
                                        padjmethod = input$select_padjmethod,
-                                       pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                       color = input$select_color,nCategory = input$select_nCategory)})
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       nCategory = input$select_nCategory)})
       output$dotGO <- renderPlot({
         withProgress(
           tryCatch( # avoid error text
@@ -986,32 +1033,32 @@ server <- function(input, output, session) {
       )
       
       ##GO plots
-      source("./functions/GO_plots.R")
+      source("./functions/GO_plots_new.R")
       dotGO <- reactive({dotplotGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                                   specie = input$specie,annotation_file = annotation_file, #from RData
+                                   specie = input$specie,
                                    ontology= input$select_ontology,padjmethod = input$select_padjmethod,
-                                   pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                   color = input$select_color,nCategory = input$select_nCategory)})
+                                   pvalcutoff = input$select_pvalcutoff,
+                                   nCategory = input$select_nCategory)})
       net <- reactive({netGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                             specie = input$specie,annotation_file = annotation_file, #from RData
+                             specie = input$specie,
                              ontology= input$select_ontology,padjmethod = input$select_padjmethod,
-                             pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                             color = input$select_color,nCategory = input$select_nCategory)})
-      netgenes <- reactive({netgenesGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                                       specie = input$specie,annotation_file = annotation_file, #from RData
+                             pvalcutoff = input$select_pvalcutoff,
+                             nCategory = input$select_nCategory)})
+      netgenes <- reactive({heatmapGO(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
+                                       specie = input$specie,
                                        ontology= input$select_ontology,padjmethod = input$select_padjmethod,
-                                       pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                       color = input$select_color,nCategory = input$select_nCategory)})
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       nCategory = input$select_nCategory)})
       dotKEGG <- reactive({dotplotKEGG(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                                       specie = input$specie,annotation_file = annotation_file, #from RData
+                                       specie = input$specie,
                                        padjmethod = input$select_padjmethod,
-                                       pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                       color = input$select_color,nCategory = input$select_nCategory)})
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       nCategory = input$select_nCategory)})
       heatmap <- reactive({heatmapKEGG(input_genes=parse_input_genes(input=v$data, input_specie = selected_specie, annotation_file = annotation_file),
-                                       specie = input$specie,annotation_file = annotation_file, #from RData
+                                       specie = input$specie,
                                        padjmethod = input$select_padjmethod,
-                                       pvalcutoff = input$select_pvalcutoff,qvalcutoff = input$select_qvalcutoff,
-                                       color = input$select_color,nCategory = input$select_nCategory)})
+                                       pvalcutoff = input$select_pvalcutoff,
+                                       nCategory = input$select_nCategory)})
       output$dotGO <- renderPlot({
         withProgress(
           tryCatch( # avoid error text

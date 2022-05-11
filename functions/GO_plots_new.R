@@ -1,0 +1,315 @@
+## %%%%%%%%%%%%%%%%%%%%%%%%%%%
+##
+## Script name: functional_characterization.R
+##
+## Purpose of script: Functional characterization of a gene list
+##
+## Author:Veredas Coleto-Alcudia
+##
+## Date Created: 2022-03-29
+##
+## Copyright (c) Fidel Lozano, 2022
+## Email: fidel.lozano@cragenomica.es
+##
+## %%%%%%%%%%%%%%%%%%%%%%%%%%%
+##
+## Notes:
+##   
+##
+## %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+library(gprofiler2)
+library(clusterProfiler)
+library(patchwork)
+library(ggplot2)
+library(enrichplot)
+library(org.At.tair.db)
+
+dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff, nCategory) {
+  
+  if(specie == "Tomato"){ 
+    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
+    org = "slycopersicum"
+  }
+  else if(specie == "Sorghum"){
+    genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
+    org = "sbicolor"
+  }
+  else if(specie == "Arabidopsis"){
+    genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
+    org = "athaliana"
+  }
+    
+  if(length(genes)>2){ #only GO terms 
+
+    # use gost gprofiler function to calculate enrichment
+    gostres <- gost(query = genes, 
+                    organism = org, exclude_iea = TRUE, evcodes = TRUE,
+                    user_threshold = pvalcutoff, correction_method = padjmethod, 
+                    domain_scope = "annotated", sources = ontology)
+    
+    if(is.null(gostres) == FALSE){
+      # for plotting, we have to create a enrichResult object by creating previously a gp_mod dataframe
+      gp_mod = gostres$result[,c("query", "source", "term_id", "term_name", "p_value", "query_size",
+                                 "intersection_size", "term_size", "effective_domain_size", "intersection")]
+      gp_mod$GeneRatio = paste0(gp_mod$intersection_size, "/", gp_mod$query_size)
+      gp_mod$BgRatio = paste0(gp_mod$term_size, "/", gp_mod$effective_domain_size)
+      names(gp_mod) = c("Cluster", "source", "ID", "Description", "p.adjust",
+                        "query_size", "Count", "term_size", "effective_domain_size", "geneID", "GeneRatio", "BgRatio")
+      gp_mod$geneID = gsub(",", "/", gp_mod$geneID)
+      row.names(gp_mod) = gp_mod$ID
+      # define as enrichResult object
+      gp_mod_enrich = new("enrichResult", result = gp_mod, ontology = gsub("GO:", "", ontology))
+      
+      #remove redundant GO terms -> cutoff as in revigo, 0,7
+      go2 <- clusterProfiler::simplify(gp_mod_enrich, cutoff=0.7, by="p.adjust", select_fun=min) 
+      go2@gene = genes
+    
+      # Create plots
+      dotgo = dotplot(go2, x = "Count", showCategory = nCategory) +
+        ggtitle("Gene Ontology Enrichment Analysis: GO terms")
+      return(dotgo)
+    }
+    else{
+      par(mar = c(0,0,0,0))
+      return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+               text(x = 0.5, y = 0.5, paste("No GOEA for the selected gene set"), cex = 1.6, col = "black"))
+    }
+
+  }
+  else{
+    par(mar = c(0,0,0,0))
+    return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+             text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for gene ontology enrichment analysis"), cex = 1.6, col = "black"))
+  }
+}
+
+netGO<-function(input_genes, specie, annotation_file, ontology, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
+  if(specie == "Tomato"){ 
+    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
+    org = "slycopersicum"
+  }
+  else if(specie == "Sorghum"){
+    genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
+    org = "sbicolor"
+  }
+  else if(specie == "Arabidopsis"){
+    genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
+    org = "athaliana"
+  }
+
+  if(length(genes)>2){ #only GO terms
+    # use gost gprofiler function to calculate enrichment
+    gostres <- gost(query = genes, 
+                    organism = org, exclude_iea = TRUE, evcodes = TRUE,
+                    user_threshold = pvalcutoff, correction_method = padjmethod, 
+                    domain_scope = "annotated", sources = ontology)
+    
+    if(is.null(gostres) == FALSE){
+      # for plotting, we have to create a enrichResult object by creating previously a gp_mod dataframe
+      gp_mod = gostres$result[,c("query", "source", "term_id", "term_name", "p_value", "query_size",
+                                 "intersection_size", "term_size", "effective_domain_size", "intersection")]
+      gp_mod$GeneRatio = paste0(gp_mod$intersection_size, "/", gp_mod$query_size)
+      gp_mod$BgRatio = paste0(gp_mod$term_size, "/", gp_mod$effective_domain_size)
+      names(gp_mod) = c("Cluster", "source", "ID", "Description", "p.adjust",
+                        "query_size", "Count", "term_size", "effective_domain_size", "geneID", "GeneRatio", "BgRatio")
+      gp_mod$geneID = gsub(",", "/", gp_mod$geneID)
+      row.names(gp_mod) = gp_mod$ID
+      # define as enrichResult object
+      gp_mod_enrich = new("enrichResult", result = gp_mod, ontology = gsub("GO:", "", ontology))
+      
+      #remove redundant GO terms -> cutoff as in revigo, 0,7
+      go2 <- clusterProfiler::simplify(gp_mod_enrich, cutoff=0.7, by="p.adjust", select_fun=min) 
+      go2@gene = genes
+    
+      # Create plots
+      emap = emapplot(pairwise_termsim(go2), showCategory = nCategory, cex_label_category = 0.8)+ 
+        ggtitle("Gene Ontology Enrichment Analysis: GO terms relation")
+        
+      return(emap)
+    }
+    else{
+      par(mar = c(0,0,0,0))
+      return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+               text(x = 0.5, y = 0.5, paste("No GOEA for the selected gene set"), cex = 1.6, col = "black"))
+    }
+
+  }
+  else{
+    par(mar = c(0,0,0,0))
+    return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+             text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for gene ontology enrichment analysis"), cex = 1.6, col = "black"))
+  }
+}
+heatmapGO<-function(input_genes, specie,annotation_file, ontology, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
+  if(specie == "Tomato"){ 
+    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
+    org = "slycopersicum"
+  }
+  else if(specie == "Sorghum"){
+    genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
+    org = "sbicolor"
+  }
+  else if(specie == "Arabidopsis"){
+    genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
+    org = "athaliana"
+  }
+
+  if(length(genes)>2){ #only GO terms
+
+    # use gost gprofiler function to calculate enrichment
+    gostres <- gost(query = genes, 
+                    organism = org, exclude_iea = TRUE, evcodes = TRUE,
+                    user_threshold = pvalcutoff, correction_method = padjmethod, 
+                    domain_scope = "annotated", sources = ontology)
+    
+    if(is.null(gostres) == FALSE){
+      # for plotting, we have to create a enrichResult object by creating previously a gp_mod dataframe
+      gp_mod = gostres$result[,c("query", "source", "term_id", "term_name", "p_value", "query_size",
+                                 "intersection_size", "term_size", "effective_domain_size", "intersection")]
+      gp_mod$GeneRatio = paste0(gp_mod$intersection_size, "/", gp_mod$query_size)
+      gp_mod$BgRatio = paste0(gp_mod$term_size, "/", gp_mod$effective_domain_size)
+      names(gp_mod) = c("Cluster", "source", "ID", "Description", "p.adjust",
+                        "query_size", "Count", "term_size", "effective_domain_size", "geneID", "GeneRatio", "BgRatio")
+      gp_mod$geneID = gsub(",", "/", gp_mod$geneID)
+      row.names(gp_mod) = gp_mod$ID
+      # define as enrichResult object
+      gp_mod_enrich = new("enrichResult", result = gp_mod, ontology = gsub("GO:", "", ontology))
+      
+      #remove redundant GO terms -> cutoff as in revigo, 0,7
+      go2 <- clusterProfiler::simplify(gp_mod_enrich, cutoff=0.7, by="p.adjust", select_fun=min) 
+      go2@gene = genes
+    
+      # Create plots
+      heatGO = heatplot(go2, showCategory = nCategory)+
+        ggtitle("Gene Ontology Enrichment Analysis: genes related to GO terms")
+      return(heatGO)
+    }
+    else{
+      par(mar = c(0,0,0,0))
+      return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+               text(x = 0.5, y = 0.5, paste("No GOEA for the selected gene set"), cex = 1.6, col = "black"))
+    }
+
+  }
+  else{
+    par(mar = c(0,0,0,0))
+    return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+             text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for gene ontology enrichment analysis"), cex = 1.6, col = "black"))
+  }
+}
+
+dotplotKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
+  if(specie == "Tomato"){ 
+    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
+    org = "slycopersicum"
+  }
+  else if(specie == "Sorghum"){
+    genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
+    org = "sbicolor"
+  }
+  else if(specie == "Arabidopsis"){
+    genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
+    org = "athaliana"
+  }
+
+  ## KEGG plots
+  if(length(genes)>2){
+    # use gost gprofiler function to calculate enrichment
+    gostres <- gost(query = genes, 
+                    organism = org, exclude_iea = TRUE, evcodes = TRUE,
+                    user_threshold = pvalcutoff, correction_method = padjmethod, 
+                    domain_scope = "annotated", sources = "KEGG")
+    
+    if(is.null(gostres) == FALSE){
+      # for plotting, we have to create a enrichResult object by creating previously a gp_mod dataframe
+      gp_mod = gostres$result[,c("query", "source", "term_id", "term_name", "p_value", "query_size",
+                                 "intersection_size", "term_size", "effective_domain_size", "intersection")]
+      gp_mod$GeneRatio = paste0(gp_mod$intersection_size, "/", gp_mod$query_size)
+      gp_mod$BgRatio = paste0(gp_mod$term_size, "/", gp_mod$effective_domain_size)
+      names(gp_mod) = c("Cluster", "source", "ID", "Description", "p.adjust",
+                        "query_size", "Count", "term_size", "effective_domain_size", "geneID", "GeneRatio", "BgRatio")
+      gp_mod$geneID = gsub(",", "/", gp_mod$geneID)
+      row.names(gp_mod) = gp_mod$ID
+      # define as enrichResult object
+      gp_mod_enrich = new("enrichResult", result = gp_mod, ontology = "KEGG")
+      
+      #remove redundant GO terms -> cutoff as in revigo, 0,7
+      kegg <- gp_mod_enrich 
+      kegg@gene = genes
+    
+      dotkegg = dotplot(kegg,x = "Count", showCategory = nCategory) + 
+        ggtitle("KEGG pathway Enrichment Analysis: KEGG pathways")
+
+      return(dotkegg)
+    }
+    else{
+      par(mar = c(0,0,0,0))
+      return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+               text(x = 0.5, y = 0.5, paste("No KEGG enrichment for the selected gene set"), cex = 1.6, col = "black"))
+    }
+  }
+  else{
+    par(mar = c(0,0,0,0))
+    return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+             text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for KEGG enrichment analysis"), cex = 1.6, col = "black"))
+  }
+  # stop("Try other set of genes or parameters for KEGG enrichment analysis")
+}
+heatmapKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
+  if(specie == "Tomato"){ 
+    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
+    org = "slycopersicum"
+  }
+  else if(specie == "Sorghum"){
+    genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
+    org = "sbicolor"
+  }
+  else if(specie == "Arabidopsis"){
+    genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
+    org = "athaliana"
+  }
+
+  ## KEGG plots
+  if(length(genes)>2){
+    # use gost gprofiler function to calculate enrichment
+    gostres <- gost(query = genes, 
+                    organism = org, exclude_iea = TRUE, evcodes = TRUE,
+                    user_threshold = pvalcutoff, correction_method = padjmethod, 
+                    domain_scope = "annotated", sources = "KEGG")
+    
+    if(is.null(gostres) == FALSE){
+      # for plotting, we have to create a enrichResult object by creating previously a gp_mod dataframe
+      gp_mod = gostres$result[,c("query", "source", "term_id", "term_name", "p_value", "query_size",
+                                 "intersection_size", "term_size", "effective_domain_size", "intersection")]
+      gp_mod$GeneRatio = paste0(gp_mod$intersection_size, "/", gp_mod$query_size)
+      gp_mod$BgRatio = paste0(gp_mod$term_size, "/", gp_mod$effective_domain_size)
+      names(gp_mod) = c("Cluster", "source", "ID", "Description", "p.adjust",
+                        "query_size", "Count", "term_size", "effective_domain_size", "geneID", "GeneRatio", "BgRatio")
+      gp_mod$geneID = gsub(",", "/", gp_mod$geneID)
+      row.names(gp_mod) = gp_mod$ID
+      # define as enrichResult object
+      gp_mod_enrich = new("enrichResult", result = gp_mod, ontology = "KEGG")
+      
+      #remove redundant GO terms -> cutoff as in revigo, 0,7
+      kegg <- gp_mod_enrich 
+      kegg@gene = genes
+    
+      heatkegg = heatplot(kegg, showCategory = nCategory)+
+      ggtitle("Gene Ontology Enrichment Analysis: genes related to KEGG patways")
+
+      return(heatkegg)
+    }
+    else{
+      par(mar = c(0,0,0,0))
+      return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+               text(x = 0.5, y = 0.5, paste("No KEGG enrichment for the selected gene set"), cex = 1.6, col = "black"))
+    }
+  }
+  else{
+    par(mar = c(0,0,0,0))
+    return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+             text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for KEGG enrichment analysis"), cex = 1.6, col = "black"))
+  }
+  # stop("Try other set of genes or parameters for KEGG enrichment analysis")
+}
