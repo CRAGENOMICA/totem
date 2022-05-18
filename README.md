@@ -12,3 +12,9 @@ R (>3.0.2)
 - shinycssloaders
 - xml2
 - rsvg
+- DT
+- readr
+- ggplot2
+- gprofiler2
+- clusterProfiler
+- enrichplot
