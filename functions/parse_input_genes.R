@@ -53,7 +53,7 @@ parse_input_genes<-function(input,input_specie,annotation_file,external=FALSE) {
   if(input_specie == "Sorghum") {
     # Use annotation file for ID translation
     ids_notexist <- genes_vector[genes_vector %in% annotation_file$locusName_Version1 == FALSE]
-    ids_translated <- annotation_file[annotation_file$locusName_Version1 %in% genes_vector,"locusName_Version3.1"]
+    ids_translated <- annotation_file[annotation_file$locusName_Version1 %in% genes_vector,"locusName"]
     genes_vector <- c(ids_notexist, ids_translated)
   }
   else{

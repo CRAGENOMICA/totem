@@ -74,6 +74,8 @@
 }
                       
 /* active sidebar menu item */
+.content-wrapper { overflow: auto; }
+
 .skin-blue .main-sidebar .sidebar .sidebar-menu .active a{
         background-color: white;
         color: black
@@ -85,7 +87,6 @@
         color:whitesmoke;
         border-color: #06AB11;
 }
-
 
 .skin-blue .left-side, .skin-blue .wrapper {
   background-color: white;
@@ -133,6 +134,13 @@ font-weight: bold
   color: black;
   font-size: 15px;
 }
+#atlas{
+  display: inline-block;
+  background: #42d549;
+  color: black;
+  font-size: 15px;
+}
+
 #func_char_notenr{
   display: inline-block;
   background: #09C3A2;
@@ -177,6 +185,15 @@ font-weight: bold
   width:100%; 
   margin-top:10px; 
   font-size: 20px;
+  font-style: bold;
+  background: white;
+  font-family: "Arial";
+  text-align: center;
+}
+#geneset_sc{
+  width:100%; 
+  margin-top:10px; 
+  font-size: 15px;
   font-style: bold;
   background: white;
   font-family: "Arial";
