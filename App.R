@@ -40,12 +40,13 @@ ui <-dashboardPage(
     # Dynamic Sidebar menu
     sidebarMenu(
       id = "tabs",
+      menuItem(text = "Home", tabName = "home", icon = icon("home",lib = "font-awesome")),
       menuItem(text = "New search",tabName = "new_search",icon = icon("database", lib = "font-awesome")),
-      sidebarMenuOutput(outputId = "tabs"),
-      menuItem(text = "Enrichment results",tabName = "results",icon = icon("seedling", lib = "font-awesome")),
-      menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table", lib = "font-awesome")),
-      menuItem(text = "Single Cell atlas",tabName = "single_cell",icon = icon("bar-chart-o", lib = "font-awesome")),
-      menuItem("About",tabName = "about",icon = icon("info", lib = "font-awesome"))
+      menuItem("About",tabName = "about",icon = icon("info", lib = "font-awesome")),
+      sidebarMenuOutput(outputId = "dynamic_tabs")
+      #menuItem(text = "Enrichment results",tabName = "results",icon = icon("seedling", lib = "font-awesome")),
+      #menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table", lib = "font-awesome")),
+      #menuItem(text = "Single Cell atlas",tabName = "single_cell",icon = icon("bar-chart-o", lib = "font-awesome")),
     )
   ),
   
@@ -59,7 +60,14 @@ ui <-dashboardPage(
     
     tabItems(
       
-      # Tab of new search
+      # Home tab
+      tabItem(tabName = "home",
+              
+              column(width = 8),
+              column(width = 4)
+              ),
+      
+      # New search tab
       tabItem(tabName = "new_search",
               
               column(width = 4,
@@ -123,7 +131,7 @@ ui <-dashboardPage(
       ),
       
       
-      ## Tab results
+      ## Results tab (Dynamic)
       tabItem(tabName = "results",
               
               verbatimTextOutput(outputId = "description"),
@@ -203,7 +211,7 @@ ui <-dashboardPage(
               )
       ),
       
-      ## Tab Functional characterization
+      ## Functional Characterization tab (Dynamic)
       tabItem(tabName = "functional_char",
               
               verbatimTextOutput(outputId = "geneset"),
@@ -420,7 +428,7 @@ server <- function(input, output, session) {
     updateTextInput(session, "user_genelist", value = "")
   })
   
-  ## GO TO RESULTS PAGE
+  ## SUBMIT BUTTON: GO TO RESULTS PAGE
   # Send button
   observeEvent(input$submit, {
     
@@ -438,8 +446,19 @@ server <- function(input, output, session) {
     source("./functions/parse_input_genes.R")
     parsed_user_genelist<-parse_input_genes(input = input$user_genelist, input_specie = selected_specie, annotation_file = annotation_file)
     
-    # Observe first if genes input are OK. If not do not create results tab and show error mssg
-    {}
+    # Observe first if genes input are OK. If not do not create results tab and show error message
+    {
+      # TO BE FILLED
+    }
+    
+    # Update the tabs menu and redirect to results page
+    output$dynamic_tabs <- renderMenu({
+      sidebarMenu(
+        # Separator and identifier -> IF not description is provided, change for date-time?
+        h5(print(input$user_description)),
+        menuItem(text = "Enrichment results",tabName = "results",icon = icon("seedling", lib = "font-awesome"))
+      )
+    })
     
     # Redirect to results page
     updateTabItems(session = session,
