@@ -454,7 +454,7 @@ server <- function(input, output, session) {
     # Update the tabs menu and redirect to results page
     output$dynamic_tabs <- renderMenu({
       sidebarMenu(
-        # Separator and identifier -> IF not description is provided, change for date-time?
+        # Separator and identifier -> IF not description is provided, change for date-time
         h5(print(input$user_description)),
         menuItem(text = "Enrichment results",tabName = "results",icon = icon("seedling", lib = "font-awesome"))
       )
