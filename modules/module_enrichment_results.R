@@ -20,7 +20,7 @@ enrichment_resultsUI <- function(id) {
                
                fluidRow(
                    # Select color
-                   selectInput(inputId = NS(id, "color"),
+                   selectInput(inputId = NS(id, "color_barplot"),
                                label = "Change color",
                                choices = c("salmon","steelblue","olivedrab"),
                                multiple = FALSE),
@@ -44,7 +44,7 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist) {
                                          tissue_atlas=tissue_atlas,
                                          geneuniverse=geneuniverse)
         # GENERATE BARPLOT
-        observeEvent(input$color, {
+        observeEvent(input$color_barplot, {
                 
                 # Output file
                 png("./enrichment_result_barplot.png",height = 18,width = 18,units = "cm",res=300)
@@ -55,7 +55,7 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist) {
                              ylab = "-log(p-value)",
                              ylim = c(0,ceiling(max(enrichment_values_internal))),
                              main = "Arabidopsis root longitudinal section enrichment results",
-                             col = input$color
+                             col = input$color_barplot
                 )
                 
                 # Add significative threshold line:
@@ -88,24 +88,4 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist) {
     })
     
     
-}
-
-# Testing purposes:
-#x<-"/home/flozano/OneDrive/PROJECTS/4_TOTEM/shiny_totem/shinyTOTEM/experiments/Arabidopsis/Root_longitudinal_patterns_Brady2007"
-#y<-c("AT2G01430","AT3G13380","AT4G39400","AT2G27550","AT5G59220","AT5G62420","AT3G20810","AT5G25610","AT1G11600")
-
-enrichment_resultsApp <- function(id) {
-    
-    ui <- fluidPage(
-        enrichment_resultsUI("x")
-    )
-    
-    server<-function(input,output,session) {
-        
-        enrichment_resultsServer("x",
-                                 experiment_path = x,
-                                 user_genelist = y)
-    }
-    
-    shinyApp(ui, server)
 }
