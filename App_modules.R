@@ -32,6 +32,7 @@ source("modules/module_experiment_selector.R")
 source("modules/module_enrichment_results.R")
 source("modules/module_colorSVG.R")
 source("modules/module_enrichment_pageUI.R")
+source("modules/module_functional_characterization.R")
 
 ui <- dashboardPage(
     
@@ -82,7 +83,14 @@ ui <- dashboardPage(
                     
                     enrichment_pageUI("ui")
                     
-                    )
+                    ),
+            
+            #== FUNCTIONAL CHARACTERIZATION TAB
+            tabItem(tabName = "functional_char",
+                    
+                    functional_characterizationUI("fc")
+                    
+            )
             )
         )
     )
@@ -129,7 +137,89 @@ server<-function(input,output,session) {
                  }
     )
     
-    #== PRESSING FUNCTIONAL CHARACTERIZATION BUTTON 
+    # Parse the genes for functional characterization and load data from selected experiment
+    a<-functional_characterizationServer("fc",
+                                          experiment_path = x$experiment_path(),
+                                          user_genelist = x$user_genelist(),
+                                          specie = x$specie())
+    
+    #== PRESSING FUNCTIONAL CHARACTERIZATION BUTTON -> Depending on the gene seet selected (not enriched genes, not found genes or genes enriched in any tissue)
+    ## Not enriched button
+    observeEvent(ui$func_char_notenr(),
+                 {
+                   # Update the tabs menu and redirect to results page
+                   output$dynamic_tabs <- renderMenu({
+                     sidebarMenu(
+                       # Menu item
+                       menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table", lib = "font-awesome"))
+                     )
+                   })
+                   # Move to Enrichment Results tab
+                   updateTabItems(session = session,
+                                  inputId = "tabs",
+                                  selected = "functional_char")
+                   # Genes not enriched
+                   b<-not_enriched_Server("fc",
+                                          parsed_genelist = a$parsed_genelist,
+                                          tissue_atlas = a$tissue_atlas)
+                   # Table and plots
+                   c<-table_plots_funct_charact("fc",
+                                                gene_set = b$gene_set,
+                                                specie = x$specie())
+
+                 }
+    )
+    ## Not found button
+    observeEvent(ui$func_char_notfound(),
+                 {
+                   # Update the tabs menu and redirect to results page
+                   output$dynamic_tabs <- renderMenu({
+                     sidebarMenu(
+                       # Menu item
+                       menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table", lib = "font-awesome"))
+                     )
+                   })
+                   # Move to Enrichment Results tab
+                   updateTabItems(session = session,
+                                  inputId = "tabs",
+                                  selected = "functional_char")
+                   # Genes not found
+                   b<-not_found_Server("fc",
+                                       parsed_genelist = a$parsed_genelist,
+                                       geneuniverse = a$geneuniverse)
+                   # Table and plots
+                   c<-table_plots_funct_charact("fc",
+                                                gene_set = b$gene_set,
+                                                specie = x$specie())
+                   
+                 }
+    )
+    ## Enriched in any tissue button
+    observeEvent(ui$func_char_tiss(),
+                 {
+                   # Update the tabs menu and redirect to results page
+                   output$dynamic_tabs <- renderMenu({
+                     sidebarMenu(
+                       # Menu item
+                       menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table", lib = "font-awesome"))
+                     )
+                   })
+                   # Move to Enrichment Results tab
+                   updateTabItems(session = session,
+                                  inputId = "tabs",
+                                  selected = "functional_char")
+                   # Genes enriched
+                   b<-tissue_enr_Server("fc",
+                                        parsed_genelist = a$parsed_genelist,
+                                        tissue_atlas = a$tissue_atlas,
+                                        tissue_finder = tissue)  ## For functional characterization of genes enriched in a given tissue, tissue_finder needs to be in y !!!!!
+                   # Table and plots
+                   c<-table_plots_funct_charact("fc",
+                                                gene_set = b$gene_set,
+                                                specie = x$specie())
+                   
+                 }
+    )
    
 }
 

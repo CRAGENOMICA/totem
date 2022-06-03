@@ -16,7 +16,7 @@ colorSVG_UI <- function(id) {
                # Output Colored SVG
                tags$head(tags$style(### adjust image to the windows size
                    type = "text/css",
-                   "#colored_svg img {max-width: 100%; width: auto; max-height: 200%; height: auto}" 
+                   "#x-colored_svg img {max-width: 100%; width: auto; max-height: 200%; height: auto}" 
                )),
                # Output image
                imageOutput(outputId = NS(id,"colored_svg")),
@@ -47,6 +47,7 @@ colorSVG_Server <- function(id, experiment_path, experiment_id, enrichment_value
         
         ## Run drawing vector to solve overlapping between tissues in the SVG image
         svg_enrich_values<-drawing_vector(enrichment_values)
+       
         
         ## Color svg acording to color input
         source("./functions/generate_color_scale.R")

@@ -13,13 +13,18 @@ enrichment_pageUI <- function(id) {
     
     # Layout
     fluidPage(
+      
+        ## Add the description given by the user in the New search tab
+        verbatimTextOutput(outputId =  NS(id,"description")),
+      
+        br(),
         
         column(width = 7,align = "center",
                
                # Output Colored SVG
                tags$head(tags$style(### adjust image to the windows size
                    type = "text/css",
-                   "#colored_svg img {max-width: 100%; width: auto; max-height: 200%; height: auto}" 
+                   "#ui-colored_svg img {max-width: 100%; width: auto; max-height: 200%; height: auto}" 
                )),
                # Output image
                imageOutput(outputId = NS(id,"colored_svg")),
@@ -44,7 +49,7 @@ enrichment_pageUI <- function(id) {
                
                fluidRow(
                    # Select color
-                   selectInput(inputId = NS(id, "color"),
+                   selectInput(inputId = NS(id, "color_barplot"),
                                label = "Change color",
                                choices = c("salmon","steelblue","olivedrab"),
                                multiple = FALSE),
@@ -58,17 +63,17 @@ enrichment_pageUI <- function(id) {
                           box(title="Genes enriched in a specific tissue",
                               solidHeader = FALSE, collapsible=TRUE, width = 12,
                               # Tissue finder selector
-                              uiOutput(outputId = "tissue_finder"),
+                              uiOutput(outputId = NS(id,"tissue_finder")),
                               # Finder text box
                               column(3,
                                      h6("Number of genes enriched"),
-                                     verbatimTextOutput(outputId = "number_genes_in_tissue",placeholder = TRUE)
+                                     verbatimTextOutput(outputId = NS(id,"number_genes_in_tissue"),placeholder = TRUE)
                               ),
                               column(9,
-                                     verbatimTextOutput(outputId = "genes_in_tissue",placeholder = TRUE)
+                                     verbatimTextOutput(outputId = NS(id,"genes_in_tissue"),placeholder = TRUE)
                               ), 
-                              actionButton(inputId = "func_char_tiss", label = "Functional characterization", align = "center"),
-                              actionButton(inputId = "atlas", label = "Single cell resolution", align = "center"))
+                              actionButton(inputId =  NS(id,"func_char_tiss"), label = "Functional characterization", align = "center"),
+                              actionButton(inputId =  NS(id,"atlas"), label = "Single cell resolution", align = "center"))
                           
                           ),
                    
@@ -79,12 +84,12 @@ enrichment_pageUI <- function(id) {
                               solidHeader=FALSE, collapsible=TRUE, width = 12, 
                               column(3,
                                      h6("Number of genes not enriched"),
-                                     verbatimTextOutput(outputId = "number_not_enriched",placeholder = TRUE)
+                                     verbatimTextOutput(outputId = NS(id,"number_not_enriched"),placeholder = TRUE)
                               ),
                               column(9,
-                                     verbatimTextOutput(outputId = "not_enriched"),
+                                     verbatimTextOutput(outputId = NS(id,"not_enriched")),
                               ),
-                              actionButton(inputId = "func_char_notenr", label = "Functional characterization", align = "center")), 
+                              actionButton(inputId = NS(id,"func_char_notenr"), label = "Functional characterization", align = "center")), 
                           
                           hr(),
                           
@@ -93,12 +98,12 @@ enrichment_pageUI <- function(id) {
                               solidHeader=FALSE, collapsible=TRUE, width = 12, 
                               column(3,
                                      h6("Number of genes not found"),
-                                     verbatimTextOutput(outputId = "number_not_found",placeholder = TRUE)
+                                     verbatimTextOutput(outputId = NS(id,"number_not_found"),placeholder = TRUE)
                               ),
                               column(9,
-                                     verbatimTextOutput(outputId = "not_found")
+                                     verbatimTextOutput(outputId = NS(id,"not_found"))
                                      ),
-                              actionButton(inputId = "func_char_notfound", label = "Functional characterization", align = "center")
+                              actionButton(inputId = NS(id,"func_char_notfound"), label = "Functional characterization", align = "center")
                               )
                    ),
                    hr()

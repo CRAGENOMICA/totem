@@ -49,11 +49,11 @@ parse_input_genes<-function(input,input_specie,annotation_file,external=FALSE) {
   # Return a character vector
   genes_vector<-as.character(genes_vector)
   
-  # check if the specie if sorghum to translate verion 1 identifiers to version 3.1
+  # check if the specie if sorghum to translate version 1 identifiers to version 3
   if(input_specie == "Sorghum") {
     # Use annotation file for ID translation
     ids_notexist <- genes_vector[genes_vector %in% annotation_file$locusName_Version1 == FALSE]
-    ids_translated <- annotation_file[annotation_file$locusName_Version1 %in% genes_vector,"locusName"]
+    ids_translated <- annotation_file[annotation_file$locusName_Version1 %in% genes_vector,"locusName_Version3"]
     genes_vector <- c(ids_notexist, ids_translated)
   }
   else{

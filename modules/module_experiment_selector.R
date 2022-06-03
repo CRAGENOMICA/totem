@@ -67,7 +67,7 @@ experiment_selectorUI <- function(id) {
         ## A image
         tags$head(tags$style(### adjust image to the windows size
             type = "text/css",
-            "#blank_image img {max-width: 100%; width: auto; max-height: 200%; height: auto; text-align: center}" 
+            "#x-blank_image img {max-width: 100%; width: auto; max-height: 200%; height: auto; text-align: center}"
         )),
         
         ## Output image
@@ -153,6 +153,7 @@ experiment_selectorServer <- function(id) {
         source("functions/parse_input_genes.R")
         observeEvent(input$user_genelist,
                      {
+                         annotation_file<-read.delim(normalizePath(paste("./experiments",input$specie,"annotation_file.txt",sep = "/")),header = FALSE)
                          user_genelist <<- parse_input_genes(input = input$user_genelist,
                                                             input_specie = input$specie,
                                                             annotation_file = annotation_file)
@@ -165,7 +166,8 @@ experiment_selectorServer <- function(id) {
             submit=reactive({input$submit}),
             experiment_id=reactive({input$experiment_id}),
             experiment_path=reactive({experiment_path}),
-            user_genelist=reactive({user_genelist})
+            user_genelist=reactive({user_genelist}),
+            specie=reactive({input$specie})
         )
         
     })
