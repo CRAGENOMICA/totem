@@ -109,7 +109,7 @@
 }
 
 /* Experiment Description box I want it to scroll (Same style than input boxes) */
-#experiment_description{
+#x-experiment_description{
 	width: 100%;
 	height: 100px;
 	overflow-y: scroll;
@@ -119,7 +119,7 @@
 }
 
 /* Button enrichment */
-#submit{
+#x-submit{
 display: inline-block;
 background: #09C3A2;
 color: black;
@@ -128,26 +128,26 @@ font-weight: bold
 }
 
 /* Buttons characterization */
-#func_char_tiss{
+#ui-func_char_tiss{
   display: inline-block;
   background: #09C3A2;
   color: black;
   font-size: 15px;
 }
-#atlas{
+#ui-atlas{
   display: inline-block;
   background: #42d549;
   color: black;
   font-size: 15px;
 }
 
-#func_char_notenr{
+#ui-func_char_notenr{
   display: inline-block;
   background: #09C3A2;
   color: black;
   font-size: 15px;
 }
-#func_char_notfound{
+#ui-func_char_notfound{
   display: inline-block;
   background: #09C3A2;
   color: black;
@@ -155,24 +155,24 @@ font-weight: bold
 }
 
 /* verbatimtext gene lists scroll */
-#genes_in_tissue{
+#ui-genes_in_tissue{
   overflow-y:scroll; 
   height: 190px; 
   background: ghostwhite;
 }
-#not_enriched{
+#ui-not_enriched{
   overflow-y:scroll; 
   height: 70px; 
   background: ghostwhite;
 }
-#not_found{
+#ui-not_found{
   overflow-y:scroll; 
   height: 70px; 
   background: ghostwhite;
 }
 
 /* Title (verbatim) of result and functional charac tab */
-#description{
+#x-description{
   width:100%; 
   margin-top:10px; 
   font-size: 20px;
@@ -181,7 +181,7 @@ font-weight: bold
   font-family: "Arial";
   text-align: center;
 }
-#geneset{
+#x-geneset{
   width:100%; 
   margin-top:10px; 
   font-size: 20px;
@@ -190,7 +190,7 @@ font-weight: bold
   font-family: "Arial";
   text-align: center;
 }
-#geneset_sc{
+#x-geneset_sc{
   width:100%; 
   margin-top:10px; 
   font-size: 15px;
@@ -226,9 +226,10 @@ border-color: #007A66;
 }
 
 /* about tab logos */
-#images{
+#x-images{
   text-align: center;
 }
+
 
 
 

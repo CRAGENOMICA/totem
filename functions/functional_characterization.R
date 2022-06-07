@@ -19,20 +19,18 @@
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-functional_characterization<-function(input_genes, annotation_file) {
+functional_characterization<-function(input_genes, annotation_file, specie) {
   
-  ### Return a table with the genes annotation ####
+  ### Return a table with the genes annotation
   if(length(input_genes) > 0){
-    table = subset(annotation_file, annotation_file$locusName %in% input_genes)
+    if(specie == "Sorghum"){
+      table = subset(annotation_file, annotation_file$locusName_Version3 %in% input_genes)
+    }
+    else{
+      table = subset(annotation_file, annotation_file$locusName %in% input_genes)
+    }
     return(table)
   }
-  else{
-    df = data.frame(ncol = ncol(annotation_file))
-    colnames(df) = colnames(annotation_file)
-    df[1,1] = "This set of genes is empty"
-    return(df)
-  }
-  # stop("Try other set of genes or parameters")
   
 }
 
