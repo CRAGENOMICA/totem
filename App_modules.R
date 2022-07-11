@@ -32,7 +32,6 @@ source("modules/module_experiment_selector.R")
 source("modules/module_enrichment_results.R")
 source("modules/module_colorSVG.R")
 source("modules/module_enrichment_pageUI.R")
-source("modules/module_gene_classifier.R")
 
 ui <- dashboardPage(
     
@@ -123,11 +122,10 @@ server<-function(input,output,session) {
                                        enrichment_values = y$enrichment_values())
                      
                      # Module gene classifier
-                     gene_classifierServer(id = "ui",
-                                           experiment_path = x$experiment_path(),
-                                           user_genelist = x$user_genelist())
+                     # Module sincle cell plotter
+                     #print(rv$experiment_id)
+                    
                      
-                     # Module single cell plotter
                  }
     )
     

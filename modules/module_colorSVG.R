@@ -24,7 +24,7 @@ colorSVG_UI <- function(id) {
                fluidRow(
                    
                    # Select color
-                   selectInput(inputId = NS(id,"color_svg"),
+                   selectInput(inputId = NS(id,"color"),
                                label = "Change color",
                                choices = c("salmon","steelblue","olivedrab"),
                                multiple = FALSE),
@@ -51,10 +51,10 @@ colorSVG_Server <- function(id, experiment_path, experiment_id, enrichment_value
         ## Color svg acording to color input
         source("./functions/generate_color_scale.R")
         source("./functions/color_svg.R")
-        observeEvent(input$color_svg, {
+        observeEvent(input$color, {
             # Generate color scale
             colors<-generate_color_scale(input = svg_enrich_values,
-                                         color = input$color_svg)
+                                         color = input$color)
             # Color_svg
             color_svg(input_svg=normalizePath(paste(experiment_path,paste(experiment_id,"svg",sep="."),sep = "/")),
                       tissue_colors=colors,
@@ -78,4 +78,27 @@ colorSVG_Server <- function(id, experiment_path, experiment_id, enrichment_value
         
     })
 
+}
+
+# Testing purposes:
+#x<-"/home/flozano/OneDrive/PROJECTS/4_TOTEM/shiny_totem/shinyTOTEM/experiments/Arabidopsis/Root_longitudinal_patterns_Brady2007"
+#y<-"Root_longitudinal_patterns_Brady2007"
+#z<-c(0.0000000,0.0000000,0.7066333,0.0000000,0.0000000,0.0000000,0.0000000,0.0000000,0.0000000,0.0000000,0.0000000,0.7572440,0.0000000)
+#names(z)<-c("Columella","Section_1","Section_2","Section_3","Section_4","Section_5","Section_6","Section_7","Section_8","Section_9","Section_10","Section_11","Section_12")
+
+colorSVG_App <- function(id) {
+    
+    ui <- fluidPage(
+        colorSVG_UI("x")
+    )
+    
+    server<-function(input,output,session) {
+        
+        colorSVG_Server("x",
+                        experiment_path = x,
+                        experiment_id = y,
+                        enrichment_values = z)
+    }
+    
+    shinyApp(ui, server)
 }

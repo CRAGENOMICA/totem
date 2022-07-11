@@ -40,7 +40,7 @@ experiment_selectorUI <- function(id) {
         textAreaInput(inputId = NS(id,"user_genelist"),
                       label = "Gene list",
                       value = "",
-                      rows = 20,
+                      rows = 12,
                       width = "100%"
         ),
         
@@ -59,12 +59,16 @@ experiment_selectorUI <- function(id) {
            ## Add a label on top of html box
            tags$label(class = "control-label","Selected experiment details"),
            
-           verbatimTextOutput(outputId = NS(id,"experiment_description"),placeholder = TRUE),
+           wellPanel(
                ## Text box with experiment description (HTML)
-               #htmlOutput(outputId = NS(id,"experiment_description"))
-               
+               htmlOutput(outputId = NS(id,"experiment_description"))
+               ),
         
-        
+        ## A image
+        tags$head(tags$style(### adjust image to the windows size
+            type = "text/css",
+            "#blank_image img {max-width: 100%; width: auto; max-height: 200%; height: auto; text-align: center}" 
+        )),
         
         ## Output image
         imageOutput(outputId = NS(id,"blank_image"))
@@ -107,7 +111,7 @@ experiment_selectorServer <- function(id) {
             
             ## Text box with description of the experiment
             
-            output$experiment_description <- renderText({
+            output$experiment_description <- renderUI({
                 description <- readLines(normalizePath(paste(experiment_path,"experiment_description.txt",sep = "/")))
                 HTML(description)
             })
@@ -118,9 +122,15 @@ experiment_selectorServer <- function(id) {
                 {
                     # Read image
                     filename <- normalizePath(paste(experiment_path,"blank_image.png",sep = "/"))
-                    # Arguments
+                    
+                    # Read myImage's width and height. These are reactive values, so this
+                    # expression will re-run whenever they change.
+                    width  <- session$clientData$output_blank_image_width
+                    height <- session$clientData$output_blank_image_height
+                    
                     list(src=filename,
-                         height="150%")
+                         width=width,
+                         height=height)
                 }, deleteFile = FALSE
             )
         })
