@@ -155,8 +155,7 @@ experiment_selectorServer <- function(id) {
             submit=reactive({input$submit}),
             experiment_id=reactive({input$experiment_id}),
             experiment_path=reactive({experiment_path}),
-            user_genelist=reactive({user_genelist}),
-            specie=reactive({input$specie})
+            user_genelist=reactive({user_genelist})
         )
         
     })
