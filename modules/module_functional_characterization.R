@@ -324,7 +324,7 @@ functional_characterizationServer<-function(id,experiment_path,user_genelist, sp
 
 
 # Testing purposes:
-# x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenòmica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Sorghum/Inflorescence_Davidson2012/"
+# x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigen?mica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Sorghum/Inflorescence_Davidson2012/"
 # y=c("Sb01g000230
 # Sb01g000240
 # Sb01g000250
@@ -337,7 +337,7 @@ functional_characterizationServer<-function(id,experiment_path,user_genelist, sp
 # Sb01g000330
 # Sb01g000340
 # ")
-x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenòmica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Arabidopsis/Root_SingleCell/"
+x<-"C:/Users/vered/OneDrive - CRAG - Centre de Recerca en AgrigenÃ²mica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Arabidopsis/Root_SingleCell"
 y<-c("AT2G01430,AT3G13380,AT4G39400,AT2G27550,AT5G59220,AT5G62420,AT3G20810,AT5G25610,AT1G11600")
 # z = "Sorghum"
 z = "Arabidopsis"
