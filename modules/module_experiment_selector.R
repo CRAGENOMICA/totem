@@ -144,8 +144,7 @@ experiment_selectorServer <- function(id) {
         observeEvent(input$user_genelist,
                      {
                          user_genelist <<- parse_input_genes(input = input$user_genelist,
-                                                            input_specie = input$specie,
-                                                            annotation_file = annotation_file)
+                                                            input_specie = input$specie)
                          # CHeck: print(user_genelist)
                          # There is a problem when selecting sorghum genes -> Is in parse_input_function
                      })

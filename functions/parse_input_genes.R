@@ -21,7 +21,7 @@
 
 ## Parse input
 
-parse_input_genes<-function(input,input_specie,annotation_file,external=FALSE) {
+parse_input_genes<-function(input,input_specie,external=FALSE) {
 
   # Open an external file instead of an object?
   if (external) {
@@ -51,13 +51,16 @@ parse_input_genes<-function(input,input_specie,annotation_file,external=FALSE) {
   
   # check if the specie if sorghum to translate version 1 identifiers to version 3
   if(input_specie == "Sorghum") {
+
+    # Read annotation file 
+    annotation_file<-read.delim(normalizePath(paste("./experiments",input_specie,"annotation_file.txt",sep = "/")),header = FALSE)
+
     # Use annotation file for ID translation
     ids_notexist <- genes_vector[genes_vector %in% annotation_file$locusName_Version1 == FALSE]
     ids_translated <- annotation_file[annotation_file$locusName_Version1 %in% genes_vector,"locusName_Version3"]
     genes_vector <- c(ids_notexist, ids_translated)
-  }
-  else{
-  genes_vector<-genes_vector
+  } else {
+    genes_vector<-genes_vector
   }
   
   # print(genes_vector)
