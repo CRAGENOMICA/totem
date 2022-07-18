@@ -88,6 +88,13 @@ ui <- dashboardPage(
                     
                     enrichment_pageUI("ui")
                     
+                    ),
+            
+            #== FUNCTIONAL CHARACTERIZATION TAB
+            tabItem(tabName = "functional_char",
+
+                    functional_characterizationUI("fc")
+
                     )
             )
         )
@@ -131,11 +138,9 @@ server<-function(input,output,session) {
                                            experiment_path = x$experiment_path(),
                                            user_genelist = x$user_genelist())
                      
-                     # Module single cell plotter
                  }
     )
     
-    #== PRESSING FUNCTIONAL CHARACTERIZATION BUTTON
     
     #== PRESSING NEW SEARCH AGAIN
     previous_experiment <<-FALSE

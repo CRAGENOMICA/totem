@@ -23,7 +23,7 @@ library(clusterProfiler)
 library(ggplot2)
 library(enrichplot)
 
-dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff, nCategory) {
+dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
   
   if(specie == "Tomato"){ 
     genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
@@ -64,7 +64,7 @@ dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjme
       go2@gene = genes
     
       # Create plots
-      dotgo = dotplot(go2, x = "Count", showCategory = nCategory) +
+      dotgo = dotplot(go2, x = "Count", showCategory = 20) +
         ggtitle("Gene Ontology Enrichment Analysis: GO terms")
       
       
@@ -84,7 +84,7 @@ dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjme
   }
 }
 
-netGO<-function(input_genes, specie, annotation_file, ontology, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
+netgenesGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
   if(specie == "Tomato"){
     genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene
     org = "slycopersicum"
@@ -98,6 +98,8 @@ netGO<-function(input_genes, specie, annotation_file, ontology, padjmethod, pval
     org = "athaliana"
   }
 
+  print(genes)
+  print(org)
   if(length(genes)>2){ #only GO terms
     # use gost gprofiler function to calculate enrichment
     gostres <- gost(query = genes,
@@ -123,7 +125,7 @@ netGO<-function(input_genes, specie, annotation_file, ontology, padjmethod, pval
       go2@gene = genes
 
       # Create plots
-      emap = emapplot(pairwise_termsim(go2), showCategory = nCategory, cex_label_category = 0.8)+
+      emap = emapplot(pairwise_termsim(go2), showCategory = 20, cex_label_category = 0.8)+
         ggtitle("Gene Ontology Enrichment Analysis: GO terms relation")
 
       return(emap)
@@ -141,7 +143,7 @@ netGO<-function(input_genes, specie, annotation_file, ontology, padjmethod, pval
              text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for gene ontology enrichment analysis"), cex = 1.6, col = "black"))
   }
 }
-heatmapGO<-function(input_genes, specie,annotation_file, ontology, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
+heatmapGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
   if(specie == "Tomato"){
     genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene
     org = "slycopersicum"
@@ -181,7 +183,7 @@ heatmapGO<-function(input_genes, specie,annotation_file, ontology, padjmethod, p
       go2@gene = genes
 
       # Create plots
-      heatGO = heatplot(go2, showCategory = nCategory)+
+      heatGO = heatplot(go2, showCategory = 20)+
         ggtitle("Gene Ontology Enrichment Analysis: genes related to GO terms")
       return(heatGO)
     }
@@ -199,7 +201,7 @@ heatmapGO<-function(input_genes, specie,annotation_file, ontology, padjmethod, p
   }
 }
 
-dotplotKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
+dotplotKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, pvalcutoff) {
   if(specie == "Tomato"){ 
     genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
     org = "slycopersicum"
@@ -238,7 +240,7 @@ dotplotKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcu
       kegg <- gp_mod_enrich 
       kegg@gene = genes
     
-      dotkegg = dotplot(kegg,x = "Count", showCategory = nCategory) + 
+      dotkegg = dotplot(kegg,x = "Count", showCategory = 20) + 
         ggtitle("KEGG pathway Enrichment Analysis: KEGG pathways")
       
       return(dotkegg)
@@ -256,7 +258,7 @@ dotplotKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcu
   }
   # stop("Try other set of genes or parameters for KEGG enrichment analysis")
 }
-heatmapKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcutoff, qvalcutoff, color, nCategory) {
+heatmapKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, pvalcutoff) {
   if(specie == "Tomato"){
     genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene
     org = "slycopersicum"
@@ -295,8 +297,8 @@ heatmapKEGG <- function(input_genes, specie, annotation_file, padjmethod, pvalcu
       kegg <- gp_mod_enrich
       kegg@gene = genes
 
-      heatkegg = heatplot(kegg, showCategory = nCategory)+
-      ggtitle("Gene Ontology Enrichment Analysis: genes related to KEGG patways")
+      heatkegg = heatplot(kegg, showCategory = 20)+
+      ggtitle("KEGG pathway Enrichment Analysis: genes related to KEGG patways")
 
       return(heatkegg)
     }

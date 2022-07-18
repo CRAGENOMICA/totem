@@ -15,6 +15,7 @@ R (>3.0.2)
 - DT
 - readr
 - ggplot2
+- ggnewscale
 - gprofiler2
 - clusterProfiler
 - enrichplot

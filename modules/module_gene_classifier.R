@@ -39,14 +39,17 @@ gene_classifierServer <- function(id, experiment_path,user_genelist) {
         observeEvent(input$tissue_finder, {
             ### Here used tissue_gene_finder function
             selected_tissue<-strsplit(input$tissue_finder,split = "  ")[[1]][1]
-            print(selected_tissue)
-            output$genes_in_tissue<-renderText(
-                tissue_gene_finder(user_genes = user_genelist,
+            genes_tissue<-tissue_gene_finder(user_genes = user_genelist,
                                    tissue_atlas = tissue_atlas,
                                    tissue = selected_tissue)
+            output$genes_in_tissue<-renderText(
+                return(genes_tissue)
             )
-            
-            
+            print(genes_tissue)
+            list(
+              gene_set = genes_tissue,
+              selected_tissue = selected_tissue
+            )
         })
         
         # Genes not enriched in any tissue
@@ -64,10 +67,11 @@ gene_classifierServer <- function(id, experiment_path,user_genelist) {
         })
         
         # print(strsplit(input$tissue_finder,split = "  ")[[1]][1])
-        print(input$tissue_finder)
+        # print(gene_set)
         # ## save the selected tissue in tissue_finder for functional characterization tab
         # list(
         #   selected_tissue = reactive({selected_tissue})
         # )
+        
     })
 }

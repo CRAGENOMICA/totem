@@ -74,7 +74,7 @@ enrichment_pageUI <- function(id) {
                    # Tissue finder selector
                    uiOutput(outputId = NS(id,"tissue_finder")),
                    verbatimTextOutput(outputId = NS(id,"genes_in_tissue"),placeholder = TRUE),
-                   actionButton(inputId = "func_char_tiss", label = "Functional characterization", align = "center")
+                   actionButton(inputId = NS(id,"func_char_tiss"), label = "Functional characterization", align = "center")
                ),
                
                hr(),
