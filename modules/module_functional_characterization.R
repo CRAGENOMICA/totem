@@ -45,7 +45,7 @@ functional_characterizationServer<-function(id,experiment_path,specie,gene_set,t
     output$ann_table <- DT::renderDataTable({
       if(is.null(gene_set)) return()
       withProgress(
-        DT::datatable(annotation(),options = list(lengthMenu = c(3, 5, 10, 20, 50), pageLength = 3)),
+        DT::datatable(annotation(),options = list(lengthMenu = c(3, 5, 10, 20, 50), pageLength = 3),rownames= FALSE),
         message = "Retrieving annotation...")
     })
     # download table
@@ -162,44 +162,29 @@ functional_characterizationServer<-function(id,experiment_path,specie,gene_set,t
 
 
 # Testing purposes:
-# x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigen?mica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Sorghum/Inflorescence_Davidson2012/"
-# y=c("Sb01g000230
-# Sb01g000240
-# Sb01g000250
-# Sb01g000255
-# Sb01g000260
-# Sb01g000270
-# Sb01g000290
-# Sb01g000300
-# Sb01g000310
-# Sb01g000330
-# Sb01g000340
-# ")
-# z = "Sorghum"
-
-x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenomica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Arabidopsis/Root_SingleCell"
-y<-c("AT2G41650\nAT4G39400\nAT1G04560\nAT1G65484\nAT2G21400\nAT5G59310\nAT5G02020")
-z = "Arabidopsis"
-tissue = "CC_B"
-
-# load(paste(x,"data.RData",sep = "/"))
-
-functional_characterizationApp <- function(id) {
-    
-    ui <- fluidPage(
-        functional_characterizationUI("fc")
-    )
-    
-    server<-function(input,output,session) {
-        
-        functional_characterizationServer("fc",
-                                 experiment_path = x,
-                                 specie = z,
-                                 gene_set = y,
-                                 tissue = tissue)
-    }
-    
-    shinyApp(ui, server)
-}
-functional_characterizationApp()
+# x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenomica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Arabidopsis/Root_SingleCell"
+# y<-c("AT2G41650\nAT4G39400\nAT1G04560\nAT1G65484\nAT2G21400\nAT5G59310\nAT5G02020")
+# z = "Arabidopsis"
+# tissue = "CC_B"
+# 
+# # load(paste(x,"data.RData",sep = "/"))
+# 
+# functional_characterizationApp <- function(id) {
+#     
+#     ui <- fluidPage(
+#         functional_characterizationUI("fc")
+#     )
+#     
+#     server<-function(input,output,session) {
+#         
+#         functional_characterizationServer("fc",
+#                                  experiment_path = x,
+#                                  specie = z,
+#                                  gene_set = y,
+#                                  tissue = tissue)
+#     }
+#     
+#     shinyApp(ui, server)
+# }
+# functional_characterizationApp()
 

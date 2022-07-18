@@ -18,10 +18,6 @@
 ##
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-library(gprofiler2)
-library(clusterProfiler)
-library(ggplot2)
-library(enrichplot)
 
 dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
   
@@ -236,7 +232,6 @@ dotplotKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, 
       # define as enrichResult object
       gp_mod_enrich = new("enrichResult", result = gp_mod, ontology = "KEGG")
       
-      #remove redundant GO terms -> cutoff as in revigo, 0,7
       kegg <- gp_mod_enrich 
       kegg@gene = genes
     
@@ -256,7 +251,6 @@ dotplotKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, 
     return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
              text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for KEGG enrichment analysis"), cex = 1.6, col = "black"))
   }
-  # stop("Try other set of genes or parameters for KEGG enrichment analysis")
 }
 heatmapKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, pvalcutoff) {
   if(specie == "Tomato"){
@@ -293,7 +287,6 @@ heatmapKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, 
       # define as enrichResult object
       gp_mod_enrich = new("enrichResult", result = gp_mod, ontology = "KEGG")
 
-      #remove redundant GO terms -> cutoff as in revigo, 0,7
       kegg <- gp_mod_enrich
       kegg@gene = genes
 
@@ -313,5 +306,4 @@ heatmapKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, 
     return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
              text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for KEGG enrichment analysis"), cex = 1.6, col = "black"))
   }
-  # stop("Try other set of genes or parameters for KEGG enrichment analysis")
 }

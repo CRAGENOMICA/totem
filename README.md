@@ -13,9 +13,6 @@ R (>3.0.2)
 - xml2
 - rsvg
 - DT
-- readr
-- ggplot2
-- ggnewscale
 - gprofiler2
 - clusterProfiler
 - enrichplot
