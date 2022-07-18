@@ -177,7 +177,7 @@ functional_characterizationServer<-function(id,experiment_path,specie,gene_set,t
 # ")
 # z = "Sorghum"
 
-x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenòmica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Arabidopsis/Root_SingleCell"
+x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenomica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Arabidopsis/Root_SingleCell"
 y<-c("AT2G41650\nAT4G39400\nAT1G04560\nAT1G65484\nAT2G21400\nAT5G59310\nAT5G02020")
 z = "Arabidopsis"
 tissue = "CC_B"
