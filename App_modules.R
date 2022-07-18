@@ -38,6 +38,7 @@ source("modules/module_reset_tab.R")
 source("modules/module_functional_characterization_pageUI.R")
 source("modules/module_functional_characterization.R")
 source("modules/module_single_cell_pageUI.R")
+source("modules/module_single_cell.R")
 
 ui <- dashboardPage(
     
@@ -149,59 +150,67 @@ server<-function(input,output,session) {
                                            user_genelist = x$user_genelist())
                      
                      
-                     # list(func_char_tiss<-reactive({input$func_char_tiss}))
+                     #== PRESSING FUNCTIONAL CHARACTERIZATION BUTTON
                      
+                     fc_button <- reactiveValues(func_char_tiss = NULL) # initialise reactiveValues
+                     
+                     fc_b = fc_buttonServer("ui", fc_button = fc_button) # pass reactiveValues as argument
+                     
+                     observeEvent(fc_button$func_char_tiss,
+                                  {
+                                    # message("rv_outer", fc_button$func_char_tiss)
+                                    # Update the tabs menu and redirect to results page
+                                    output$dynamic_tabs <- renderMenu({
+                                      sidebarMenu(
+                                        # Separator and identifier -> IF not description is provided, change for date-time
+                                        h4("   Functional characterization"),
+                                        # Menu item
+                                        menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table", lib = "font-awesome"))
+                                      )
+                                    })
+                                    # Move to Enrichment Results tab
+                                    updateTabItems(session = session,
+                                                   inputId = "tabs",
+                                                   selected = "functional_char")
+
+                                    functional_characterizationServer("fc",
+                                                                      experiment_path = x$experiment_path(),
+                                                                      specie = x$specie(),
+                                                                      gene_set = zz$gene_set(),
+                                                                      tissue = zz$selected_tissue())
+                                    
+                                  }
+                     )
+                     
+                     #== PRESSING SINGLE CELL BUTTON
+                     
+                     sc_button <- reactiveValues(func_char_tiss = NULL) # initialise reactiveValues
+                     
+                     sc_b = sc_buttonServer("ui", sc_button = sc_button) # pass reactiveValues as argument
+                     
+                     observeEvent(sc_button$single_cell_atlas,
+                                  {
+                                    # Update the tabs menu and redirect to results page
+                                    output$dynamic_tabs <- renderMenu({
+                                      sidebarMenu(
+                                        # Separator and identifier -> IF not description is provided, change for date-time
+                                        h4("   Single cell atlas"),
+                                        # Menu item
+                                        menuItem(text = "Single cell atlas",tabName = "single_cell",icon = icon("bar-chart-o", lib = "font-awesome"))
+                                      )
+                                    })
+                                    # Move to Enrichment Results tab
+                                    updateTabItems(session = session,
+                                                   inputId = "tabs",
+                                                   selected = "single_cell")
+
+
+                                  }
+                     )
                      
                      
                  }
     )
-    
-    # #== PRESSING FUNCTIONAL CHARACTERIZATION BUTTON
-    # observeEvent(ui$func_char_tiss,
-    #              {
-    #                # Update the tabs menu and redirect to results page
-    #                output$dynamic_tabs <- renderMenu({
-    #                  sidebarMenu(
-    #                    # Separator and identifier -> IF not description is provided, change for date-time
-    #                    h4("   Functional characterization"),
-    #                    # Menu item
-    #                    menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table", lib = "font-awesome"))
-    #                  )
-    #                })
-    #                # Move to Enrichment Results tab
-    #                updateTabItems(session = session,
-    #                               inputId = "tabs",
-    #                               selected = "functional_char")
-    #                
-    #                # functional_characterizationServer("fc",
-    #                #                                   experiment_path = x$experiment_path(),
-    #                #                                   specie = input$specie,
-    #                #                                   gene_set = zz$gene_set,
-    #                #                                   tissue = zz$selected_tissue)
-    #                
-    #              }
-    # )
-    # 
-    # #== PRESSING FUNCTIONAL CHARACTERIZATION BUTTON
-    # observeEvent(ui$single_cell_atlas,
-    #              {
-    #                # Update the tabs menu and redirect to results page
-    #                output$dynamic_tabs <- renderMenu({
-    #                  sidebarMenu(
-    #                    # Separator and identifier -> IF not description is provided, change for date-time
-    #                    h4("   Single cell atlas"),
-    #                    # Menu item
-    #                    menuItem(text = "Single cell atlas",tabName = "single_cell",icon = icon("bar-chart-o", lib = "font-awesome"))
-    #                  )
-    #                })
-    #                # Move to Enrichment Results tab
-    #                updateTabItems(session = session,
-    #                               inputId = "tabs",
-    #                               selected = "single_cell")
-    #                
-    #                
-    #              }
-    # )
     
     
     #== PRESSING NEW SEARCH AGAIN

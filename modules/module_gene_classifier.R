@@ -38,17 +38,12 @@ gene_classifierServer <- function(id, experiment_path,user_genelist) {
         source("functions/tissue_gene_finder.R")
         observeEvent(input$tissue_finder, {
             ### Here used tissue_gene_finder function
-            selected_tissue<-strsplit(input$tissue_finder,split = "  ")[[1]][1]
-            genes_tissue<-tissue_gene_finder(user_genes = user_genelist,
+            selected_tissue<<-strsplit(input$tissue_finder,split = "  ")[[1]][1]
+            genes_tissue<<-tissue_gene_finder(user_genes = user_genelist,
                                    tissue_atlas = tissue_atlas,
                                    tissue = selected_tissue)
             output$genes_in_tissue<-renderText(
                 return(genes_tissue)
-            )
-            print(genes_tissue)
-            list(
-              gene_set = genes_tissue,
-              selected_tissue = selected_tissue
             )
         })
         
@@ -66,12 +61,11 @@ gene_classifierServer <- function(id, experiment_path,user_genelist) {
                       geneuniverse = geneuniverse)
         })
         
-        # print(strsplit(input$tissue_finder,split = "  ")[[1]][1])
-        # print(gene_set)
-        # ## save the selected tissue in tissue_finder for functional characterization tab
-        # list(
-        #   selected_tissue = reactive({selected_tissue})
-        # )
+        # return list of tissue specific genes and tissue for functionl char and single cell tabs
+        list(
+          gene_set = reactive({genes_tissue}),
+          selected_tissue = reactive({selected_tissue})
+        )
         
     })
 }
