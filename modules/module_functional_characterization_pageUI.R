@@ -116,4 +116,4 @@ functional_characterizationApp <- function(id) {
   
   shinyApp(ui, server)
 }
-functional_characterizationApp()
+# functional_characterizationApp()
