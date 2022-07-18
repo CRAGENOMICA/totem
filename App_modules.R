@@ -137,10 +137,19 @@ server<-function(input,output,session) {
                                     selected = "results")
                      
                      # EXECUTE MODULE ENRICHMENT
+                     
+                     ## Create reactiveValues for functional characterization and single cell buttons
+                     fc_button <- reactiveValues(func_char_tiss = NULL) # initialise reactiveValues
+                     sc_button <- reactiveValues(single_cell_atlas = NULL) # initialise reactiveValues
+                     
+                     ## Calculate enrichments
                      y<-enrichment_resultsServer(id = "ui",
                                                  experiment_path = x$experiment_path(),
-                                                 user_genelist = x$user_genelist())
+                                                 user_genelist = x$user_genelist(),
+                                                 fc_button = fc_button,
+                                                 sc_button = sc_button)
                      
+                  
                      # EXECUTE MODULE COLOR SVG
                      z<-colorSVG_Server(id = "ui",
                                        experiment_path = x$experiment_path(),
@@ -154,15 +163,9 @@ server<-function(input,output,session) {
                      
                      
                      #== PRESSING FUNCTIONAL CHARACTERIZATION BUTTON
-                     
-                     fc_button <- reactiveValues(func_char_tiss = NULL) # initialise reactiveValues
-                     
-                     fc_b = fc_buttonServer("ui", fc_button = fc_button) # pass reactiveValues as argument
-                     
                      observeEvent(fc_button$func_char_tiss,
                                   {
-                                    # message("rv_outer", fc_button$func_char_tiss)
-                                    # Update the tabs menu and redirect to results page
+                                    # Update the tabs menu and redirect to funct. char. page
                                     output$dynamic_tabs <- renderMenu({
                                       sidebarMenu(
                                         # Separator and identifier -> IF not description is provided, change for date-time
@@ -171,7 +174,7 @@ server<-function(input,output,session) {
                                         menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table", lib = "font-awesome"))
                                       )
                                     })
-                                    # Move to Enrichment Results tab
+                                    # Move to Functional characterization tab
                                     updateTabItems(session = session,
                                                    inputId = "tabs",
                                                    selected = "functional_char")
@@ -181,19 +184,13 @@ server<-function(input,output,session) {
                                                                       specie = x$specie(),
                                                                       gene_set = zz$gene_set(),
                                                                       tissue = zz$selected_tissue())
-                                    
                                   }
                      )
                      
                      #== PRESSING SINGLE CELL BUTTON
-                     
-                     sc_button <- reactiveValues(func_char_tiss = NULL) # initialise reactiveValues
-                     
-                     sc_b = sc_buttonServer("ui", sc_button = sc_button) # pass reactiveValues as argument
-                     
                      observeEvent(sc_button$single_cell_atlas,
                                   {
-                                    # Update the tabs menu and redirect to results page
+                                    # Update the tabs menu and redirect to single cell page
                                     output$dynamic_tabs <- renderMenu({
                                       sidebarMenu(
                                         # Separator and identifier -> IF not description is provided, change for date-time
@@ -202,15 +199,12 @@ server<-function(input,output,session) {
                                         menuItem(text = "Single cell atlas",tabName = "single_cell",icon = icon("bar-chart-o", lib = "font-awesome"))
                                       )
                                     })
-                                    # Move to Enrichment Results tab
+                                    # Move to single cell tab
                                     updateTabItems(session = session,
                                                    inputId = "tabs",
                                                    selected = "single_cell")
-
-
                                   }
                      )
-                     
                      
                  }
     )

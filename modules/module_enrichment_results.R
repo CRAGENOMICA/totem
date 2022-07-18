@@ -31,7 +31,7 @@ enrichment_resultsUI <- function(id) {
     )
 }
 
-enrichment_resultsServer <- function(id, experiment_path,user_genelist) {
+enrichment_resultsServer <- function(id, experiment_path,user_genelist,fc_button,sc_button) {
     
     moduleServer(id, function(input,output,session) {
         
@@ -80,6 +80,15 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist) {
         ## Download button for barplot
         output$download_barplot <- downloadHandler(filename = "enrichment_result_barplot.png",content = normalizePath("enrichment_result_barplot.png"))
         
+        ## Functional characterization button 
+        observeEvent(input$func_char_tiss,{
+          fc_button$func_char_tiss <- input$func_char_tiss #increment fc_button
+        })
+        
+        ## single cell atlas button
+        observeEvent(input$single_cell_atlas,{
+          sc_button$single_cell_atlas <- input$single_cell_atlas #increment sc_button
+        })
         
         # RETURN ENRICHMENT VECTOR
         list(

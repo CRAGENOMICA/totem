@@ -8,18 +8,6 @@
 # Funtional characterization tab
 
 
-## function for actionButton
-fc_buttonServer <- function(id, parent, fc_button) { #fc_button is an argument
-  moduleServer(id,
-               ## Below is the module function
-               function(input, output, session) {
-                 
-                 observeEvent(input$func_char_tiss,{
-                   fc_button$func_char_tiss <- input$func_char_tiss #increment fc_button
-                 })
-               })
-}
-
 functional_characterizationServer<-function(id,experiment_path,specie,gene_set,tissue){
   moduleServer(id, function(input, output, session){
     
