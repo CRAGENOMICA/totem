@@ -16,10 +16,10 @@ single_cellUI <- function(id) {
     
     # In  this column, the complete atlas
     column(4,
-           ## Add the atlas image
+           # Add the atlas image
            tags$head(tags$style(### adjust image to the windows size
              type = "text/css",
-             "#umap_atlas img {max-width: 200%; width: auto; max-height: 200%; height: auto; text-align: center}" 
+             "#umap_atlas img {max-width: 100%; width: auto; max-height: 200%; height: auto}"
            )),
            imageOutput(outputId = NS(id,"umap_atlas"))
     ),
