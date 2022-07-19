@@ -187,24 +187,48 @@ server<-function(input,output,session) {
                                   }
                      )
                      
-                     #== PRESSING SINGLE CELL BUTTON
-                     observeEvent(sc_button$single_cell_atlas,
-                                  {
-                                    # Update the tabs menu and redirect to single cell page
-                                    output$dynamic_tabs <- renderMenu({
-                                      sidebarMenu(
-                                        # Separator and identifier -> IF not description is provided, change for date-time
-                                        h4("   Single cell atlas"),
-                                        # Menu item
-                                        menuItem(text = "Single cell atlas",tabName = "single_cell",icon = icon("bar-chart-o", lib = "font-awesome"))
-                                      )
-                                    })
-                                    # Move to single cell tab
-                                    updateTabItems(session = session,
-                                                   inputId = "tabs",
-                                                   selected = "single_cell")
-                                  }
-                     )
+                     #== PRESSING SINGLE CELL BUTTON -> it only works when a SingleCell experiment is selected, if not, it returns a warning
+                     
+                     observe({
+                       if(grepl("SingleCell",x$experiment_id())){
+                         observeEvent(sc_button$single_cell_atlas,
+                                      {
+                                        # Update the tabs menu and redirect to single cell page
+                                        output$dynamic_tabs <- renderMenu({
+                                          sidebarMenu(
+                                            # Separator and identifier -> IF not description is provided, change for date-time
+                                            h4("   Single cell atlas"),
+                                            # Menu item
+                                            menuItem(text = "Single cell atlas",tabName = "single_cell",icon = icon("bar-chart-o", lib = "font-awesome"))
+                                          )
+                                        })
+                                        # Move to single cell tab
+                                        updateTabItems(session = session,
+                                                       inputId = "tabs",
+                                                       selected = "single_cell")
+                                        
+                                        
+                                        single_cellServer(id="sc",
+                                                          experiment_path=x$experiment_path(),
+                                                          specie = x$specie(),
+                                                          gene_set = zz$gene_set(),
+                                                          tissue = zz$selected_tissue())
+                                      }
+                                    )
+                       }
+                       else {
+                         observeEvent(sc_button$single_cell_atlas,
+                                      {
+                                        shinyalert(title = "SELECT A SINGLE CELL EXPERIMENT",
+                                                   text = "This experiment do not have single cell resolution.\n Please, select a single cell experiment in New search tab",
+                                                   type = "info",
+                                                   showCancelButton = T,showConfirmButton = F)
+                                      })
+                       }
+                     })
+                     
+                     
+                     
                      
                  }
     )
