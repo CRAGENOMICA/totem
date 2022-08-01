@@ -42,6 +42,7 @@ source("modules/module_functional_characterization_pageUI.R")
 source("modules/module_functional_characterization.R")
 source("modules/module_single_cell_pageUI.R")
 source("modules/module_single_cell.R")
+source("modules/module_about.R")
 
 ui <- dashboardPage(
     
@@ -57,7 +58,7 @@ ui <- dashboardPage(
             id = "tabs",
             menuItem(text = "Home", tabName = "home", icon = icon("home",lib = "font-awesome")),
             menuItem(text = "New search",tabName = "new_search",icon = icon("database", lib = "font-awesome")),
-            menuItem("About",tabName = "about",icon = icon("info", lib = "font-awesome")),
+            menuItem(text = "About",tabName = "about",icon = icon("info", lib = "font-awesome")),
             sidebarMenuOutput(outputId = "dynamic_tabs")
         )
     ),
@@ -109,6 +110,12 @@ ui <- dashboardPage(
                     
                     single_cellUI("sc")
                     
+                   ),
+            
+            #== ABOUT TAB
+            tabItem(tabName = "about",
+                    
+                    aboutUI("ab")
                    )
             )
         )
@@ -274,7 +281,8 @@ server<-function(input,output,session) {
     
     #== PRESSING NEW SEARCH AGAIN
     
-   
+    #== PRESSING ABOUT BUTTON
+    aboutServer("ab")
 }
 
 shinyApp(ui, server)
