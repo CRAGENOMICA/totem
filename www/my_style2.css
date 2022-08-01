@@ -119,16 +119,23 @@
 /* Button enrichment */
 #x-submit{
 display: inline-block;
-background: #09C3A2;
+background: #42d549;
 color: black;
 font-size: 15px;
 font-weight: bold
 }
-
+/* Button Clear */
+#x-clear{
+  display: inline-block;
+  background: rgb(204, 202, 202);
+  color: black;
+  font-size: 15px;
+  }
+  
 /* Buttons characterization */
 #ui-func_char_tiss{
   display: inline-block;
-  background: #09C3A2;
+  background: #42d549;
   color: black;
   font-size: 15px;
 }
