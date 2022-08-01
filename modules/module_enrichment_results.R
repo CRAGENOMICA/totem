@@ -31,9 +31,25 @@ enrichment_resultsUI <- function(id) {
     )
 }
 
-enrichment_resultsServer <- function(id, experiment_path,user_genelist,fc_button,sc_button) {
+enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_description,fc_button,sc_button) {
     
     moduleServer(id, function(input,output,session) {
+      
+          # USER DESCRIPTION
+          ## Save the experiment description provided by the user. If not provided, save experiment ID and date for file name in downloads
+          specie_experiment = strsplit(strsplit(experiment_path, "experiments")[[1]][2], "\\", fixed=T)[[1]]
+          if(user_description == "Enter a description for your gene list (optional)"){
+            # description<<-"CHANGE"
+            description<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
+          }
+          else(
+            description<<-as.character(user_description)
+          )
+  
+        # add user provided description
+        output$description <- renderText({
+          return(description)
+        })
         
         # LOAD AN R DATA
         load(paste(experiment_path,"data.RData",sep = "/"))
@@ -47,14 +63,14 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,fc_button
         observeEvent(input$color_barplot, {
                 
                 # Output file
-                png("./enrichment_result_barplot.png",height = 18,width = 18,units = "cm",res=300)
-                
+                png("./enrichment_result_barplot.png",height = 18,width = 18,units = "cm",res=400)
+                par(mar=c(11,4,4,4))
                 # Barplot
                 bar<-barplot(height = enrichment_values_internal,
-                             beside = TRUE,cex.names = 0.8,las=2,
+                             beside = TRUE,cex.names = 0.6,las=2,
                              ylab = "-log(p-value)",
                              ylim = c(0,ceiling(max(enrichment_values_internal))),
-                             main = "Arabidopsis root longitudinal section enrichment results",
+                             main = paste(specie_experiment[2], specie_experiment[3], "enrichment results", sep = " "),
                              col = input$color_barplot
                 )
                 
@@ -64,6 +80,7 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,fc_button
                 # Close devidce and save png image
                 dev.off()
                 
+                # plot the image saved of barplot
                 output$barplot <- renderImage(
                     {
                         # Read image
@@ -74,11 +91,24 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,fc_button
                     }, deleteFile = FALSE
                 )
                 
-                })
+        })
             
         
         ## Download button for barplot
-        output$download_barplot <- downloadHandler(filename = "enrichment_result_barplot.png",content = normalizePath("enrichment_result_barplot.png"))
+        #filename
+        filename = c(gsub(" ", "_", description, fixed = TRUE), # User description / Specie_Experiment
+                     "Plot",  #Plot -> to be replaced
+                     gsub(" ", "_", gsub(":",";",Sys.time()), fixed = TRUE) # Date (replace : by ; -> invalid filename)
+        )
+        #download button
+        output$download_barplot <- downloadHandler(
+        filename = function(){
+          paste(paste("EnrichmentBarplot", filename[1], filename[3], sep = "_"), "png", sep = ".")
+        },
+        content = function(file) {
+          file.copy("enrichment_result_barplot.png", file)
+        }, contentType = "image/png")
+        
         
         ## Functional characterization button 
         observeEvent(input$func_char_tiss,{

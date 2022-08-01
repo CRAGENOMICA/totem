@@ -94,18 +94,15 @@ experiment_selectorServer <- function(id) {
                               label = "Select an experiment",
                               choices = list.dirs(normalizePath(paste("./experiments",input$specie,sep = "/")),full.names = FALSE,recursive = FALSE)
             )
-            # Get the specie
-            selected_specie<<-as.character(input$specie)
         })
         
         ## Selected experiment path
         observeEvent(input$experiment_id, {
-            
+          
             # Get experiment path    
             experiment_path<<-normalizePath(paste("./experiments",input$specie,input$experiment_id,sep = "/"))
             
             ## Text box with description of the experiment
-            
             output$experiment_description <- renderText({
                 description <- readLines(normalizePath(paste(experiment_path,"experiment_description.txt",sep = "/")))
                 HTML(description)
@@ -152,6 +149,7 @@ experiment_selectorServer <- function(id) {
         list(
             submit=reactive({input$submit}),
             experiment_id=reactive({input$experiment_id}),
+            user_description=reactive({input$user_description}),
             experiment_path=reactive({experiment_path}),
             user_genelist=reactive({user_genelist}),
             specie=reactive({input$specie})
@@ -173,3 +171,4 @@ experiment_selectorApp <- function() {
     
     shinyApp(ui, server)
 }
+# experiment_selectorApp()

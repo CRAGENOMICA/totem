@@ -8,7 +8,7 @@
 # Funtional characterization tab
 
 
-functional_characterizationServer<-function(id,experiment_path,specie,gene_set,tissue){
+functional_characterizationServer<-function(id,experiment_path,user_description,specie,gene_set,tissue){
   moduleServer(id, function(input, output, session){
     
     # Load RData of the selected experiment
@@ -17,10 +17,21 @@ functional_characterizationServer<-function(id,experiment_path,specie,gene_set,t
     # Parse gene list
     gene_set = strsplit(gene_set, "\n")[[1]]
     
+    # USER DESCRIPTION
+    ## Save the experiment description provided by the user. If not provided, save experiment ID and date for file name in downloads
+    if(user_description == "Enter a description for your gene list (optional)"){
+      # description<<-"CHANGE"
+      specie_experiment = strsplit(strsplit(experiment_path, "experiments")[[1]][2], "\\", fixed=T)[[1]]
+      description<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
+    }
+    else(
+      description<<-as.character(user_description)
+    )
     # Selected tissue information
-    output$geneset<-renderText({
-      return(paste("Characterization of tissue-enriched genes in", tissue, sep = " "))
+    output$description_fc<-renderText({
+      return(paste("Characterization of genes enriched in", tissue, "cell population \n", description, sep = " "))
     })
+    
     
     
     ## Table output ##
@@ -95,9 +106,17 @@ functional_characterizationServer<-function(id,experiment_path,specie,gene_set,t
           { heatKEGG() }, #Generate plot
           error = function(e) {""}),message = "Plotting...")},width=1000,height=600)
     
+    
     # Download button for plots
+    ##Filename
+    filename = c(gsub(" ", "_", description, fixed = TRUE), # User description / Specie_Experiment
+                 "Plot",  #Plot -> to be replaced
+                 gsub(" ", "", tissue, fixed = TRUE), #Tissue
+                 gsub(" ", "_", gsub(":",";",Sys.time()), fixed = TRUE) # Date (replace : by ; -> invalid filename)
+    )
+    
     output$download_dotGO <- downloadHandler(filename = function(){
-      paste("GOterm", "png", sep = ".")
+      paste(paste("GOenrichmentDotPlot", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)
@@ -107,7 +126,7 @@ functional_characterizationServer<-function(id,experiment_path,specie,gene_set,t
     }, contentType = "image/png")
     
     output$download_netGO <- downloadHandler(filename = function(){
-      paste("GOtermNet", "png", sep = ".")
+      paste(paste("GOenrichmentNet", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)
@@ -117,7 +136,7 @@ functional_characterizationServer<-function(id,experiment_path,specie,gene_set,t
     }, contentType = "image/png")
     
     output$download_heatGO <- downloadHandler(filename = function(){
-      paste("GOtermGenesNet", "png", sep = ".")
+      paste(paste("GOenrichmentGenesNet", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)
@@ -127,7 +146,7 @@ functional_characterizationServer<-function(id,experiment_path,specie,gene_set,t
     }, contentType = "image/png")
     
     output$download_dotKEGG <- downloadHandler(filename = function(){
-      paste("KEGGpathway", "png", sep = ".")
+      paste(paste("KEGGpathwayDotPlot", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)
@@ -137,7 +156,7 @@ functional_characterizationServer<-function(id,experiment_path,specie,gene_set,t
     }, contentType = "image/png")
     
     output$download_heatKEGG <- downloadHandler(filename = function(){
-      paste("KEGGheatmap", "png", sep = ".")
+      paste(paste("GenesKEGGpathway", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)

@@ -157,19 +157,19 @@ font-weight: bold
 }
 
 /* Title (verbatim) of result and functional charac tab */
-#x-description{
+#ui-description{
   width:100%; 
   margin-top:10px; 
-  font-size: 20px;
+  font-size: 15px;
   font-style: bold;
   background: white;
   font-family: "Arial";
   text-align: center;
 }
-#x-geneset{
+#fc-description_fc{
   width:100%; 
   margin-top:10px; 
-  font-size: 20px;
+  font-size: 15px;
   font-style: bold;
   background: white;
   font-family: "Arial";

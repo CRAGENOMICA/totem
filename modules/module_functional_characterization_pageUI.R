@@ -14,7 +14,7 @@ functional_characterizationUI <- function(id) {
   
   # Layout
   fluidPage(
-    verbatimTextOutput(outputId = NS(id,"geneset")),
+    verbatimTextOutput(outputId = NS(id,"description_fc")),
     
     br(),
     

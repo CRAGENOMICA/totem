@@ -146,6 +146,7 @@ server<-function(input,output,session) {
                      y<-enrichment_resultsServer(id = "ui",
                                                  experiment_path = x$experiment_path(),
                                                  user_genelist = x$user_genelist(),
+                                                 user_description = x$user_description(),
                                                  fc_button = fc_button,
                                                  sc_button = sc_button)
                      
@@ -153,6 +154,7 @@ server<-function(input,output,session) {
                      # EXECUTE MODULE COLOR SVG
                      z<-colorSVG_Server(id = "ui",
                                        experiment_path = x$experiment_path(),
+                                       user_description = x$user_description(),
                                        experiment_id = x$experiment_id(),
                                        enrichment_values = y$enrichment_values())
                      
@@ -181,6 +183,7 @@ server<-function(input,output,session) {
 
                                     functional_characterizationServer("fc",
                                                                       experiment_path = x$experiment_path(),
+                                                                      user_description = x$user_description(),
                                                                       specie = x$specie(),
                                                                       gene_set = zz$gene_set(),
                                                                       tissue = zz$selected_tissue())
