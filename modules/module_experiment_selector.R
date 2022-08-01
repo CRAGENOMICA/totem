@@ -55,15 +55,14 @@ experiment_selectorUI <- function(id) {
     
     column(width = 8,offset = 0,
            
-           # Experiment details
-           ## Add a label on top of html box
-           tags$label(class = "control-label","Selected experiment details"),
+        # Experiment details
+        ## Add a label on top of html box
+        tags$label(class = "control-label","Selected experiment details"),
            
-           verbatimTextOutput(outputId = NS(id,"experiment_description"),placeholder = TRUE),
-               ## Text box with experiment description (HTML)
-               #htmlOutput(outputId = NS(id,"experiment_description"))
+        ## Text box with experiment description (HTML)
+        htmlOutput(outputId = NS(id,"experiment_description")),
                
-        
+        hr(),
         
         
         ## Output image
