@@ -115,10 +115,19 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_desc
           fc_button$func_char_tiss <- input$func_char_tiss #increment fc_button
         })
         
+        output$single_cell_atlas <- renderUI(expr = if(grepl("SingleCell", specie_experiment[3])){
+          actionButton(inputId = NS(id,"single_cell_atlas"), label = "Single cell atlas", align = "right")
+          
+        }
+        else{
+          NULL
+        })
+        
         ## single cell atlas button
         observeEvent(input$single_cell_atlas,{
           sc_button$single_cell_atlas <- input$single_cell_atlas #increment sc_button
         })
+        
         
         # RETURN ENRICHMENT VECTOR
         list(

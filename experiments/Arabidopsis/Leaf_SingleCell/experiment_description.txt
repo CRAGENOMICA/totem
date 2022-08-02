@@ -1,6 +1,6 @@
 Arabidopsis leaf with single cell RNAseq resolution.<br/>
 
-Leaf scRNAseq atlas constructed by integrating <a href=\"https://academic.oup.com/plcell/article/33/3/511/6067477">Kim et al., 2021</a> and <a href=\"https://www.sciencedirect.com/science/article/pii/S1534580721002112?via%3Dihub">Lopez-Anido et al., 2021</a> single-cell RNAseq datasets.<br/>
+Leaf scRNAseq atlas with 11413 cells constructed by integrating <a href=\"https://academic.oup.com/plcell/article/33/3/511/6067477">Kim et al., 2021</a> and <a href=\"https://www.sciencedirect.com/science/article/pii/S1534580721002112?via%3Dihub">Lopez-Anido et al., 2021</a> single-cell RNAseq datasets.<br/>
 
 Tissue identification with experimentally-tested marker genes and pseudotime analysis reveals 34 different cell populations in different developmental stages in the Arabidopsis leaves.<br/>
  
