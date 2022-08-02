@@ -19,16 +19,11 @@
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-functional_characterization<-function(input_genes, annotation_file, specie) {
+functional_characterization<-function(input_genes, annotation_file) {
   
   ### Return a table with the genes annotation
   if(length(input_genes) > 0){
-    if(specie == "Sorghum"){
-      table = subset(annotation_file, annotation_file$locusName_Version3 %in% input_genes)
-    }
-    else{
-      table = subset(annotation_file, annotation_file$locusName %in% input_genes)
-    }
+    table = subset(annotation_file, annotation_file$locusName %in% input_genes)
     return(table)
   }
   

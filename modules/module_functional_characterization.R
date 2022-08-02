@@ -38,20 +38,35 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     # Load annotation file of the selected specie
     annotation_file = read.delim(normalizePath(paste("./experiments",specie,"annotation_file.txt",sep = "/")),header = TRUE)
     source("./functions/functional_characterization.R")
-    annotation <- reactive(functional_characterization(input_genes=gene_set,
-                                                       annotation_file = annotation_file,
-                                                       specie = specie))
-    output$ann_table <- DT::renderDataTable({
-      if(is.null(gene_set)) return()
-      withProgress(
-        DT::datatable(annotation(),options = list(lengthMenu = c(3, 5, 10, 20, 50), pageLength = 3),rownames= FALSE),
-        message = "Retrieving annotation...")
-    })
+    annotation <- reactive({functional_characterization(input_genes=gene_set,
+                                                       annotation_file = annotation_file)})
+    
+    # Render table
+      output$ann_table = DT::renderDataTable({
+        if(is.null(gene_set)) return()
+        withProgress(
+          datatable(
+            annotation(), rownames = FALSE,
+            extensions = 'Buttons', # Use buttons extesion for colvis (column visualization) plugin
+            options = list(lengthMenu = c(3, 5, 10, 20, 50), pageLength = 3,
+                           dom = 'Bfrtip', 
+                           buttons = list(list(extend = 'colvis', text = "Select columns to display",
+                                               columns = c(3:(ncol(annotation_file)-1)))), ## column index start at 0 -> show only the first 3 columns
+                           columnDefs = list( list(targets = c(3:(ncol(annotation_file)-1)), visible = FALSE))) ## only the first 3 columns are visible by default
+          ),
+          message = "Retrieving annotation...")
+      })
+
+    
     # download table
+    filename_table = c(gsub(" ", "_", description, fixed = TRUE), # User description / Specie_Experiment
+                       gsub(" ", "", tissue, fixed = TRUE), #Tissue
+                       gsub(" ", "_", gsub(":",";",Sys.time()), fixed = TRUE) # Date (replace : by ; -> invalid filename)
+    )
     output$download_annotation <- downloadHandler(
-      filename = function(){"gene_set_functional_information.csv"},
+      filename = function(){paste(paste("AnnotationTable", filename_table[1], filename_table[2], filename_table[3], sep = "_"), "csv", sep = ".")},
       content = function(fname){
-        write.csv(annotation(), fname)
+        write.csv(annotation(), fname) ## The entire table is downloaded
       }
     )
     
@@ -112,11 +127,12 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     filename = c(gsub(" ", "_", description, fixed = TRUE), # User description / Specie_Experiment
                  "Plot",  #Plot -> to be replaced
                  gsub(" ", "", tissue, fixed = TRUE), #Tissue
+                 gsub("GO:","", input$select_ontology, fixed = TRUE), # ontology
                  gsub(" ", "_", gsub(":",";",Sys.time()), fixed = TRUE) # Date (replace : by ; -> invalid filename)
     )
     
     output$download_dotGO <- downloadHandler(filename = function(){
-      paste(paste("GOenrichmentDotPlot", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
+      paste(paste("GOenrichmentDotPlot", filename[1], filename[3], filename[4], filename[5], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)
@@ -126,7 +142,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     }, contentType = "image/png")
     
     output$download_netGO <- downloadHandler(filename = function(){
-      paste(paste("GOenrichmentNet", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
+      paste(paste("GOenrichmentNet", filename[1], filename[3], filename[4], filename[5], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)
@@ -136,7 +152,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     }, contentType = "image/png")
     
     output$download_heatGO <- downloadHandler(filename = function(){
-      paste(paste("GOenrichmentGenesNet", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
+      paste(paste("GenesGOenrichment", filename[1], filename[3], filename[4], filename[5], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)
@@ -146,7 +162,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     }, contentType = "image/png")
     
     output$download_dotKEGG <- downloadHandler(filename = function(){
-      paste(paste("KEGGpathwayDotPlot", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
+      paste(paste("KEGGpathwayDotPlot", filename[1], filename[3], "KEGG", filename[5], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)
@@ -156,7 +172,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     }, contentType = "image/png")
     
     output$download_heatKEGG <- downloadHandler(filename = function(){
-      paste(paste("GenesKEGGpathway", filename[1], filename[3], filename[4], sep = "_"), "png", sep = ".")
+      paste(paste("GenesKEGGpathway", filename[1], filename[3], "KEGG", filename[5], sep = "_"), "png", sep = ".")
     },
     content = function(file){
       png(file)

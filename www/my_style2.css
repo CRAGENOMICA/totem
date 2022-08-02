@@ -146,6 +146,21 @@ font-weight: bold
   font-size: 15px;
 }
 
+/* Button column visibility annotation table */
+.dt-button {
+  background: #E5F8F5 !important;
+}
+.dt-button.buttons-columnVisibility {
+  background: rgb(175, 172, 172) !important;
+  color: black !important;
+  opacity: 1;
+}
+.dt-button.buttons-columnVisibility.active {
+  background: #09C3A2 !important;
+  color: black !important;
+  opacity: 1;
+}
+
 /* verbatimtext gene lists scroll */
 #ui-genes_in_tissue{
   overflow-y:scroll; 

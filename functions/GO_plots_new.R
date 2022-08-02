@@ -94,8 +94,6 @@ netgenesGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjm
     org = "athaliana"
   }
 
-  print(genes)
-  print(org)
   if(length(genes)>2){ #only GO terms
     # use gost gprofiler function to calculate enrichment
     gostres <- gost(query = genes,
