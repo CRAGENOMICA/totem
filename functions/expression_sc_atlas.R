@@ -18,9 +18,6 @@
 ##
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-library(readr)
-library(ggplot2)
-
 plot_expression<- function(experiment_path, gene, color){
   
   # Load the umap info file

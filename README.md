@@ -16,6 +16,7 @@ R (>3.0.2)
 - gprofiler2
 - clusterProfiler
 - enrichplot
+- ggplot2
 
 
 ## NEXT (Meeting on 11/07/22
