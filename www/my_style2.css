@@ -134,13 +134,13 @@ font-weight: bold
   
 /* Buttons characterization */
 #ui-func_char_tiss{
-  display: inline-block;
+  display: inline;
   background: #42d549;
   color: black;
   font-size: 15px;
 }
-#ui-atlas{
-  display: inline-block;
+#ui-single_cell_atlas{
+  display: inline;
   background: #42d549;
   color: black;
   font-size: 15px;
@@ -197,7 +197,7 @@ font-weight: bold
   font-family: "Arial";
   text-align: center;
 }
-#x-geneset_sc{
+#sc-description_sc{
   width:100%; 
   margin-top:10px; 
   font-size: 15px;

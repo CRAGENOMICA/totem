@@ -115,8 +115,9 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_desc
           fc_button$func_char_tiss <- input$func_char_tiss #increment fc_button
         })
         
+        ## Single cell button -> only visible if the experiment is SingleCell 
         output$single_cell_atlas <- renderUI(expr = if(grepl("SingleCell", specie_experiment[3])){
-          actionButton(inputId = NS(id,"single_cell_atlas"), label = "Single cell atlas", align = "right")
+          actionButton(inputId = NS(id,"single_cell_atlas"), label = "Single cell atlas", align = "center")
           
         }
         else{

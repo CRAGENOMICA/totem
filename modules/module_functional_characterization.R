@@ -49,7 +49,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
             annotation(), rownames = FALSE,
             extensions = 'Buttons', # Use buttons extesion for colvis (column visualization) plugin
             options = list(lengthMenu = c(3, 5, 10, 20, 50), pageLength = 3,
-                           dom = 'Bfrtip', 
+                           dom = 'Blfrtip', 
                            buttons = list(list(extend = 'colvis', text = "Select columns to display",
                                                columns = c(3:(ncol(annotation_file)-1)))), ## column index start at 0 -> show only the first 3 columns
                            columnDefs = list( list(targets = c(3:(ncol(annotation_file)-1)), visible = FALSE))) ## only the first 3 columns are visible by default

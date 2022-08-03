@@ -198,10 +198,7 @@ server<-function(input,output,session) {
                      )
                      
                      #== PRESSING SINGLE CELL BUTTON -> it only works when a SingleCell experiment is selected, if not, it returns a warning
-                     
-                     observe({
-                       if(grepl("SingleCell",x$experiment_id())){
-                         observeEvent(sc_button$single_cell_atlas,
+                     observeEvent(sc_button$single_cell_atlas,
                                       {
                                         # Update the tabs menu and redirect to single cell page
                                         output$dynamic_tabs <- renderMenu({
@@ -219,27 +216,15 @@ server<-function(input,output,session) {
                                         
                                         
                                         single_cellServer(id="sc",
-                                                          experiment_path=x$experiment_path(),
+                                                          user_description = x$user_description(),
+                                                          experiment_id=x$experiment_id(),
                                                           specie = x$specie(),
                                                           gene_set = zz$gene_set(),
                                                           tissue = zz$selected_tissue())
-                                      }
-                                    )
-                       }
-                       else {
-                         observeEvent(sc_button$single_cell_atlas,
-                                      {
-                                        shinyalert(title = "SELECT A SINGLE CELL EXPERIMENT",
-                                                   text = "This experiment do not have single cell resolution.\n Please, select a single cell experiment in New search tab",
-                                                   type = "info",
-                                                   showCancelButton = T,showConfirmButton = F)
-                                      })
-                       }
+                                      
+                      
                      })
-                     
-                     
-                     
-                     
+
                  }
     )
     

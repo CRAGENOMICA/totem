@@ -15,22 +15,22 @@ single_cellUI <- function(id) {
   fluidPage(
     
     # In  this column, the complete atlas
-    column(5,
+    column(4,
+           # Description
+           # Here add the user experient ID
+           verbatimTextOutput(outputId = NS(id,"description_sc")),
+           hr(),
+           # Atlas
            imageOutput(outputId = NS(id,"umap_atlas"))
     ),
     
-    column(3,
-           verbatimTextOutput(outputId = NS(id,"geneset_sc")),
-           br(),
-           column(6,
-                  selectizeInput(
-                    inputId = NS(id,"gene_expr"),label = "Select a gene",
-                    choices = NULL,
-                    multiple = FALSE,
-                    width = "100%"),
+    column(4,
+           
+           column(8,
+                 uiOutput(outputId = NS(id, "geneset_sc")),
                   
            ),
-           column(6,
+           column(4,
                   selectInput(
                     inputId = NS(id,"color_expr"),label = "Select a color",
                     choices = c("darkblue", "darkred", "darkgreen"),
@@ -40,7 +40,7 @@ single_cellUI <- function(id) {
            ),
            column(12,
                   # downloadButton(outputId = "download_expr", label = "Download expression plot"),
-                  plotOutput(outputId = NS(id,"expr_umap"), width = "130%")
+                  plotOutput(outputId = NS(id,"expr_umap"), width = "100%")
            )
     ),
     
@@ -51,7 +51,7 @@ single_cellUI <- function(id) {
                DT::dataTableOutput(NS(id,'expr_table')),
            ),
            br(),
-           plotOutput(outputId = NS(id,"expr_umap_zoom"), width = "130%")
+           plotOutput(outputId = NS(id,"expr_umap_zoom"), width = "100%")
            
     )
     

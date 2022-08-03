@@ -144,7 +144,6 @@ experiment_selectorServer <- function(id) {
                          # CHeck: print(user_genelist)
                          # There is a problem when selecting sorghum genes -> Is in parse_input_function
                      })
-        
         # VALUES TO RETURN:
         list(
             submit=reactive({input$submit}),
