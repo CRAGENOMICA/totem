@@ -45,6 +45,7 @@ source("modules/module_single_cell_pageUI.R")
 source("modules/module_single_cell.R")
 source("modules/module_about.R")
 
+
 ui <- dashboardPage(
     
     # HEADER
@@ -60,7 +61,8 @@ ui <- dashboardPage(
             menuItem(text = "Home", tabName = "home", icon = icon("home",lib = "font-awesome")),
             menuItem(text = "New search",tabName = "new_search",icon = icon("database", lib = "font-awesome")),
             menuItem(text = "About",tabName = "about",icon = icon("info", lib = "font-awesome")),
-            sidebarMenuOutput(outputId = "dynamic_tabs")
+            sidebarMenuOutput(outputId = "dynamic_tabs"),
+            sidebarMenuOutput(outputId = "dynamic_tabs2") # 2nd tier of dynamics tabs
         )
     ),
     
@@ -126,7 +128,16 @@ server<-function(input,output,session) {
     
     #== NEW SEARCH TAB
     x<-experiment_selectorServer("x")
-
+    
+    ## Check if a single cell experiment is selected
+    observeEvent(x$experiment_id(), {
+        if (length(grep("SingleCell",x$experiment_id()))>0) {
+            single_cell_experiment<<-TRUE
+        } else {
+            single_cell_experiment<<-FALSE
+        }
+    })
+    
     #== PRESSING SUBMIT BUTTON:
     observeEvent(x$submit(),
                  {
@@ -134,11 +145,20 @@ server<-function(input,output,session) {
                      output$dynamic_tabs <- renderMenu({
                          sidebarMenu(
                              # Separator and identifier -> IF not description is provided, change for date-time
-                             h4("   Enrichment Results"),
-                             # Menu item
-                             menuItem(text = "Enrichment results",tabName = "results",icon = icon("seedling", lib = "font-awesome"))
+                             hr(),
+                             h4("   "),
+                             h4("   "),
+                             # Menu item results
+                             menuItem(text = "Enrichment results",tabName = "results",icon = icon("seedling", lib = "font-awesome")),
+                             
+                             # Menu item single cell atlas (need to put if statement)
+                             if (single_cell_experiment) {
+                                 menuItem(text = "Single Cell Atlas",tabName = "sc_atlas",icon = icon("chart-scatter", lib = "font-awesome"))
+                                 
+                             }
                          )
                      })
+                     
                      # Move to Enrichment Results tab
                      updateTabItems(session = session,
                                     inputId = "tabs",
@@ -176,10 +196,12 @@ server<-function(input,output,session) {
                      observeEvent(fc_button$func_char_tiss,
                                   {
                                     # Update the tabs menu and redirect to funct. char. page
-                                    output$dynamic_tabs <- renderMenu({
+                                    output$dynamic_tabs2 <- renderMenu({
                                       sidebarMenu(
                                         # Separator and identifier -> IF not description is provided, change for date-time
-                                        h4("   Functional characterization"),
+                                        hr(),
+                                        h4("   "),
+                                        h4("   "),
                                         # Menu item
                                         menuItem(text = "Functional characterization",tabName = "functional_char",icon = icon("table", lib = "font-awesome"))
                                       )
@@ -229,6 +251,8 @@ server<-function(input,output,session) {
                  }
     )
     
+    #== PRESSING SINGLE CELL ATLAS
+    # Execute single cell here module here!
     
     #== PRESSING NEW SEARCH AGAIN
     previous_experiment <<-FALSE
@@ -266,6 +290,8 @@ server<-function(input,output,session) {
     })
     
     #== PRESSING NEW SEARCH AGAIN
+    
+    # HEre module resetting everything
     
     #== PRESSING ABOUT BUTTON
     aboutServer("ab")
