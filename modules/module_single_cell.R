@@ -17,14 +17,14 @@ single_cellServer<-function(id,user_description,experiment_id,specie,gene_set,ti
     ## Save the experiment description provided by the user. If not provided, save experiment ID and date for file name in downloads
     if(user_description == "Enter a description for your gene list (optional)"){
       # description<<-"CHANGE"
-      description<<-as.character(paste(specie, experiment_id, "experiment", sep = " "))
+      description_exp<<-as.character(paste(specie, experiment_id, "experiment", sep = " "))
     }
     else(
-      description<<-as.character(user_description)
+      description_exp<<-as.character(user_description)
     )
     # Selected tissue information
     output$description_sc<-renderText({
-      return(paste("Single cell expression of genes enriched in", tissue, "cell population \n", description, sep = " "))
+      return(paste("Single cell expression of genes enriched in", tissue, "cell population \n", description_exp, sep = " "))
     })
     
     # First column: atlas plot

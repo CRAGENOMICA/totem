@@ -45,10 +45,10 @@ colorSVG_Server <- function(id, experiment_path, user_description, experiment_id
         specie_experiment = strsplit(strsplit(experiment_path, "experiments")[[1]][2], "\\", fixed=T)[[1]]
         if(user_description == "Enter a description for your gene list (optional)"){
           # description<<-"CHANGE"
-          description<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
+          description_exp<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
         }
         else(
-          description<<-as.character(user_description)
+          description_exp<<-as.character(user_description)
         )
         
         # LOAD AN R DATA
@@ -86,7 +86,7 @@ colorSVG_Server <- function(id, experiment_path, user_description, experiment_id
         
         ## Download button for SVG
         #filename
-        filename = c(gsub(" ", "_", description, fixed = TRUE), # User description / Specie_Experiment
+        filename = c(gsub(" ", "_", description_exp, fixed = TRUE), # User description / Specie_Experiment
                      "Plot",  #Plot -> to be replaced
                      gsub(" ", "_", gsub(":",";",Sys.time()), fixed = TRUE) # Date (replace : by ; -> invalid filename)
         )

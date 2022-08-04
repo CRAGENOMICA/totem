@@ -22,14 +22,14 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     if(user_description == "Enter a description for your gene list (optional)"){
       # description<<-"CHANGE"
       specie_experiment = strsplit(strsplit(experiment_path, "experiments")[[1]][2], "\\", fixed=T)[[1]]
-      description<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
+      description_exp<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
     }
     else(
-      description<<-as.character(user_description)
+      description_exp<<-as.character(user_description)
     )
     # Selected tissue information
     output$description_fc<-renderText({
-      return(paste("Characterization of genes enriched in", tissue, "cell population \n", description, sep = " "))
+      return(paste("Characterization of genes enriched in", tissue, "cell population \n", description_exp, sep = " "))
     })
     
     
@@ -59,7 +59,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
 
     
     # download table
-    filename_table = c(gsub(" ", "_", description, fixed = TRUE), # User description / Specie_Experiment
+    filename_table = c(gsub(" ", "_", description_exp, fixed = TRUE), # User description / Specie_Experiment
                        gsub(" ", "", tissue, fixed = TRUE), #Tissue
                        gsub(" ", "_", gsub(":",";",Sys.time()), fixed = TRUE) # Date (replace : by ; -> invalid filename)
     )
@@ -124,7 +124,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     
     # Download button for plots
     ##Filename
-    filename = c(gsub(" ", "_", description, fixed = TRUE), # User description / Specie_Experiment
+    filename = c(gsub(" ", "_", description_exp, fixed = TRUE), # User description / Specie_Experiment
                  "Plot",  #Plot -> to be replaced
                  gsub(" ", "", tissue, fixed = TRUE), #Tissue
                  gsub("GO:","", input$select_ontology, fixed = TRUE), # ontology

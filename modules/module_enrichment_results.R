@@ -38,17 +38,19 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_desc
           # USER DESCRIPTION
           ## Save the experiment description provided by the user. If not provided, save experiment ID and date for file name in downloads
           specie_experiment = strsplit(strsplit(experiment_path, "experiments")[[1]][2], "\\", fixed=T)[[1]]
+          print(specie_experiment)
           if(user_description == "Enter a description for your gene list (optional)"){
+            print(as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " ")))
             # description<<-"CHANGE"
-            description<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
+            description_exp<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
           }
           else(
-            description<<-as.character(user_description)
+            description_exp<<-as.character(user_description)
           )
   
         # add user provided description
         output$description <- renderText({
-          return(description)
+          return(description_exp)
         })
         
         # LOAD AN R DATA
@@ -96,7 +98,7 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_desc
         
         ## Download button for barplot
         #filename
-        filename = c(gsub(" ", "_", description, fixed = TRUE), # User description / Specie_Experiment
+        filename = c(gsub(" ", "_", description_exp, fixed = TRUE), # User description / Specie_Experiment
                      "Plot",  #Plot -> to be replaced
                      gsub(" ", "_", gsub(":",";",Sys.time()), fixed = TRUE) # Date (replace : by ; -> invalid filename)
         )
