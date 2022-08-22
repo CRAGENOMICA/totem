@@ -173,8 +173,10 @@ server<-function(input,output,session) {
                      ## Calculate enrichments
                      y<-enrichment_resultsServer(id = "ui",
                                                  experiment_path = x$experiment_path(),
-                                                 user_genelist = x$user_genelist(),
                                                  user_description = x$user_description(),
+                                                 experiment_id = x$experiment_id(),
+                                                 specie = x$specie(),
+                                                 user_genelist = x$user_genelist(),
                                                  fc_button = fc_button,
                                                  sc_button = sc_button)
                      
@@ -184,6 +186,7 @@ server<-function(input,output,session) {
                                        experiment_path = x$experiment_path(),
                                        user_description = x$user_description(),
                                        experiment_id = x$experiment_id(),
+                                       specie = x$specie(),
                                        enrichment_values = y$enrichment_values())
                      
                      # Module gene classifier
@@ -214,6 +217,7 @@ server<-function(input,output,session) {
                                     functional_characterizationServer("fc",
                                                                       experiment_path = x$experiment_path(),
                                                                       user_description = x$user_description(),
+                                                                      experiment_id = x$experiment_id(),
                                                                       specie = x$specie(),
                                                                       gene_set = zz$gene_set(),
                                                                       tissue = zz$selected_tissue())
@@ -239,6 +243,7 @@ server<-function(input,output,session) {
                                         
                                         
                                         single_cellServer(id="sc",
+                                                          experiment_path = x$experiment_path(),
                                                           user_description = x$user_description(),
                                                           experiment_id=x$experiment_id(),
                                                           specie = x$specie(),

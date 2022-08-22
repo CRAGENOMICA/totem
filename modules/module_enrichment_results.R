@@ -31,25 +31,23 @@ enrichment_resultsUI <- function(id) {
     )
 }
 
-enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_description,fc_button,sc_button) {
+enrichment_resultsServer <- function(id, experiment_path,user_description,experiment_id,specie,user_genelist,fc_button,sc_button) {
     
     moduleServer(id, function(input,output,session) {
       
           # USER DESCRIPTION
           ## Save the experiment description provided by the user. If not provided, save experiment ID and date for file name in downloads
-          specie_experiment = strsplit(strsplit(experiment_path, "experiments")[[1]][2], "\\", fixed=T)[[1]]
-          print(specie_experiment)
           if(user_description == "Enter a description for your gene list (optional)"){
-            print(as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " ")))
             # description<<-"CHANGE"
-            description_exp<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
+            description_exp<-paste(specie, experiment_id, "experiment \n", Sys.time(),
+                                                 sep = " ")
           }
           else(
-            description_exp<<-as.character(user_description)
+            description_exp<-user_description
           )
   
         # add user provided description
-        output$description <- renderText({
+        output$description_exp <- renderText({
           return(description_exp)
         })
         
@@ -72,7 +70,7 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_desc
                              beside = TRUE,cex.names = 0.6,las=2,
                              ylab = "-log(p-value)",
                              ylim = c(0,ceiling(max(enrichment_values_internal))),
-                             main = paste(specie_experiment[2], specie_experiment[3], "enrichment results", sep = " "),
+                             main = paste(specie, experiment_id, "enrichment results", sep = " "),
                              col = input$color_barplot
                 )
                 
@@ -98,14 +96,12 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_desc
         
         ## Download button for barplot
         #filename
-        filename = c(gsub(" ", "_", description_exp, fixed = TRUE), # User description / Specie_Experiment
-                     "Plot",  #Plot -> to be replaced
-                     gsub(" ", "_", gsub(":",";",Sys.time()), fixed = TRUE) # Date (replace : by ; -> invalid filename)
+        filename = c(gsub(" ", "_", gsub(":",".",description_exp), fixed = TRUE) # User description / Specie_Experiment / Date (replace : by ; -> invalid filename)
         )
         #download button
         output$download_barplot <- downloadHandler(
         filename = function(){
-          paste(paste("EnrichmentBarplot", filename[1], filename[3], sep = "_"), "png", sep = ".")
+          paste(paste("EnrichmentBarplot", filename, sep = "_"), "png", sep = ".")
         },
         content = function(file) {
           file.copy("enrichment_result_barplot.png", file)
@@ -118,7 +114,7 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_desc
         })
         
         ## Single cell button -> only visible if the experiment is SingleCell 
-        output$single_cell_atlas <- renderUI(expr = if(grepl("SingleCell", specie_experiment[3])){
+        output$single_cell_atlas <- renderUI(expr = if(grepl("SingleCell", experiment_id)){
           actionButton(inputId = NS(id,"single_cell_atlas"), label = "Single cell atlas", align = "center")
           
         }
@@ -140,3 +136,4 @@ enrichment_resultsServer <- function(id, experiment_path,user_genelist,user_desc
     
     
 }
+

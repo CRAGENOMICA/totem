@@ -179,7 +179,7 @@ font-weight: bold
 }
 
 /* Title (verbatim) of result and functional charac tab */
-#ui-description{
+#ui-description_exp{
   width:100%; 
   margin-top:10px; 
   font-size: 15px;

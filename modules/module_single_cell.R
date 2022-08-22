@@ -7,20 +7,17 @@
 # Server module for single cell atlas
 # single cell tab
 
-single_cellServer<-function(id,user_description,experiment_id,specie,gene_set,tissue){
+single_cellServer<-function(id,experiment_path,user_description,experiment_id,specie,gene_set,tissue){
   moduleServer(id, function(input, output, session){
-    
-    ## Creation experiment path
-    experiment_path = paste("./experiments", specie, experiment_id, sep = "/")
     
     # USER DESCRIPTION
     ## Save the experiment description provided by the user. If not provided, save experiment ID and date for file name in downloads
     if(user_description == "Enter a description for your gene list (optional)"){
       # description<<-"CHANGE"
-      description_exp<<-as.character(paste(specie, experiment_id, "experiment", sep = " "))
+      description_exp<-paste(specie, experiment_id, "experiment", Sys.time(), sep = " ")
     }
     else(
-      description_exp<<-as.character(user_description)
+      description_exp<-user_description
     )
     # Selected tissue information
     output$description_sc<-renderText({
@@ -82,3 +79,35 @@ single_cellServer<-function(id,user_description,experiment_id,specie,gene_set,ti
     
   })
 }
+
+# # Testing purposes:
+# setwd("C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenòmica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM_actual/shinyTOTEM")
+# x<-"./experiments/Arabidopsis/Root_SingleCell"
+# z<-c("AT2G41650\nAT4G39400\nAT1G04560\nAT1G65484\nAT2G21400\nAT5G59310\nAT5G02020")
+# sp = "Arabidopsis"
+# y = "Root_SingleCell"
+# desc<-"Enter a description for your gene list (optional)"
+# tissue = "CC_B"
+# 
+# 
+# single_cellApp <- function(id) {
+# 
+#   ui <- fluidPage(
+#     single_cellUI("sc")
+#   )
+# 
+#   server<-function(input,output,session) {
+# 
+#     single_cellServer("sc",
+#                       experiment_path = x,
+#                       user_description = desc,
+#                       experiment_id = y,
+#                       specie = sp,
+#                       gene_set = z,
+#                       tissue = tissue)
+#   }
+# 
+#   shinyApp(ui, server)
+# }
+# single_cellApp()
+

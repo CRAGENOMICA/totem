@@ -36,20 +36,20 @@ colorSVG_UI <- function(id) {
     )
 }
 
-colorSVG_Server <- function(id, experiment_path, user_description, experiment_id, enrichment_values) {
+colorSVG_Server <- function(id, experiment_path, user_description, experiment_id, specie, enrichment_values) {
     
     moduleServer(id, function(input,output,session) {
       
-        # USER DESCRIPTION
-        ## Save the experiment description provided by the user. If not provided, save experiment ID and date for file name in downloads
-        specie_experiment = strsplit(strsplit(experiment_path, "experiments")[[1]][2], "\\", fixed=T)[[1]]
-        if(user_description == "Enter a description for your gene list (optional)"){
-          # description<<-"CHANGE"
-          description_exp<<-as.character(paste(specie_experiment[2], specie_experiment[3], "experiment", sep = " "))
-        }
-        else(
-          description_exp<<-as.character(user_description)
-        )
+      # USER DESCRIPTION
+      ## Save the experiment description provided by the user. If not provided, save experiment ID and date for file name in downloads
+      if(user_description == "Enter a description for your gene list (optional)"){
+        # description<<-"CHANGE"
+        description_exp<-paste(specie, experiment_id, "experiment \n", Sys.time(),
+                               sep = " ")
+      }
+      else(
+        description_exp<-user_description
+      )
         
         # LOAD AN R DATA
         load(paste(experiment_path,"data.RData",sep = "/"))
@@ -86,14 +86,12 @@ colorSVG_Server <- function(id, experiment_path, user_description, experiment_id
         
         ## Download button for SVG
         #filename
-        filename = c(gsub(" ", "_", description_exp, fixed = TRUE), # User description / Specie_Experiment
-                     "Plot",  #Plot -> to be replaced
-                     gsub(" ", "_", gsub(":",";",Sys.time()), fixed = TRUE) # Date (replace : by ; -> invalid filename)
+        filename = c(gsub(" ", "_", gsub(":",".", description_exp), fixed = TRUE) # User description / Specie_Experiment / Date (replace : by ; -> invalid filename)
         )
         #download button
         output$download_colored_svg <- downloadHandler(
         filename = function(){
-          paste(paste("EnrichmentColoredSVGimage", filename[1], filename[3], sep = "_"), "png", sep = ".")
+          paste(paste("EnrichmentColoredSVGimage", filename, sep = "_"), "png", sep = ".")
         },
         content = function(file) {
           file.copy("colored_svg.png", file)

@@ -89,31 +89,3 @@ functional_characterizationUI <- function(id) {
   )
 }
 
-
-# x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenomica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM/experiments/Arabidopsis/Root_SingleCell"
-# y<-c("AT2G41650\nAT4G39400\nAT1G04560\nAT1G65484\nAT2G21400\nAT5G59310\nAT5G02020")
-# z = "Arabidopsis"
-# tissue = "CC_B"
-# 
-# # load(paste(x,"data.RData",sep = "/"))
-# 
-# functional_characterizationApp <- function(id) {
-#   
-#   ui <- fluidPage(
-#     functional_characterizationUI("fc")
-#   )
-#   
-#   server<-function(input,output,session) {
-#     
-#     source("modules/module_functional_characterization.R")
-#     
-#     functional_characterizationServer("fc",
-#                                       experiment_path = x,
-#                                       specie = z,
-#                                       gene_set = y,
-#                                       tissue = tissue)
-#   }
-#   
-#   shinyApp(ui, server)
-# }
-# functional_characterizationApp()
