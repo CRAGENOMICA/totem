@@ -49,7 +49,8 @@ experiment_selectorUI <- function(id) {
                      label = "Clear"),
         
         # Calculate enrichment button
-        actionButton(inputId = NS(id,"submit"),
+        ## This one is not gonna be specific of the namespace!!
+        actionButton(inputId = "submit",
                      label = "Calculate enrichment")
     ),
     

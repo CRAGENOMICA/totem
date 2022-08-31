@@ -50,7 +50,7 @@ colorSVG_Server <- function(id, experiment_path, user_description, experiment_id
       else(
         description_exp<-user_description
       )
-        
+       
         # LOAD AN R DATA
         load(paste(experiment_path,"data.RData",sep = "/"))
         
@@ -62,7 +62,7 @@ colorSVG_Server <- function(id, experiment_path, user_description, experiment_id
         ## Color svg acording to color input
         source("./functions/generate_color_scale.R")
         source("./functions/color_svg.R")
-        observeEvent(input$color_svg, {
+        observeEvent(input$color_svg,{
             # Generate color scale
             colors<-generate_color_scale(input = svg_enrich_values,
                                          color = input$color_svg)

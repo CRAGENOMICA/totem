@@ -78,7 +78,6 @@ enrichment_pageUI <- function(id) {
                           actionButton(inputId = NS(id,"func_char_tiss"), label = "Functional characterization", align = "center")
                           ),
                    column(6,
-                         uiOutput(outputId = NS(id,"single_cell_atlas"))
                          )
                ),
                
@@ -108,7 +107,7 @@ enrichment_pageUI <- function(id) {
 
 
 # ## App function
-# # setwd("C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenòmica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM_actual/shinyTOTEM")
+# # setwd("C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigen?mica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM_actual/shinyTOTEM")
 # # Testing purposes:
 # if (exists("testing")) {
 #     # x<-"/home/flozano/OneDrive/PROJECTS/4_TOTEM/shiny_totem/shinyTOTEM/experiments/Arabidopsis/Root_longitudinal_patterns_Brady2007"

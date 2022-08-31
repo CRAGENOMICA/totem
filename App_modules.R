@@ -46,14 +46,15 @@ source("modules/module_single_cell.R")
 source("modules/module_about.R")
 
 
+# == UI PART ====
 ui <- dashboardPage(
     
-    # HEADER
+    #= HEADER ====
     dashboardHeader(title = tags$img(alt="TOTEM Logo", src="totem_banner_trans.png",
                                      height="100%", width="100%", align="left")
     ),
     
-    # SIDEBAR
+    #= SIDEBAR ====
     dashboardSidebar(
         # Dynamic Sidebar menu
         sidebarMenu(
@@ -61,12 +62,14 @@ ui <- dashboardPage(
             menuItem(text = "Home", tabName = "home", icon = icon("home",lib = "font-awesome")),
             menuItem(text = "New search",tabName = "new_search",icon = icon("database", lib = "font-awesome")),
             menuItem(text = "About",tabName = "about",icon = icon("info", lib = "font-awesome")),
+            # 1st tier of dynamic tabs:
             sidebarMenuOutput(outputId = "dynamic_tabs"),
-            sidebarMenuOutput(outputId = "dynamic_tabs2") # 2nd tier of dynamics tabs
+            # 2nd tier of dynamic tabs:
+            sidebarMenuOutput(outputId = "dynamic_tabs2")
         )
     ),
     
-    # BODY
+    #= BODY ====
     dashboardBody(
         # Include the custom styling
         tags$head(
@@ -109,7 +112,7 @@ ui <- dashboardPage(
                     ),
             
             #== SINGLE CELL TAB
-            tabItem(tabName = "single_cell",
+            tabItem(tabName = "sc_atlas",
                     
                     single_cellUI("sc")
                     
@@ -124,22 +127,36 @@ ui <- dashboardPage(
         )
     )
 
+
+
+#= SERVER PART ====
+
 server<-function(input,output,session) {
     
-    #== NEW SEARCH TAB
-    x<-experiment_selectorServer("x")
+    #== NEW SEARCH TAB ====
     
-    ## Check if a single cell experiment is selected
-    observeEvent(x$experiment_id(), {
-        if (length(grep("SingleCell",x$experiment_id()))>0) {
-            single_cell_experiment<<-TRUE
-        } else {
-            single_cell_experiment<<-FALSE
+    observeEvent(input$tabs, {
+        
+        if (input$tabs == "new_search") {
+            
+            # Execute module experiment selector (every time back in new search page)
+            # Take out from the observer. Within this module, the input$submit is ourside its namespace
+            x<<-experiment_selectorServer("x")
+            
+            ## Check if a single cell experiment is selected
+            observeEvent(x$experiment_id(), {
+                if (length(grep("SingleCell",x$experiment_id()))>0) {
+                    single_cell_experiment<<-TRUE
+                } else {
+                    single_cell_experiment<<-FALSE
+                }
+            })
         }
     })
     
-    #== PRESSING SUBMIT BUTTON:
-    observeEvent(x$submit(),
+    
+    #== PRESSING SUBMIT BUTTON ====
+    observeEvent(input$submit,
                  {
                      # Update the tabs menu and redirect to results page
                      output$dynamic_tabs <- renderMenu({
@@ -153,7 +170,7 @@ server<-function(input,output,session) {
                              
                              # Menu item single cell atlas (need to put if statement)
                              if (single_cell_experiment) {
-                                 menuItem(text = "Single Cell Atlas",tabName = "sc_atlas",icon = icon("chart-scatter", lib = "font-awesome"))
+                                 menuItem(text = "Single Cell Atlas",tabName = "sc_atlas",icon = icon("braille", lib = "font-awesome"))
                                  
                              }
                          )
@@ -195,7 +212,7 @@ server<-function(input,output,session) {
                                            user_genelist = x$user_genelist())
                      
                      
-                     #== PRESSING FUNCTIONAL CHARACTERIZATION BUTTON
+                     #== PRESSING FUNCTIONAL CHARACTERIZATION BUTTON ====
                      observeEvent(fc_button$func_char_tiss,
                                   {
                                     # Update the tabs menu and redirect to funct. char. page
@@ -224,41 +241,33 @@ server<-function(input,output,session) {
                                   }
                      )
                      
-                     #== PRESSING SINGLE CELL BUTTON -> it only works when a SingleCell experiment is selected, if not, it returns a warning
-                     observeEvent(sc_button$single_cell_atlas,
-                                      {
-                                        # Update the tabs menu and redirect to single cell page
-                                        output$dynamic_tabs <- renderMenu({
-                                          sidebarMenu(
-                                            # Separator and identifier -> IF not description is provided, change for date-time
-                                            h4("   Single cell atlas"),
-                                            # Menu item
-                                            menuItem(text = "Single cell atlas",tabName = "single_cell",icon = icon("bar-chart-o", lib = "font-awesome"))
-                                          )
-                                        })
-                                        # Move to single cell tab
-                                        updateTabItems(session = session,
-                                                       inputId = "tabs",
-                                                       selected = "single_cell")
-                                        
-                                        
-                                        single_cellServer(id="sc",
-                                                          experiment_path = x$experiment_path(),
-                                                          user_description = x$user_description(),
-                                                          experiment_id=x$experiment_id(),
-                                                          specie = x$specie(),
-                                                          gene_set = zz$gene_set(),
-                                                          tissue = zz$selected_tissue())
-                                      
-                      
-                     })
-
                  }
     )
     
-    #== PRESSING SINGLE CELL ATLAS
+    #== PRESSING SINGLE CELL ATLAS TAB ====
+    observeEvent(input$tabs, {
+                     
+                     if (input$tabs == "sc_atlas") {
+                         
+                         # Move to Functional characterization tab
+                         updateTabItems(session = session,
+                                        inputId = "tabs",
+                                        selected = "sc_atlas")
+                         
+                         single_cellServer(id="sc",
+                                           experiment_path = x$experiment_path(),
+                                           user_description = x$user_description(),
+                                           experiment_id=x$experiment_id(),
+                                           specie = x$specie(),
+                                           gene_set = zz$gene_set(),
+                                           tissue = zz$selected_tissue())
+                     }
+    })
+                         
+                         
     
-    #== PRESSING NEW SEARCH AGAIN
+    
+    #== PRESSING NEW SEARCH AGAIN ====
     
     # Delete all previous variables
     existing_experiment <<-FALSE
@@ -294,11 +303,8 @@ server<-function(input,output,session) {
                                removeTab(inputId = "tabs",target = "functional_char",session=session)
                                output$dynamic_tabs2 = NULL
                                
-                               # Reset all variables (generated in modules)
-                               ## Experiment_path, experiment_id
-                               x$experiment_path<<-NULL
-                               ## Path
-                               ## Description
+                               ## Erase generated PNGs (optional)
+                               unlink("./*.png")
                                ## Reset indicator
                                existing_experiment <<- FALSE
                                
@@ -308,11 +314,8 @@ server<-function(input,output,session) {
         }
     })
     
-    #== PRESSING NEW SEARCH AGAIN
-    
-    # HEre module resetting everything
-    
-    #== PRESSING ABOUT BUTTON
+
+    #== PRESSING ABOUT BUTTON  ====
     aboutServer("ab")
 }
 
