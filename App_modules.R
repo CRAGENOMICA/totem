@@ -257,18 +257,21 @@ server<-function(input,output,session) {
     )
     
     #== PRESSING SINGLE CELL ATLAS
-    # Execute single cell here module here!
     
     #== PRESSING NEW SEARCH AGAIN
-    previous_experiment <<-FALSE
+    
+    # Delete all previous variables
+    existing_experiment <<-FALSE
+    
     observeEvent(input$tabs, {
         
         if (input$tabs == "results") {
             
-            previous_experiment <<-TRUE
+            existing_experiment <<-TRUE
             
-        } else if (previous_experiment == TRUE & input$tabs == "new_search") {
+        } else if (existing_experiment == TRUE & input$tabs == "new_search") {
             
+            # Raise alert
             shinyalert(title = "NEW SEARCH",
                        text = "Runing a new search will discard current results\n Do you want to continue?",
                        type = "warning",
@@ -280,14 +283,25 @@ server<-function(input,output,session) {
                                               inputId = "tabs",
                                               selected = "results")
                            } else {
-                               
-                               removeTab(inputId = "tabs",target = "results",session = session)
-                               
+                              # Update tab to new search
                                updateTabItems(session = session,
                                               inputId = "tabs",
                                               selected = "new_search")
+                               # Remove generate tabs
+                               removeTab(inputId = "tabs",target = "results",session=session)
+                               removeTab(inputId = "tabs",target = "single_cell",session=session)
+                               output$dynamic_tabs = NULL
+                               removeTab(inputId = "tabs",target = "functional_char",session=session)
+                               output$dynamic_tabs2 = NULL
                                
-                               previous_experiment <<- FALSE
+                               # Reset all variables (generated in modules)
+                               ## Experiment_path, experiment_id
+                               x$experiment_path<<-NULL
+                               ## Path
+                               ## Description
+                               ## Reset indicator
+                               existing_experiment <<- FALSE
+                               
                            }
                        }
             )
