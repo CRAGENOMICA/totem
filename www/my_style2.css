@@ -1,4 +1,9 @@
-
+.wrapper{
+height:100%;
+position:relative;
+overflow-x:hidden;
+overflow-y:hidden
+}
 
 .main-header {
   max-height: 70px
