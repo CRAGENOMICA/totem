@@ -185,7 +185,6 @@ server<-function(input,output,session) {
                      
                      ## Create reactiveValues for functional characterization and single cell buttons
                      fc_button <- reactiveValues(func_char_tiss = NULL) # initialise reactiveValues
-                     sc_button <- reactiveValues(single_cell_atlas = NULL) # initialise reactiveValues
                      
                      ## Calculate enrichments
                      y<-enrichment_resultsServer(id = "ui",
@@ -194,8 +193,8 @@ server<-function(input,output,session) {
                                                  experiment_id = x$experiment_id(),
                                                  specie = x$specie(),
                                                  user_genelist = x$user_genelist(),
-                                                 fc_button = fc_button,
-                                                 sc_button = sc_button)
+                                                 fc_button = fc_button
+                                                 )
                      
                   
                      # EXECUTE MODULE COLOR SVG
@@ -207,7 +206,7 @@ server<-function(input,output,session) {
                                        enrichment_values = y$enrichment_values())
                      
                      # Module gene classifier
-                     zz<-gene_classifierServer(id = "ui",
+                     zz<<-gene_classifierServer(id = "ui",
                                            experiment_path = x$experiment_path(),
                                            user_genelist = x$user_genelist())
                      
@@ -259,8 +258,8 @@ server<-function(input,output,session) {
                                            user_description = x$user_description(),
                                            experiment_id=x$experiment_id(),
                                            specie = x$specie(),
-                                           gene_set = zz$gene_set(),
-                                           tissue = zz$selected_tissue())
+                                           gene_set = x$user_genelist()
+                                           )
                      }
     })
                          

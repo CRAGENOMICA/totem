@@ -117,7 +117,7 @@
 }
 
 /* Button enrichment */
-#x-submit{
+#submit{
 display: inline-block;
 background: #42d549;
 color: black;
@@ -134,12 +134,6 @@ font-weight: bold
   
 /* Buttons characterization */
 #ui-func_char_tiss{
-  display: inline;
-  background: #42d549;
-  color: black;
-  font-size: 15px;
-}
-#ui-single_cell_atlas{
   display: inline;
   background: #42d549;
   color: black;
@@ -175,6 +169,16 @@ font-weight: bold
 #ui-not_found{
   overflow-y:scroll; 
   height: 70px; 
+  background: ghostwhite;
+}
+#sc-not_enriched{
+  overflow-y:scroll; 
+  height: 200px; 
+  background: ghostwhite;
+}
+#sc-not_found{
+  overflow-y:scroll; 
+  height: 200px; 
   background: ghostwhite;
 }
 

@@ -31,7 +31,7 @@ enrichment_resultsUI <- function(id) {
     )
 }
 
-enrichment_resultsServer <- function(id, experiment_path,user_description,experiment_id,specie,user_genelist,fc_button,sc_button) {
+enrichment_resultsServer <- function(id, experiment_path,user_description,experiment_id,specie,user_genelist,fc_button) { 
     
     moduleServer(id, function(input,output,session) {
       
@@ -39,8 +39,7 @@ enrichment_resultsServer <- function(id, experiment_path,user_description,experi
           ## Save the experiment description provided by the user. If not provided, save experiment ID and date for file name in downloads
           if(user_description == "Enter a description for your gene list (optional)"){
             # description<<-"CHANGE"
-            description_exp<-paste(specie, experiment_id, "experiment \n", Sys.time(),
-                                                 sep = " ")
+            description_exp<-paste(specie, experiment_id, "experiment \n", Sys.time(),sep = " ")
           }
           else(
             description_exp<-user_description
@@ -112,21 +111,6 @@ enrichment_resultsServer <- function(id, experiment_path,user_description,experi
         observeEvent(input$func_char_tiss,{
           fc_button$func_char_tiss <- input$func_char_tiss #increment fc_button
         })
-        
-        ## Single cell button -> only visible if the experiment is SingleCell 
-        output$single_cell_atlas <- renderUI(expr = if(grepl("SingleCell", experiment_id)){
-          actionButton(inputId = NS(id,"single_cell_atlas"), label = "Single cell atlas", align = "center")
-          
-        }
-        else{
-          NULL
-        })
-        
-        ## single cell atlas button
-        observeEvent(input$single_cell_atlas,{
-          sc_button$single_cell_atlas <- input$single_cell_atlas #increment sc_button
-        })
-        
         
         # RETURN ENRICHMENT VECTOR
         list(
