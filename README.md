@@ -30,5 +30,8 @@ Task 1.5. Veredas: UI of single cell module
 Task 1.6. Fidel: Dynamics tabs (single cell)
 
 Task 2. Deploy App (Gonzalo)
+Task 2.1 Fork to cragenomica/totem
+Task 2.2 Create path /totem-data to reach /projects/115-acanolab/totem-data
+Task 2.3 Install self-hosted action runner.
 
 Task 3. Write Paper 
