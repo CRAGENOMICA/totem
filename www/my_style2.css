@@ -47,7 +47,7 @@ overflow-y:hidden
 
 /* Font size sidebar */
 .main-sidebar { 
-  font-size: 15px;
+  font-size:18px;
   font-weight: bold;
   width: 250px;
 }
@@ -126,7 +126,7 @@ overflow-y:hidden
 display: inline-block;
 background: #42d549;
 color: black;
-font-size: 15px;
+font-size: 18px;
 font-weight: bold
 }
 /* Button Clear */
@@ -134,7 +134,7 @@ font-weight: bold
   display: inline-block;
   background: rgb(204, 202, 202);
   color: black;
-  font-size: 15px;
+  font-size: 18px;
   }
   
 /* Buttons characterization */
@@ -142,7 +142,7 @@ font-weight: bold
   display: inline;
   background: #42d549;
   color: black;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 /* Button column visibility annotation table */
@@ -191,27 +191,27 @@ font-weight: bold
 #ui-description_exp{
   width:100%; 
   margin-top:10px; 
-  font-size: 15px;
+  font-size: 20px;
   font-style: bold;
-  background: white;
+  background: #96EF9B;
   font-family: "Arial";
   text-align: center;
 }
 #fc-description_fc{
   width:100%; 
   margin-top:10px; 
-  font-size: 15px;
+  font-size: 20px;
   font-style: bold;
-  background: white;
+  background: #96EF9B;
   font-family: "Arial";
   text-align: center;
 }
 #sc-description_sc{
   width:100%; 
   margin-top:10px; 
-  font-size: 15px;
+  font-size: 20px;
   font-style: bold;
-  background: white;
+  background: #96EF9B;
   font-family: "Arial";
   text-align: center;
 }
@@ -220,7 +220,7 @@ font-weight: bold
 .tabbable > .nav > li > a{
 background-color: #E5F8F5;
 color: black;
-font-size: 14px;
+font-size: 15px;
 }
 
 /* tabpanel selection */
@@ -242,4 +242,12 @@ border-color: #007A66;
 }
 
 
+/* text area input font size */
 
+#x-user_genelist {
+  font-size: 18px;
+}
+
+#x-user_description {
+  font-size: 18px;
+}

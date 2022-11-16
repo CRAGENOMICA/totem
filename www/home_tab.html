@@ -1,0 +1,127 @@
+<head>
+  <style>
+    h2 {
+      text-align: center;
+      font-style: bold;
+      color: black;
+      font-size: 25px;
+    }
+
+    .homebox {
+      width: 100%;
+      border: 10px solid green;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    #start_search{
+      background: #42d549;
+      color: black;
+      font-size: 18px;
+      font-weight: bold
+    }
+
+    #more_info{
+      background: #42d549;
+      color: black;
+      font-size: 18px;
+      font-weight: bold
+    }
+    
+  </style>
+</head>
+
+
+<div class="container">
+  <div class="cuerpo">
+
+    <div id="images">
+      <center>
+        <img src="totem_banner_trans.png" width="80%" class="center">
+      </center>
+    </div>
+
+    <h2><strong>Welcome to TOTEM web tool</strong></h2>
+
+    <div class="space"></div>
+    <p>
+      <center>
+      TOTEM is a web tool designed to provide spatio-temporal information on gene lists, 
+      contributing to their functional characterization. It calculates enrichment 
+      values per tissue based on a user-provided gene list and a reference gene 
+      expression atlas.
+      <br>
+      TOTEM depicts enrichment values in a diagram of the chosen 
+      organism and identifies tissue-specific genes from user's list.
+      <br>
+      Single-cell resolution expression of the user-provided gene list is also available 
+      in TOTEM.
+    </center>
+    </p>
+    <div class="space"></div>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
+      </ol>
+      <!-- Slides -->
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="images/exps_home.png" alt="1">
+            <div class="carousel-caption">
+              <h1>Looking for spatio-temporal information of a set of genes?</h1>
+              <p>Use the provided experiments or send us your experiment of interest</p>
+            </div>
+        </div>
+        <div class="item">
+          <img src="images/result_home.png" alt="2">
+            <div class="carousel-caption">
+              <h1>Check gene over-representation in specific tissues</h1>
+              <p>Tissue enrichment is easily interpretable through diagrams and barplots</p>
+            </div>
+        </div>
+        <div class="item">
+          <img src="images/funct_home.png" alt="3">
+            <div class="carousel-caption">
+              <h1>Functional characterization of tissue-specific genes</h1>
+              <p>Characterize tissue-specific genes checking their annotations and performing GO enrichment analysis</p>
+            </div>
+        </div>
+        <div class="item">
+          <img src="images/sc_home.png" alt="4">
+            <div class="carousel-caption">
+              <h1>Single cell atlas</h1>
+              <p>Visualize gene expression with the highest single cell resolution</p>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-5 col-sm-offset-1">
+        <div class="homebox">
+          <center>
+            <h3><strong>Ready to get started?</strong></h3>
+            <div class="space"></div>
+            <button class="btn action-button" type='button' id="start_search" color="red">Start!</button>
+          </center>
+        </div>
+      </div>
+
+      <div class="col-sm-5">
+        <div class="homebox">
+          <center>
+            <h3><strong>How to use TOTEM</strong></h3>
+            <div class="space"></div>
+            <button class="btn action-button" type='button' id="more_info">More info</button>
+          </center>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
