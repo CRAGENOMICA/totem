@@ -61,7 +61,7 @@ gene_classifierServer <- function(id, experiment_path,user_genelist) {
                       geneuniverse = geneuniverse)
         })
         
-        # return list of tissue specific genes and tissue for functionl char and single cell tabs
+        # return list of tissue specific genes and tissue for functional char and single cell tabs
         list(
           gene_set = reactive({genes_tissue}),
           selected_tissue = reactive({selected_tissue})

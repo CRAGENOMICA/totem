@@ -31,7 +31,7 @@ functional_characterizationUI <- function(id) {
     
     column(12,
            box(title = "Gene Ontology analysis of selected genes",solidHeader=FALSE, collapsible=TRUE,width = 12,
-               style = "width: 100%;height: 60em;",
+               style = "width: 100%;height: 55em;",
                sidebarLayout(
                  # side panel for GO parameters reactive inputs
                  sidebarPanel(width = 3,
@@ -62,25 +62,39 @@ functional_characterizationUI <- function(id) {
                             tabsetPanel(type = "tabs",
                                         tabPanel("Dotplot: GO terms", 
                                                  br(),
-                                                 downloadButton(outputId = NS(id,"download_dotGO"), label = "Download GO term plot"),
-                                                 plotOutput(outputId = NS(id,"dotGO"), width = "100%")),
+                                                 column(8,
+                                                        plotOutput(outputId = NS(id,"dotGO"), width = "100%")),
+                                                 column(4,
+                                                        downloadButton(outputId = NS(id,"download_dotGO"), label = "Download GO term plot"))),
+                                      
+                                        
                                         tabPanel("Net: GO terms", 
                                                  br(),
-                                                 downloadButton(outputId = NS(id,"download_netGO"), label = "Download GO term net"),
-                                                 plotOutput(outputId = NS(id,"netGO"), width = "100%")),
+                                                 column(8,
+                                                        plotOutput(outputId = NS(id,"netGO"), width = "100%")),
+                                                 column(4,
+                                                        downloadButton(outputId = NS(id,"download_netGO"), label = "Download GO term net"))),
+                                        
                                         tabPanel("Genes related to GO terms", 
                                                  br(),
-                                                 downloadButton(outputId = NS(id,"download_heatGO"), label = "Download GO term genes"),
-                                                 plotOutput(outputId = NS(id,"heatGO"), width = "100%")),
+                                                 column(8,
+                                                        plotOutput(outputId = NS(id,"heatGO"), width = "100%")),
+                                                 column(4,
+                                                        downloadButton(outputId = NS(id,"download_heatGO"), label = "Download GO term genes"))),
+                                        
                                         tabPanel("Dotplot: KEGG pathways", 
                                                  br(),
-                                                 downloadButton(outputId = NS(id,"download_dotKEGG"), label = "Download KEGG pathway plot"),
-                                                 plotOutput(outputId = NS(id,"dotKEGG"), width = "100%")),
+                                                 column(8,
+                                                        plotOutput(outputId = NS(id,"dotKEGG"), width = "100%")),
+                                                 column(4,
+                                                        downloadButton(outputId = NS(id,"download_dotKEGG"), label = "Download KEGG pathway plot"))),
+                                        
                                         tabPanel("Genes related to KEGG pathways", 
                                                  br(),
-                                                 downloadButton(outputId = NS(id,"download_heatKEGG"), label = "Download KEGG pathway genes"),
-                                                 plotOutput(outputId = NS(id,"heatKEGG"), width = "100%"))
-                                        
+                                                 column(8,
+                                                        plotOutput(outputId = NS(id,"heatKEGG"), width = "100%")),
+                                                 column(4,
+                                                        downloadButton(outputId = NS(id,"download_heatKEGG"), label = "Download KEGG pathway genes")))
                             )
                  )
                )

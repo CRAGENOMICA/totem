@@ -73,8 +73,8 @@ enrichment_resultsServer <- function(id, experiment_path,user_description,experi
                              col = input$color_barplot
                 )
                 
-                # Add significative threshold line:
-                abline(h=3,lty=2,col="tomato")
+                # Add significative threshold line in 0.05 pval:
+                abline(h=(-log10(0.05)),lty=2,col="tomato")
                 
                 # Close devidce and save png image
                 dev.off()

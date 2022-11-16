@@ -32,9 +32,15 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
         filename <- normalizePath(paste(experiment_path,"/UMAP_CellPopulationColor.png",sep = "/"))
         list(src=filename,
              width="100%",
-             height="200%")
+             height="300%")
       }, deleteFile = FALSE
     )
+    
+    getPage<-function() {
+      return(includeHTML("./www/3D.html"))
+    }
+    output$threeD<-renderUI({getPage()})
+    
     
     # Second column: select a gene to check where is expressed
     load(paste(experiment_path,"data.RData",sep = "/"))
@@ -83,12 +89,13 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
       withProgress(
         tryCatch( # avoid error text
           { plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[2]] }, #Generate plot
-          error = function(e) {""}),message = "Plotting single cell atlas...")},width=600,height=600)
+          error = function(e) {""}),message = "Plotting single cell atlas...")
+        },width=600,height=600)
     
       # Third column: specific expression values
       output$expr_table <- DT::renderDataTable({
         DT::datatable(plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[1]],
-                      options = list(lengthMenu = c(3,5,10), pageLength = 3),rownames = FALSE,)
+                      options = list(lengthMenu = c(3,5,10), pageLength = 6),rownames = FALSE)
       })
       output$expr_umap_zoom <- renderPlot({
         s = input$expr_table_rows_selected
@@ -99,7 +106,7 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
           return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
                    text(x = 0.5, y = 0.5, paste("Click over a row to check \n tissue-specific expression"), cex = 1.6, col = "black"))
         }
-      },width=600,height=600)
+      },width=500,height=600)
       
     })
 
@@ -136,5 +143,5 @@ single_cellApp <- function(id) {
 
   shinyApp(ui, server)
 }
-single_cellApp()
+# single_cellApp()
 

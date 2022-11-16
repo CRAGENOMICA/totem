@@ -46,9 +46,16 @@ tissue_enrichment<-function(user_genelist, tissue_atlas, geneuniverse) {
     myvector<-c(myvector,fisher.test(mytable,alternative = "greater")$p.value) # Alternative = greater because the scope is to detect overepresentation of tissue-specific genes in the user gene list
   }
   
+  # In general, the probability of making at least 1 false positive while performing m hypothesis test is approximated by 1-(1-alpha)^m 
+  # --> when 200 genes are the input and alpha = 0.05, this probability is 0.9999649. So, for TOTEM, when more than 200 genes are used, the p-value must be corrected
+  cat(length(user_genelist))
+  if(length(user_genelist)>200){
+    myvector = p.adjust(myvector, method = "fdr")
+  }
+  
   # Add tissue names to myvector
   names(myvector)<-names(tissue_atlas)
   
   # Return the -log transformed pvalue vector
-  return(-log(myvector))
+  return(-log10(myvector))
 }

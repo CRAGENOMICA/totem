@@ -99,27 +99,27 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
       withProgress(
         tryCatch( # avoid error text
           { dotGO() }, #Generate plot
-          error = function(e) {""}),message = "Plotting...")},width=600,height=600)
+          error = function(e) {""}),message = "Plotting...")},width=600,height=800)
     output$netGO <- renderPlot({
       withProgress(
         tryCatch( # avoid error text
           { netGO() }, #Generate plot
-          error = function(e) {""}),message = "Plotting...")},width=1000, height=600)
+          error = function(e) {""}),message = "Plotting...")},width=1000, height=800)
     output$heatGO <- renderPlot({
       withProgress(
         tryCatch( # avoid error text
           { heatGO() }, #Generate plot
-          error = function(e) {""}),message = "Plotting...")},width=1000,height=600)
+          error = function(e) {""}),message = "Plotting...")},width=1000,height=800)
     output$dotKEGG <- renderPlot({
       withProgress(
         tryCatch( # avoid error text
           { dotKEGG() }, #Generate plot
-          error = function(e) {""}),message = "Plotting...")},width=600,height=600)
+          error = function(e) {""}),message = "Plotting...")},width=600,height=800)
     output$heatKEGG <- renderPlot({
       withProgress(
         tryCatch( # avoid error text
           { heatKEGG() }, #Generate plot
-          error = function(e) {""}),message = "Plotting...")},width=1000,height=600)
+          error = function(e) {""}),message = "Plotting...")},width=1000,height=800)
     
     ontology = ""
     observeEvent(input$select_ontology,{

@@ -21,10 +21,10 @@
 plot_expression<- function(experiment_path, gene, color){
   
   # Load the umap info file
-  umap = read.table(paste0(experiment_path, "/UMAP_coordinates.txt"))
+  umap = read.table((paste("./experiments/Arabidopsis/Root_SingleCell", "UMAP_coordinates.txt", sep = "/")))
   
   # Read gene .gz file. It contains the expression values of all cells with > 0.1 expression 
-  my_data <- read.table(paste0(experiment_path, "/genes/", gene, ".gz"), row.names = 1)
+  my_data <- read.table((paste("./experiments/Arabidopsis/Root_SingleCell", paste("genes", paste0(gene, ".gz"), sep = "/"), sep = "/")), row.names = 1)
   my_data[,1] = as.double(my_data[,1])
   
   #get the UMAP coordinates of cells expressing the selected gene
@@ -35,12 +35,12 @@ plot_expression<- function(experiment_path, gene, color){
   for(i in 1:length(unique(df$CellPopulation))){
     pop = unique(df$CellPopulation)[i]
     if(i == 1){
-      df_final = cbind(data.frame(CellPopulation = unique(pop), Cells = nrow(subset(df, df$CellPopulation == pop))), 
+      df_final = cbind(data.frame(CellPopulation = unique(pop), Num.Cells = nrow(subset(df, df$CellPopulation == pop))), 
                        t(data.frame(unclass(summary(subset(df, df$CellPopulation == pop)$Expression, digits=4)), check.names = FALSE, stringsAsFactors = FALSE)))
     }
     else{
       df_final = rbind(df_final, 
-                       cbind(data.frame(CellPopulation = unique(pop), Cells = nrow(subset(df, df$CellPopulation == pop))), 
+                       cbind(data.frame(CellPopulation = unique(pop), Num.Cells = nrow(subset(df, df$CellPopulation == pop))), 
                              t(data.frame(unclass(summary(subset(df, df$CellPopulation == pop)$Expression, digits=4)), check.names = FALSE, stringsAsFactors = FALSE))))
     }
   }
@@ -63,10 +63,10 @@ plot_expression<- function(experiment_path, gene, color){
 plot_expression_population<- function(experiment_path, gene, color, cellpopulation){
   
   # Load the umap info file
-  umap = read.table(paste0(experiment_path, "/UMAP_coordinates.txt"))
+  umap = read.table((paste("./experiments/Arabidopsis/Root_SingleCell", "UMAP_coordinates.txt", sep = "/")))
   
   # Read gene .gz file. It contains the expression values of all cells with > 0.1 expression 
-  my_data <- read.table(paste0(experiment_path, "/genes/", gene, ".gz"), row.names = 1)
+  my_data <- read.table((paste("./experiments/Arabidopsis/Root_SingleCell", paste("genes", paste0(gene, ".gz"), sep = "/"), sep = "/")), row.names = 1)
   my_data[,1] = as.double(my_data[,1])
   
   #get the UMAP coordinates of cells expressing the selected gene
@@ -77,12 +77,12 @@ plot_expression_population<- function(experiment_path, gene, color, cellpopulati
   for(i in 1:length(unique(df$CellPopulation))){
     pop = unique(df$CellPopulation)[i]
     if(i == 1){
-      df_final = cbind(data.frame(CellPopulation = unique(pop), Cells = nrow(subset(df, df$CellPopulation == pop))), 
+      df_final = cbind(data.frame(CellPopulation = unique(pop), Num.Cells = nrow(subset(df, df$CellPopulation == pop))), 
                        t(data.frame(unclass(summary(subset(df, df$CellPopulation == pop)$Expression, digits=4)), check.names = FALSE, stringsAsFactors = FALSE)))
     }
     else{
       df_final = rbind(df_final, 
-                       cbind(data.frame(CellPopulation = unique(pop), Cells = nrow(subset(df, df$CellPopulation == pop))), 
+                       cbind(data.frame(CellPopulation = unique(pop), Num.Cells = nrow(subset(df, df$CellPopulation == pop))), 
                              t(data.frame(unclass(summary(subset(df, df$CellPopulation == pop)$Expression, digits=4)), check.names = FALSE, stringsAsFactors = FALSE))))
     }
   }
