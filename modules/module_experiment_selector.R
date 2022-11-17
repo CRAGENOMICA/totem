@@ -21,7 +21,7 @@ experiment_selectorUI <- function(id) {
              inputId = NS(id,"specie"),
              label = "Select specie",
              choices = list.dirs(path = normalizePath("./experiments"), full.names = FALSE, recursive = FALSE),
-             selected = "Arabidopsis",
+             selected = "Arabidopsis thaliana",
              multiple = FALSE,
              width = "100%"),
            
@@ -103,10 +103,14 @@ experiment_selectorServer <- function(id) {
       experiment_path<<-normalizePath(paste("./experiments",input$specie,input$experiment_id,sep = "/"))
       
       ## Text box with description of the experiment
-      output$experiment_description <- renderText({
-        description <- readLines(normalizePath(paste(experiment_path,"experiment_description.txt",sep = "/")))
-        HTML(description)
-      })
+      # output$experiment_description <- renderText({
+      #   description <- readLines(normalizePath(paste(experiment_path,"experiment_description.txt",sep = "/")))
+      #   HTML(description)
+      # })
+      getPage<-function() {
+        return(includeHTML(normalizePath(paste(experiment_path,"experiment_description.html",sep = "/"))))
+      }
+      output$experiment_description<-renderUI({getPage()})
       
       ## Blank Image
       

@@ -5,7 +5,7 @@
    viewBox="0 0 210 297"
    id="svg3368"
    version="1.1"
-   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
    sodipodi:docname="Root_SingleCell.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -24,23 +24,25 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.0773684"
-     inkscape:cx="360.60089"
-     inkscape:cy="835.36885"
-     inkscape:current-layer="layer2"
+     inkscape:zoom="1.6290957"
+     inkscape:cx="360.32261"
+     inkscape:cy="46.037812"
+     inkscape:current-layer="labels_cross_section"
      showgrid="false"
-     inkscape:window-width="1014"
-     inkscape:window-height="943"
-     inkscape:window-x="21"
-     inkscape:window-y="62"
-     inkscape:window-maximized="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
      objecttolerance="1"
      inkscape:snap-global="false"
      gridtolerance="10.0"
      guidetolerance="10.0"
-     inkscape:pagecheckerboard="0" />
+     inkscape:pagecheckerboard="0"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1" />
   <g
      inkscape:groupmode="layer"
      id="layer2"
@@ -190,148 +192,6 @@
            x="118.41581"
            id="tspan2408-5"
            sodipodi:role="line">10µm</tspan></text>
-    </g>
-    <g
-       id="labels_cross_section"
-       inkscape:export-xdpi="399"
-       inkscape:export-ydpi="399"
-       style="fill:none">
-      <text
-         id="text7307"
-         y="112.78017"
-         x="176.91064"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:0.32598901"
-         xml:space="preserve"><tspan
-           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
-           y="112.78017"
-           x="176.91064"
-           id="tspan7305"
-           sodipodi:role="line">Epidermis</tspan></text>
-      <text
-         id="text7311"
-         y="105.44735"
-         x="177.00989"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:0.32598901"
-         xml:space="preserve"><tspan
-           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
-           y="105.44735"
-           x="177.00989"
-           id="tspan7309"
-           sodipodi:role="line">Cortex</tspan></text>
-      <text
-         id="text7315"
-         y="98.246178"
-         x="176.91147"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
-         xml:space="preserve"><tspan
-           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
-           y="98.246178"
-           x="176.91147"
-           id="tspan7313"
-           sodipodi:role="line">Endodermis</tspan></text>
-      <text
-         id="text7319"
-         y="90.601944"
-         x="176.90689"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
-         xml:space="preserve"><tspan
-           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
-           y="90.601944"
-           x="176.90689"
-           id="tspan7317"
-           sodipodi:role="line">Pericycle</tspan></text>
-      <text
-         id="text7323"
-         y="28.372765"
-         x="176.845"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
-         xml:space="preserve"><tspan
-           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
-           y="28.372765"
-           x="176.845"
-           id="tspan7321"
-           sodipodi:role="line">Metaxylem</tspan></text>
-      <text
-         id="text7327"
-         y="35.153587"
-         x="176.88498"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
-         xml:space="preserve"><tspan
-           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
-           y="35.153587"
-           x="176.88498"
-           id="tspan7325"
-           sodipodi:role="line">Protoxylem</tspan></text>
-      <text
-         id="text7331"
-         y="22.412771"
-         x="176.91969"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
-         xml:space="preserve"><tspan
-           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
-           y="22.412771"
-           x="176.91969"
-           id="tspan7329"
-           sodipodi:role="line">Procambium</tspan></text>
-      <text
-         id="text7335"
-         y="16.066116"
-         x="176.88931"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
-         xml:space="preserve"><tspan
-           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
-           y="16.066116"
-           x="176.88931"
-           id="tspan7333"
-           sodipodi:role="line">Phloem</tspan></text>
-      <path
-         sodipodi:nodetypes="ccc"
-         inkscape:connector-curvature="0"
-         id="path7005"
-         d="m 154.18648,63.444861 14.55897,25.68833 7.1902,0.0726"
-         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="ccc"
-         inkscape:connector-curvature="0"
-         id="path7007"
-         d="M 150.44755,58.430777 165.57612,27.24259 176.00138,27.21691"
-         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="ccc"
-         inkscape:connector-curvature="0"
-         id="path7009"
-         d="m 153.84978,60.975532 14.87504,-27.041653 7.27656,-0.01503"
-         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="ccc"
-         inkscape:connector-curvature="0"
-         id="path7015"
-         d="m 150.10488,55.899758 12.96298,-34.865016 12.85649,-0.134619"
-         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="ccc"
-         inkscape:connector-curvature="0"
-         id="path7017"
-         d="m 146.13741,60.825108 12.2052,-45.856606 17.55606,-0.05135"
-         style="display:inline;opacity:1;fill:none;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866287, 0.10866286999999999;stroke-dashoffset:0;stroke-opacity:0.94117647" />
-      <path
-         sodipodi:nodetypes="ccc"
-         inkscape:connector-curvature="0"
-         id="path6997"
-         d="m 142.4378,79.965762 15.88548,31.170728 h 17.61237"
-         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="ccc"
-         inkscape:connector-curvature="0"
-         id="path7001"
-         d="m 144.51316,71.91278 18.45833,32.08569 12.96416,-0.0239"
-         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
-      <path
-         sodipodi:nodetypes="ccc"
-         inkscape:connector-curvature="0"
-         id="path7003"
-         d="m 152.13587,68.683173 13.48655,27.957868 10.31323,0.0488"
-         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
     </g>
     <g
        id="lignin_in_xylem_vessels"
@@ -5666,6 +5526,148 @@
          id="path4258"
          d="m 41.406934,85.57457 -1.597823,0.145263 -0.43577,0.290501 -0.07263,3.631429 -0.145254,0.653644 -1.525197,0.145263 -0.363141,0.290513 -0.363142,3.994561 -0.653656,7.190206 -0.145257,0.39945 -0.544711,8.53384 -0.10894,1.96096 -0.07263,2.61462 0.03631,0.36315 0.472084,-0.10892 4.212445,0.0726 0.07263,0.0726 0.363142,-0.21788 0.03631,-3.81299 v -1.0168 l 0.290514,-1.5615 0.544711,-7.22653 -0.155457,-6.961158 0.07014,-2.363218 0.09838,-1.443838 0.09589,-5.46422 z"
          style="fill:none;stroke:#ececec;stroke-width:0.0869303;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="labels_cross_section"
+       inkscape:export-xdpi="399"
+       inkscape:export-ydpi="399"
+       style="fill:none">
+      <text
+         id="text7307"
+         y="112.78017"
+         x="176.91064"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:0.32598901"
+         xml:space="preserve"><tspan
+           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
+           y="112.78017"
+           x="176.91064"
+           id="tspan7305"
+           sodipodi:role="line">Epidermis</tspan></text>
+      <text
+         id="text7311"
+         y="105.44735"
+         x="177.00989"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:0.32598901"
+         xml:space="preserve"><tspan
+           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
+           y="105.44735"
+           x="177.00989"
+           id="tspan7309"
+           sodipodi:role="line">Cortex</tspan></text>
+      <text
+         id="text7315"
+         y="98.246178"
+         x="176.91147"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
+         xml:space="preserve"><tspan
+           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
+           y="98.246178"
+           x="176.91147"
+           id="tspan7313"
+           sodipodi:role="line">Endodermis</tspan></text>
+      <text
+         id="text7319"
+         y="90.601944"
+         x="176.90689"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
+         xml:space="preserve"><tspan
+           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
+           y="90.601944"
+           x="176.90689"
+           id="tspan7317"
+           sodipodi:role="line">Pericycle</tspan></text>
+      <text
+         id="text7323"
+         y="28.372765"
+         x="176.845"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
+         xml:space="preserve"><tspan
+           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
+           y="28.372765"
+           x="176.845"
+           id="tspan7321"
+           sodipodi:role="line">Metaxylem</tspan></text>
+      <text
+         id="text7327"
+         y="35.153587"
+         x="176.88498"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
+         xml:space="preserve"><tspan
+           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
+           y="35.153587"
+           x="176.88498"
+           id="tspan7325"
+           sodipodi:role="line">Protoxylem</tspan></text>
+      <text
+         id="text7331"
+         y="22.412771"
+         x="176.91969"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
+         xml:space="preserve"><tspan
+           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
+           y="22.412771"
+           x="176.91969"
+           id="tspan7329"
+           sodipodi:role="line">Procambium</tspan></text>
+      <text
+         id="text7335"
+         y="16.066116"
+         x="176.88931"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901;"
+         xml:space="preserve"><tspan
+           style="font-size:3.52778006px;fill:#000000;stroke-width:0.32598901;"
+           y="16.066116"
+           x="176.88931"
+           id="tspan7333"
+           sodipodi:role="line">Phloem</tspan></text>
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path7005"
+         d="m 154.18648,63.444861 14.55897,25.68833 7.1902,0.0726"
+         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path7007"
+         d="M 150.44755,58.430777 165.57612,27.24259 176.00138,27.21691"
+         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path7009"
+         d="m 153.84978,60.975532 14.87504,-27.041653 7.27656,-0.01503"
+         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path7015"
+         d="m 150.10488,55.899758 12.96298,-34.865016 12.85649,-0.134619"
+         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path7017"
+         d="m 146.13741,60.825108 12.2052,-45.856606 17.55606,-0.05135"
+         style="display:inline;opacity:1;fill:none;fill-opacity:1;stroke:#4d4d4d;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866287, 0.10866286999999999;stroke-dashoffset:0;stroke-opacity:0.94117647" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path6997"
+         d="m 142.4378,79.965762 15.88548,31.170728 h 17.61237"
+         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path7001"
+         d="m 144.51316,71.91278 18.45833,32.08569 12.96416,-0.0239"
+         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="ccc"
+         inkscape:connector-curvature="0"
+         id="path7003"
+         d="m 152.13587,68.683173 13.48655,27.957868 10.31323,0.0488"
+         style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
     </g>
   </g>
   <metadata

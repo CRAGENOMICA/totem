@@ -1,8 +1,0 @@
-Arabidopsis root with single cell RNAseq resolution.<br/>
-
-Root scRNAseq atlas with 154005 cells constructed by integrating <a href=\"https://www.sciencedirect.com/science/article/pii/S1534580719301455?via%3Dihub\">Denyer et al., 2019</a>;<a href=\"https://academic.oup.com/plcell/article/31/5/993/5985623?login=true\">Jean Baptiste et al., 2019</a>;<a href=\"https://www.sciencedirect.com/science/article/pii/S2211124719305273?via%3Dihub\">Shulse et al., 2019</a>;<a href=\"https://academic.oup.com/plphys/article/179/4/1444/6116601\">Ryu et al., 2019</a>;<a href=\"https://www.science.org/doi/10.1126/science.aay4970?url_ver=Z39.88-2003&rfr_id=ori:rid:crossref.org&rfr_dat=cr_pub%20%200pubmed\">Wendrich et al., 2020</a> and <a href=\"https://www.sciencedirect.com/science/article/pii/S1534580722000338\">Shahan et al., 2022</a>
-datasets.<br/>
-
-Tissue identification with experimentally-tested marker genes and pseudotime analysis reveals 43 different cell populations in the Arabidopsis root.<br/>
- 
-A gene is cell population-enriched if its expression is at least the double comparing the rest of the cell populations, if it is expressed in at least the 25% of all cells in the atlas, if its p-value is less than 0,01 and if its log2 fold change is higher than 1. 
