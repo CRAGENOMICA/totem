@@ -65,7 +65,10 @@ colorSVG_Server <- function(id, experiment_path, user_description, experiment_id
         observeEvent(input$color_svg,{
             # Generate color scale
             colors<-generate_color_scale(input = svg_enrich_values,
-                                         color = input$color_svg)
+                                         color = input$color_svg, 
+                                         normalized=FALSE)
+            # Genrate legend
+            
             # Color_svg
             color_svg(input_svg=normalizePath(paste(experiment_path,paste(experiment_id,"svg",sep="."),sep = "/")),
                       tissue_colors=colors,
@@ -81,6 +84,13 @@ colorSVG_Server <- function(id, experiment_path, user_description, experiment_id
                          height="100%")
                 }, deleteFile = FALSE
             )
+            output$legend <- renderImage({
+              # read legend image
+              filename <- normalizePath("legend_svg.png")
+              list(src=filename,
+                   width="50%",
+                   height="8%")
+            }, deleteFile = FALSE)
             
         })
         

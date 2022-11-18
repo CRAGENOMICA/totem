@@ -48,7 +48,6 @@ tissue_enrichment<-function(user_genelist, tissue_atlas, geneuniverse) {
   
   # In general, the probability of making at least 1 false positive while performing m hypothesis test is approximated by 1-(1-alpha)^m 
   # --> when 200 genes are the input and alpha = 0.05, this probability is 0.9999649. So, for TOTEM, when more than 200 genes are used, the p-value must be corrected
-  cat(length(user_genelist))
   if(length(user_genelist)>200){
     myvector = p.adjust(myvector, method = "fdr")
   }

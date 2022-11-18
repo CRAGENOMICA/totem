@@ -62,19 +62,19 @@ enrichment_resultsServer <- function(id, experiment_path,user_description,experi
         observeEvent(input$color_barplot, {
                 
                 # Output file
-                png("./enrichment_result_barplot.png",height = 18,width = 18,units = "cm",res=400)
-                par(mar=c(11,4,4,4))
+                png("./enrichment_result_barplot.png",height = 20,width = 18,units = "cm",res=400)
+                par(mar=c(4,11,4,4))
                 # Barplot
                 bar<-barplot(height = enrichment_values_internal,
-                             beside = TRUE,cex.names = 0.6,las=2,
-                             ylab = "-log(p-value)",
-                             ylim = c(0,ceiling(max(enrichment_values_internal))),
-                             main = paste(specie, experiment_id, "enrichment results", sep = " "),
+                             beside = TRUE,cex.names = 0.6,las=1,horiz=T,
+                             xlab = "-log(p-value enrichment)",
+                             xlim = c(0,ceiling(max(enrichment_values_internal))),
+                             main = paste(specie, paste(strsplit(experiment_id, "_")[[1]],collapse=" "), "enrichment results", sep = " "),
                              col = input$color_barplot
                 )
                 
                 # Add significative threshold line in 0.05 pval:
-                abline(h=(-log10(0.05)),lty=2,col="tomato")
+                abline(v=(-log10(0.05)),lty=2,col="tomato")
                 
                 # Close devidce and save png image
                 dev.off()
@@ -86,7 +86,7 @@ enrichment_resultsServer <- function(id, experiment_path,user_description,experi
                         filename <-normalizePath("./enrichment_result_barplot.png")
                         list(src=filename,
                              width="70%",
-                             height="70%")
+                             height="80%")
                     }, deleteFile = FALSE
                 )
                 

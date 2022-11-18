@@ -31,6 +31,7 @@ library(gprofiler2)
 library(clusterProfiler)
 library(enrichplot)
 library(ggplot2)
+library(viridis)
 
 source("modules/module_experiment_selector.R")
 source("modules/module_enrichment_results.R")

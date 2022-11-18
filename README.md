@@ -17,7 +17,7 @@ R (>3.0.2)
 - clusterProfiler
 - enrichplot
 - ggplot2
-
+- viridis
 
 ## NEXT (Meeting on 11/07/22
 
