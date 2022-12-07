@@ -9,7 +9,7 @@
 ## Date Created: 2022-05-25
 ##
 ## Copyright (c) Fidel Lozano, 2022
-## Email: fidel.lozano@cragenomica.es
+## Email: fidel.lozano@cragenomica.es / veredas.coleto@cragenomica.es
 ##
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 ##
@@ -52,7 +52,7 @@ ui <- dashboardPage(
   dashboardHeader(
     title = tags$img(
       alt = "TOTEM Logo",
-      src = "totem_banner_name.png",
+      src = "totem_banner_name_2.png",
       height = "100%",
       width = "100%",
       align = "left"
@@ -61,6 +61,7 @@ ui <- dashboardPage(
   
   #= SIDEBAR ====
   dashboardSidebar(
+    br(),
     # Dynamic Sidebar menu
     sidebarMenu(
       id = "tabs",
@@ -147,27 +148,52 @@ ui <- dashboardPage(
       #== NEW SEARCH TAB
       tabItem(tabName = "new_search",
               
-              experiment_selectorUI("x")),
+              experiment_selectorUI("x"),
+              div(
+                class = "footer",
+                includeHTML("www/footer.html")
+              )
+              ),
       
       #== RESULTS TAB
       tabItem(tabName = "results",
               
-              enrichment_pageUI("ui")),
+              enrichment_pageUI("ui"),
+              div(
+                class = "footer",
+                includeHTML("www/footer.html")
+              )
+              ),
       
       #== FUNCTIONAL CHARACTERIZATION TAB
       tabItem(tabName = "functional_char",
               
-              functional_characterizationUI("fc")),
+              functional_characterizationUI("fc"),
+              div(
+                class = "footer",
+                includeHTML("www/footer.html")
+              )
+              ),
       
       #== SINGLE CELL TAB
       tabItem(tabName = "sc_atlas",
               
-              single_cellUI("sc")),
+              single_cellUI("sc"),
+              div(
+                class = "footer",
+                includeHTML("www/footer.html")
+              )),
       
       #== ABOUT TAB
       tabItem(tabName = "about",
               
-              aboutUI("ab"))
+              aboutUI("ab"),
+              div(
+                class = "footer",
+                includeHTML("www/footer.html")
+              )
+              )
+      
     )
   )
 )

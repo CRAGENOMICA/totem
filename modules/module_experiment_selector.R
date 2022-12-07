@@ -38,11 +38,13 @@ experiment_selectorUI <- function(id) {
            
            ## User gene list
            textAreaInput(inputId = NS(id,"user_genelist"),
-                         label = "Gene list",
+                         label = "Gene list (*)",
                          value = "",
                          rows = 20,
                          width = "100%"
            ),
+           
+           h4("(*) Lists separated by enter, tab, comma or semicolon format are admitted"),
            
            #Clear gene list button
            actionButton(inputId = NS(id,"clear"),
@@ -135,7 +137,7 @@ experiment_selectorServer <- function(id) {
       example_genes<-read.delim(normalizePath(paste("./experiments",input$specie,"example_genes.txt",sep = "/")),header = FALSE)
       updateTextAreaInput(session = session,
                           inputId = "user_genelist",
-                          label = "Gene list",
+                          label = "Gene list (*)",
                           value = paste(example_genes[,1],collapse = "\n")
       )
     })

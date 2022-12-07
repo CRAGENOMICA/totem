@@ -59,7 +59,6 @@ generate_color_scale<-function(input,color="tomato",normalized=FALSE,only_signif
   }
   
   names(colorvector)<-names(enrich_values_norm)
-  
   # Return vector with colors
   return(colorvector)
   

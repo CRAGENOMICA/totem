@@ -6,7 +6,7 @@ overflow-y:hidden
 }
 
 .main-header {
-  max-height: 70px
+  max-height: 70px;
 }
 
 /* background color of header (logo part) */
@@ -49,7 +49,8 @@ overflow-y:hidden
 .main-sidebar { 
   font-size:18px;
   font-weight: bold;
-  width: 250px;
+  width: 300px;
+  position: fixed;
 }
 
 .sidebar-collapse .main-sidebar {
@@ -57,15 +58,15 @@ overflow-y:hidden
 }
 
 .main-header > .navbar {
-  margin-left: 250px;
+  margin-left: 300px;
 }
 
 .main-header .logo {
-  width: 250px;
+  width: 300px;
 }
 
 .content-wrapper, .main-footer, .right-side {
-  margin-left: 250px;
+  margin-left: 300px;
 }
                              
 /* main sidebar */
@@ -95,6 +96,16 @@ overflow-y:hidden
 
 .skin-blue .left-side, .skin-blue .wrapper {
   background-color: white;
+}
+
+#run_report {
+  width:80%; 
+  margin-left: 20px; 
+  font-size: 18px;
+  font-weight: bold;
+  background: #09C3A2;
+  position:absolute; 
+  bottom: 30px;
 }
                               
 /* body */
@@ -292,7 +303,7 @@ border-color: #007A66;
 
 /* If you don't want the footer to be responsive, remove these media queries */
 
-@media (max-width: 600px) {
+@media (max-width: 400px) {
 
 	.footer-basic-centered{
 		padding: 35px;

@@ -15,7 +15,16 @@
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
-     id="defs3" />
+     id="defs3">
+    <linearGradient
+       id="linearGradient2634"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop2632" />
+    </linearGradient>
+  </defs>
   <sodipodi:namedview
      inkscape:document-units="mm"
      id="base"
@@ -24,15 +33,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.6290957"
-     inkscape:cx="360.32261"
-     inkscape:cy="46.037812"
-     inkscape:current-layer="labels_cross_section"
+     inkscape:zoom="0.86772068"
+     inkscape:cx="39.183116"
+     inkscape:cy="547.41118"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-x="1912"
+     inkscape:window-y="-7"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -48,76 +57,6 @@
      id="layer2"
      inkscape:label="Vectorial"
      style="display:inline;opacity:1">
-    <g
-       id="root_sections"
-       inkscape:export-xdpi="399"
-       inkscape:export-ydpi="399"
-       style="fill:none">
-      <path
-         inkscape:connector-curvature="0"
-         id="path6941"
-         d="M 11.438173,182.56791 H 10.97583 v 63.2385 h 0.444212"
-         style="fill:none;stroke:#000000;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path6941-6"
-         d="m 11.518941,158.85102 h -0.604752 v 21.82567 h 0.581036"
-         style="display:inline;opacity:1;fill:none;stroke:#000000;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path6941-7"
-         d="m 11.376532,68.414636 h -0.462343 v 88.480434 h 0.444212"
-         style="display:inline;opacity:1;fill:none;stroke:#000000;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path6941-5"
-         d="m 11.378894,10.248198 h -0.465582 v 56.213315 h 0.447324"
-         style="display:inline;opacity:1;fill:none;stroke:#000000;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <text
-         id="text6981"
-         y="39.092415"
-         x="12.936621"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial Bold';letter-spacing:0px;word-spacing:0px;fill:none;fill-opacity:1;stroke:none;stroke-width:0.32598901"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:none;stroke-width:0.32598901"
-           y="39.092415"
-           x="12.936621"
-           id="tspan6979"
-           sodipodi:role="line">DZ</tspan></text>
-      <text
-         id="text6985"
-         y="116.95"
-         x="13.227134"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial Bold';letter-spacing:0px;word-spacing:0px;fill:none;fill-opacity:1;stroke:none;stroke-width:0.32598901"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:none;stroke-width:0.32598901"
-           y="116.95"
-           x="13.227134"
-           id="tspan6983"
-           sodipodi:role="line">EZ</tspan></text>
-      <text
-         id="text6989"
-         y="172.14755"
-         x="12.936621"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial Bold';letter-spacing:0px;word-spacing:0px;fill:none;fill-opacity:1;stroke:none;stroke-width:0.32598901"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:none;stroke-width:0.32598901"
-           y="172.14755"
-           x="12.936621"
-           id="tspan6987"
-           sodipodi:role="line">TZ</tspan></text>
-      <text
-         id="text6993"
-         y="218.62971"
-         x="13.085233"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial Bold';letter-spacing:0px;word-spacing:0px;fill:none;fill-opacity:1;stroke:none;stroke-width:0.32598901"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:none;stroke-width:0.32598901"
-           y="218.62971"
-           x="13.085233"
-           id="tspan6991"
-           sodipodi:role="line">MZ</tspan></text>
-    </g>
     <g
        id="scales"
        inkscape:export-xdpi="399"
@@ -983,7 +922,8 @@
        id="QC"
        style="fill:none"
        inkscape:export-xdpi="399"
-       inkscape:export-ydpi="399">
+       inkscape:export-ydpi="399"
+       inkscape:label="Quiescent Center (QC)">
       <path
          style="display:inline;opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.10897521px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 36.433947,244.58959 -0.311973,-0.45234 -0.01555,-0.20281 0.265177,-0.26516 0.34317,-0.28077 c 0,0 0.265178,-0.0149 0.436764,-0.0149 0.171585,0 0.904721,-0.0468 0.904721,-0.0468 l 0.04681,0.23397 -0.0312,1.0919 -0.187184,0.15596 -0.530354,-0.0936 z"
@@ -1089,7 +1029,8 @@
        id="CEI"
        style="fill:none"
        inkscape:export-xdpi="399"
-       inkscape:export-ydpi="399">
+       inkscape:export-ydpi="399"
+       inkscape:label="Cortex and Endodermis Initials (CEI)">
       <path
          inkscape:connector-curvature="0"
          id="path3817"
@@ -1135,7 +1076,8 @@
        id="Epidermis initials inmature"
        inkscape:export-xdpi="399"
        inkscape:export-ydpi="399"
-       style="fill:none">
+       style="fill:none"
+       inkscape:label="Epidermis Initials (EI)">
       <path
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.108975px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 32.003926,241.0019 1.544267,0.0149 0.842329,1.0295 0.592749,0.99834 -0.889123,0.0936 -0.09359,0.29637 -0.608346,-0.12486 -0.343173,-0.0149 -0.202783,0.10916 -0.280775,-0.77995 -0.717539,-1.01392 z"
@@ -5668,6 +5610,85 @@
          id="path7003"
          d="m 152.13587,68.683173 13.48655,27.957868 10.31323,0.0488"
          style="display:inline;opacity:1;fill:none;stroke:#4d4d4d;stroke-width:0.21732576;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.10866288, 0.10866288000000000;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.175px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;inline-size:39.9531;display:inline;opacity:0.99;fill:#000000;fill-opacity:0;stroke-width:0.264583"
+       x="40.927616"
+       y="93.224007"
+       id="text2362" />
+    <g
+       id="g5554">
+      <g
+         id="root_sections"
+         inkscape:export-xdpi="399"
+         inkscape:export-ydpi="399"
+         style="fill:none">
+        <path
+           inkscape:connector-curvature="0"
+           id="path6941"
+           d="M 11.438173,182.56791 H 10.97583 v 63.2385 h 0.444212"
+           style="fill:none;stroke:#000000;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path6941-6"
+           d="m 11.518941,158.85102 h -0.604752 v 21.82567 h 0.581036"
+           style="display:inline;opacity:1;fill:none;stroke:#000000;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path6941-7"
+           d="m 11.376532,68.414636 h -0.462343 v 88.480434 h 0.444212"
+           style="display:inline;opacity:1;fill:none;stroke:#000000;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path6941-5"
+           d="m 11.378894,10.248198 h -0.465582 v 56.213315 h 0.447324"
+           style="display:inline;opacity:1;fill:none;stroke:#000000;stroke-width:0.21732575;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <text
+           id="text6981"
+           y="39.092415"
+           x="12.936621"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;stroke-width:0.32598901"
+             y="39.092415"
+             x="12.936621"
+             id="tspan6979"
+             sodipodi:role="line">DZ</tspan></text>
+        <text
+           id="text6985"
+           y="116.95"
+           x="13.227134"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;stroke-width:0.32598901"
+             y="116.95"
+             x="13.227134"
+             id="tspan6983"
+             sodipodi:role="line">EZ</tspan></text>
+        <text
+           id="text6989"
+           y="172.14755"
+           x="12.936621"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;stroke-width:0.32598901"
+             y="172.14755"
+             x="12.936621"
+             id="tspan6987"
+             sodipodi:role="line">TZ</tspan></text>
+        <text
+           id="text6993"
+           y="218.62971"
+           x="13.085233"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial Bold';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.32598901"
+           xml:space="preserve"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.52778006px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#000000;stroke-width:0.32598901"
+             y="218.62971"
+             x="13.085233"
+             id="tspan6991"
+             sodipodi:role="line">MZ</tspan></text>
+      </g>
     </g>
   </g>
   <metadata

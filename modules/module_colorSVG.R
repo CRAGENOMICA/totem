@@ -26,7 +26,7 @@ colorSVG_UI <- function(id) {
                    # Select color
                    selectInput(inputId = NS(id,"color_svg"),
                                label = "Change color",
-                               choices = c("salmon","steelblue","olivedrab"),
+                               choices = c("salmon","steelblue","olivedrab", "viridis", "magma"),
                                multiple = FALSE),
                    # Download button
                    downloadButton(outputId = NS(id,"download_colored_svg")),

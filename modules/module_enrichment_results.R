@@ -62,22 +62,23 @@ enrichment_resultsServer <- function(id, experiment_path,user_description,experi
         observeEvent(input$color_barplot, {
                 
                 # Output file
-                png("./enrichment_result_barplot.png",height = 20,width = 18,units = "cm",res=400)
-                par(mar=c(4,11,4,4))
-                # Barplot
-                bar<-barplot(height = enrichment_values_internal,
-                             beside = TRUE,cex.names = 0.6,las=1,horiz=T,
-                             xlab = "-log(p-value enrichment)",
-                             xlim = c(0,ceiling(max(enrichment_values_internal))),
-                             main = paste(specie, paste(strsplit(experiment_id, "_")[[1]],collapse=" "), "enrichment results", sep = " "),
-                             col = input$color_barplot
-                )
-                
-                # Add significative threshold line in 0.05 pval:
-                abline(v=(-log10(0.05)),lty=2,col="tomato")
-                
-                # Close devidce and save png image
-                dev.off()
+                # png("./enrichment_result_barplot.png",height = 20,width = 18,units = "cm",res=400)
+                # par(mar=c(4,11,4,4))
+                # # Barplot
+                # bar<-barplot(height = enrichment_values_internal,
+                #              beside = TRUE,cex.names = 0.6,las=1,horiz=T,
+                #              xlab = "-log(p-value enrichment)",
+                #              xlim = c(0,ceiling(max(enrichment_values_internal))),
+                #              main = paste(specie, paste(strsplit(experiment_id, "_")[[1]],collapse=" "), "enrichment results", sep = " "),
+                #              col = input$color_barplot
+                # )
+                # 
+                # # Add significative threshold line in 0.05 pval:
+                # abline(v=(-log10(0.05)),lty=2,col="tomato")
+                # 
+                # # Close devidce and save png image
+                # dev.off()
+                mybarplot2(myvector = enrichment_values_internal, color = input$color_barplot, outputfile = "./enrichment_result_barplot.png")
                 
                 # plot the image saved of barplot
                 output$barplot <- renderImage(

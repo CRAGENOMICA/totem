@@ -5,8 +5,8 @@
    viewBox="0 0 176 250"
    version="1.1"
    id="svg34010"
-   inkscape:version="1.1-dev (9017afb, 2021-01-01)"
-   sodipodi:docname="Root_radial_patterns_Brady2007.svg"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="Root_radial_patterns.svg"
    inkscape:export-filename="/Users/fidel/OneDrive/PROJECTS/4_TOTEM/shiny_totem/shinyTOTEM/experiments/Arabidopsis/Root_radial_patterns_Brady2007/blank_image.png"
    inkscape:export-xdpi="300"
    inkscape:export-ydpi="300"
@@ -28,16 +28,18 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.41019071"
-     inkscape:cx="286.45212"
-     inkscape:cy="449.79078"
-     inkscape:window-width="1311"
-     inkscape:window-height="775"
-     inkscape:window-x="60"
-     inkscape:window-y="133"
-     inkscape:window-maximized="0"
+     inkscape:cx="171.87127"
+     inkscape:cy="463.19918"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      showguides="true"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
     <sodipodi:guide
        position="100.01633,240"
        orientation="0,1"
@@ -85,13 +87,14 @@
        id="perspective57917" />
   </defs>
   <g
-     inkscape:label="Capa 1"
+     inkscape:label="Vectorial"
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="JO121"
+       id="Xylem pole pericycle (JO121)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Xylem pole pericycle (JO121)">
       <path
          inkscape:connector-curvature="0"
          id="path3549"
@@ -104,9 +107,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="S17"
+       id="Phloem pole pericycle (S17)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Phloem pole pericycle (S17)">
       <path
          inkscape:connector-curvature="0"
          id="path3553"
@@ -129,9 +133,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="PET111"
+       id="Columella (PET111)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Columella (PET111)">
       <path
          inkscape:connector-curvature="0"
          id="path3717"
@@ -254,9 +259,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.0884479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g
-       id="AGL42"
+       id="Quiescent center (AGL42)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Quiescent center (AGL42)">
       <path
          inkscape:connector-curvature="0"
          id="path3783"
@@ -279,9 +285,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.0884479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g
-       id="LRC"
+       id="Lateral root cap (LRC)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Lateral root cap (LRC)">
       <path
          inkscape:connector-curvature="0"
          id="path3927"
@@ -439,9 +446,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.0884479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g
-       id="COBL9"
+       id="Hair cells (COBL9)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Hair cells (COBL9)">
       <path
          inkscape:connector-curvature="0"
          id="path3446"
@@ -563,9 +571,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.0884479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g
-       id="J2261"
+       id="Pericycle (J2261)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Pericycle (J2261)">
       <path
          inkscape:connector-curvature="0"
          id="path3545"
@@ -1036,9 +1045,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.0884479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g
-       id="S32"
+       id="Proto and meta phloem (S32)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Proto and meta phloem (S32)">
       <path
          inkscape:connector-curvature="0"
          id="path4061"
@@ -1121,9 +1131,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.0884479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g
-       id="S4"
+       id="Proto and meta xylem (S4)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Proto and meta xylem (S4)">
       <path
          inkscape:connector-curvature="0"
          id="path4187"
@@ -1565,9 +1576,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.0884479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g
-       id="S18"
+       id="Xylem (S18)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Xylem (S18)">
       <path
          inkscape:connector-curvature="0"
          id="path3569"
@@ -1618,9 +1630,10 @@
          style="fill:none;stroke:#b7c4c8;stroke-width:0.0176389;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="RM1000"
+       id="Lateral root primordia (RM1000)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Lateral root primordia (RM1000)">
       <path
          sodipodi:nodetypes="cccccccccccccccc"
          inkscape:connector-curvature="0"
@@ -1832,9 +1845,10 @@
          style="fill:none;stroke:#000000;stroke-width:0.0705556;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="SCR5"
+       id="Endodermis (SCR5)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Endodermis (SCR5)">
       <path
          inkscape:connector-curvature="0"
          id="path3529"
@@ -2355,9 +2369,10 @@
          style="fill:none;stroke:#000000;stroke-width:0.0885472;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="CORTEX"
+       id="Cortex (CORTEX)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Cortex (CORTEX)">
       <path
          inkscape:connector-curvature="0"
          id="path3511"
@@ -2959,9 +2974,10 @@
          style="fill:none;stroke:#000000;stroke-width:0.0885472;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="GL2"
+       id="Non-hair cells (GL2)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Non-hair cells (GL2)">
       <path
          inkscape:connector-curvature="0"
          id="path3442"
@@ -3277,9 +3293,10 @@
          style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.0884479px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
     <g
-       id="SUC2"
+       id="Companion cells (SUC2)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Companion cells (SUC2)">
       <path
          style="display:inline;opacity:1;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.154097px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          d="m 98.508724,121.31224 -0.252943,0.81722 0.116779,0.25295 0.447526,0.0584 0.40861,-0.19457 0.447526,-0.19458 0.136193,-0.38915 -0.447526,-0.31132 z"
@@ -3314,9 +3331,10 @@
          style="display:inline;opacity:1;fill:none;stroke:#b7c4c8;stroke-width:0.0176389;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       id="APL"
+       id="Phloem (APL)"
        transform="matrix(1.1094939,0,0,1.1126869,-2.2297244,-71.32772)"
-       style="display:inline">
+       style="display:inline"
+       inkscape:label="Phloem (APL)">
       <path
          inkscape:connector-curvature="0"
          id="path3585"
