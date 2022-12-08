@@ -24,16 +24,53 @@ single_cellUI <- function(id) {
       hr(),
       
       column(4,
-             # Atlas
-               imageOutput(outputId = NS(id,"umap_atlas")),
-             
-                htmlOutput(NS(id, "threeD"))
+             fluidRow(
+               column(12,
+                      # 3D
+                      htmlOutput(outputId = NS(id,"threeD"))
+               ),
+               hr(),
+               column(12,
+                      # Atlas
+                      imageOutput(outputId = NS(id,"umap_atlas"))
+                      
+               )
+             )
              
       ),
       
       
       br(),
       column(8,
+             
+             column(12,
+                    column(6,
+                           uiOutput(outputId = NS(id, "geneset_sc")),
+                           
+                    ),
+                    column(6,
+                           selectInput(
+                             inputId = NS(id,"color_expr"),label = "Select a color",
+                             choices = c("darkblue", "darkred", "darkgreen", "darkmagenta"),
+                             selected = "darkblue",
+                             multiple = FALSE,
+                             width = "100%"),
+                    ),
+                    hr() #,
+                    # column(12,
+                    #        # Title
+                    #        tags$label(class = "control-label","Non tissue-specific genes"),
+                    #        # Not enriched in any tissue box
+                    #        verbatimTextOutput(outputId = NS(id,"not_enriched"),placeholder = TRUE)
+                    # ),     
+                    # column(12,
+                    #        # Title
+                    #        tags$label(class = "control-label","Non found genes"),
+                    #        # Not found genes
+                    #        verbatimTextOutput(outputId = NS(id,"not_found"),placeholder = TRUE)
+                    # )
+             ),
+             
          column(12,
                box(
                  title = NULL, 
@@ -41,38 +78,19 @@ single_cellUI <- function(id) {
                  solidHeader = F,
                  collapsible = F,
                  width = "100%",
-                 column(8,
-                        plotOutput(outputId = NS(id,"expr_umap"), width = "100%", height = "100%"),
-                         
+                column(10,
+                        verbatimTextOutput(outputId = NS(id,"enrich_description"),placeholder = TRUE)
                 ),
-                 
-                column(4,
-                       column(12,
-                              uiOutput(outputId = NS(id, "geneset_sc")),
-                              
-                       ),
-                       column(12,
-                              selectInput(
-                                inputId = NS(id,"color_expr"),label = "Select a color",
-                                choices = c("darkblue", "darkred", "darkgreen"),
-                                selected = "darkblue",
-                                multiple = FALSE,
-                                width = "100%"),
-                       ),
-                       hr(),
-                         column(12,
-                                # Title
-                                tags$label(class = "control-label","Non tissue-specific genes"),
-                                # Not enriched in any tissue box
-                                verbatimTextOutput(outputId = NS(id,"not_enriched"),placeholder = TRUE)
-                         ),     
-                         column(12,
-                                # Title
-                                tags$label(class = "control-label","Non found genes"),
-                                # Not found genes
-                                verbatimTextOutput(outputId = NS(id,"not_found"),placeholder = TRUE)
-                         )
-              )
+                column(2,align="right",
+                       downloadButton(outputId = NS(id,"download_scExpression"))
+                ),
+                column(7, 
+                       plotOutput(outputId = NS(id,"expr_umap"), width = "100%", height = "120%")
+                ),
+                column(5,
+                        plotOutput(outputId = NS(id,"expr_violin"), width = "100%", height = "120%")
+                         
+                )
             )   
                
               

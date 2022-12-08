@@ -21,10 +21,10 @@
 plot_expression<- function(experiment_path, gene, color){
   
   # Load the umap info file
-  umap = read.table((paste("./experiments/Arabidopsis/Root_SingleCell", "UMAP_coordinates.txt", sep = "/")))
+  umap = read.table((paste(experiment_path, "UMAP_coordinates.txt", sep = "/")))
   
   # Read gene .gz file. It contains the expression values of all cells with > 0.1 expression 
-  my_data <- read.table((paste("./experiments/Arabidopsis/Root_SingleCell", paste("genes", paste0(gene, ".gz"), sep = "/"), sep = "/")), row.names = 1)
+  my_data <- read.table((paste(experiment_path, paste("genes", paste0(gene, ".gz"), sep = "/"), sep = "/")), row.names = 1)
   my_data[,1] = as.double(my_data[,1])
   
   #get the UMAP coordinates of cells expressing the selected gene
@@ -54,19 +54,33 @@ plot_expression<- function(experiment_path, gene, color){
       #add the cells with the expression color
       geom_point(data=df, aes(x=UMAP_1,y=UMAP_2, color = Expression))+
       scale_color_gradient(low = "lightgrey", high = color)+
-      labs(color=paste0(gene, " expression"))
+      labs(color=paste0(gene, " expression"))+
+    theme(text = element_text(size=15))
   
-  return(list(df_final, plot))
+  ## violin plot with expressions
+  df_dot = aggregate(df$Expression, list(df$CellPopulation), FUN=mean) 
+  colfunc<-colorRampPalette(colors = c("lightgrey",color))
+  color_ramp<-colfunc(nrow(df_dot))
+  df_dot = df_dot[order(df_dot$x),]
+  df_dot$color = color_ramp
+  df = merge(df, df_dot[,c(1,3)], by.x = "CellPopulation", by.y = "Group.1")
+  violin = ggplot(df, aes(y = CellPopulation, x = Expression))+ theme_bw()+theme(legend.position="none")+
+    geom_violin(aes(fill = CellPopulation)) + geom_jitter(shape=16, position=position_jitter(0.2))+
+    scale_fill_manual(values = unique(df$color))+
+    theme(text = element_text(size=15))
+  
+  
+  return(list(df_final, plot, violin))
 }
 
 
 plot_expression_population<- function(experiment_path, gene, color, cellpopulation){
   
   # Load the umap info file
-  umap = read.table((paste("./experiments/Arabidopsis/Root_SingleCell", "UMAP_coordinates.txt", sep = "/")))
+  umap = read.table((paste(experiment_path, "UMAP_coordinates.txt", sep = "/")))
   
   # Read gene .gz file. It contains the expression values of all cells with > 0.1 expression 
-  my_data <- read.table((paste("./experiments/Arabidopsis/Root_SingleCell", paste("genes", paste0(gene, ".gz"), sep = "/"), sep = "/")), row.names = 1)
+  my_data <- read.table((paste(experiment_path, paste("genes", paste0(gene, ".gz"), sep = "/"), sep = "/")), row.names = 1)
   my_data[,1] = as.double(my_data[,1])
   
   #get the UMAP coordinates of cells expressing the selected gene
@@ -114,7 +128,8 @@ plot_expression_population<- function(experiment_path, gene, color, cellpopulati
     geom_point(data=sub_umap_expr, aes(x=UMAP_1,y=UMAP_2, color = Expression))+
     scale_color_gradient(low = "lightgrey", high = color)+
     labs(color=paste0(gene, " expression"))+
-    ggtitle(paste0(gene, " expression in ", label))
+    ggtitle(paste0(gene, " expression in ", label))+
+    theme(text = element_text(size=15))
   
   return(list(df_final, plot, plot_zoom))
 

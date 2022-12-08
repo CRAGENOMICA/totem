@@ -32,21 +32,27 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
         filename <- normalizePath(paste(experiment_path,"/UMAP_CellPopulationColor.png",sep = "/"))
         list(src=filename,
              width="100%",
-             height="300%")
+             height=800)
       }, deleteFile = FALSE
     )
     
-    getPage<-function() {
-      return(includeHTML("./www/3D.html"))
+    ## 3D plots
+    addResourcePath('myhtmlfiles', experiment_path)
+    getPage <- function() {
+      return(tags$iframe(src = paste0("myhtmlfiles/", "threeDatlas.html"), height =950, width = "100%", scrolling = "yes", display="inline-block"))
     }
-    output$threeD<-renderUI({getPage()})
     
+    output$threeD <- renderUI({
+      getPage()
+    })
+  
     
     # Second column: select a gene to check where is expressed
     load(paste(experiment_path,"data.RData",sep = "/"))
+    
     ## Create a UI with the available genes in selected cell population
-    choices = gene_set[gene_set %in% unlist(tissue_atlas)]
-    if(length(choices) == 0){
+    
+    if(length(gene_set) == 0){
       output$geneset_sc<-renderText({
         return("None of the provided genes are enriched in any tissue")
       })
@@ -54,31 +60,45 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
     else{
       output$geneset_sc<-renderUI({
         selectInput(inputId = NS(id,"geneset_sc"),
-                    label = "Select a tissue-specific gene",
-                    choices = choices, 
+                    label = "Select a gene",
+                    choices = gene_set,
+                    selected = gene_set[1],
                     multiple = FALSE
         )
       })
     }
     
-    
-    ## Create a box with not enriched and not found genes
-    
-    # Genes not enriched in any tissue
-     source("functions/not_enriched.R")
-    output$not_enriched<-renderText({
-      not_enriched(user_genes = gene_set,
-                   tissue_atlas = tissue_atlas)
+    #Create a box with the enrichment information of the input genes 
+    observeEvent(input$geneset_sc, {
+      selected_gene<<-input$geneset_sc
+      desc <<- NULL
+      enr <- selected_gene[selected_gene %in% unlist(tissue_atlas)]
+      if(length(enr)>0){
+        desc_enr <<- paste0(enr, " is enriched in: ", paste(names(unlist(sapply(tissue_atlas, function(x) which(x %in% enr)))), collapse = ", "))
+      }
+      else{
+        desc_enr <<- ""
+      }
+      notenr <- selected_gene[selected_gene %in% unlist(tissue_atlas) == FALSE & selected_gene %in% geneuniverse]
+      if(length(notenr)>0){
+        desc_notenr <<- paste0(notenr, " is not enriched in any tissue")
+      }
+      else{
+        desc_notenr <<- ""
+      }
+      not <- selected_gene[selected_gene %in% geneuniverse ==FALSE]
+      if(length(not)>0){
+        desc_not <<- paste0(not, " is not found in the selected experiment")
+      }
+      else{
+        desc_not <<- ""
+      }
+      
+      desc <<- paste0(desc_enr, desc_notenr, desc_not)
+      output$enrich_description<-renderText(
+        return(desc)
+      )
     })
-    
-    # Genes not found
-    source("functions/not_found.R")
-    output$not_found<-renderText({
-      not_found(user_genes = gene_set,
-                geneuniverse = geneuniverse)
-    })
-    
-    
     
     ## create expression plot
     source("./functions/expression_sc_atlas.R")
@@ -90,12 +110,32 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
         tryCatch( # avoid error text
           { plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[2]] }, #Generate plot
           error = function(e) {""}),message = "Plotting single cell atlas...")
-        },width=600,height=600)
+        },width=600,height=800)
+      
+      output$expr_violin <- renderPlot({
+        withProgress(
+          tryCatch( # avoid error text
+            { plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[3]] }, #Generate plot
+            error = function(e) {""}),message = "Plotting violin plot of expressions...")
+      },width=450,height=800)
+      
+      #Download button
+      output$download_scExpression <- downloadHandler(filename = function(){
+        paste(paste("SingleCellExpression", selected_gene, experiment_id, sep = "_"), "png", sep = ".")
+      },
+      content = function(file){
+        png(file, width = 980, height = 700, units = "px", pointsize = 12, bg = "white", res = NA)
+        plot <- plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[2]]+
+          plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[3]]
+        print(plot)
+        dev.off()
+      }, contentType = "image/png")
     
       # Third column: specific expression values
       output$expr_table <- DT::renderDataTable({
         DT::datatable(plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[1]],
-                      options = list(lengthMenu = c(3,5,10), pageLength = 6),rownames = FALSE)
+                      options = list(lengthMenu = c(5,10,20), pageLength = 10),rownames = FALSE)
+        
       })
       output$expr_umap_zoom <- renderPlot({
         s = input$expr_table_rows_selected
@@ -104,9 +144,9 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
         }
         else{
           return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
-                   text(x = 0.5, y = 0.5, paste("Click over a row to check \n tissue-specific expression"), cex = 1.6, col = "black"))
+                   text(x = 0.5, y = 0.5, paste("Click over a row of the table in the left \n to check tissue-specific expression"), cex = 1.6, col = "black"))
         }
-      },width=500,height=600)
+      },width=600,height=800)
       
     })
 
@@ -116,12 +156,12 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
 
 # Testing purposes:
 # setwd("C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenòmica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM_actual/shinyTOTEM")
-x<-"./experiments/Arabidopsis/Root_SingleCell"
-c("AT2G41650","AT4G39400","AT1G04560","AT1G65484","AT2G21400","AT5G59310","AT5G02020")
+x<-"./experiments/Arabidopsis thaliana/Leaf_SingleCell"
+# c("AT2G41650","AT4G39400","AT1G04560","AT1G65484","AT2G21400","AT5G59310","AT5G02020")
 # c("AT2G01430","AT2G41650","AT3G13380","AT4G39400","AT2G27550","AT5G59220","AT5G62420","AT3G20810","AT5G25610","AT1G11600")
 z<-c("AT2G41650", "AT4G39400","AT1G04560","AT1G65484","AT2G21400","AT5G59310","AT5G02020")
-sp = "Arabidopsis"
-y = "Root_SingleCell"
+sp = "Arabidopsis thaliana"
+y = "Leaf_SingleCell"
 desc<-"Enter a description for your gene list (optional)"
 
 
@@ -143,5 +183,5 @@ single_cellApp <- function(id) {
 
   shinyApp(ui, server)
 }
-# single_cellApp()
+single_cellApp()
 
