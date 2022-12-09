@@ -32,14 +32,14 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
         filename <- normalizePath(paste(experiment_path,"/UMAP_CellPopulationColor.png",sep = "/"))
         list(src=filename,
              width="100%",
-             height=800)
+             height=900, display="inline-block")
       }, deleteFile = FALSE
     )
     
     ## 3D plots
     addResourcePath('myhtmlfiles', experiment_path)
     getPage <- function() {
-      return(tags$iframe(src = paste0("myhtmlfiles/", "threeDatlas.html"), height =950, width = "100%", scrolling = "yes", display="inline-block"))
+      return(tags$iframe(src = paste0("myhtmlfiles/", "threeDatlas.html"), height =980, width = "100%", scrolling = "yes", display="inline-block"))
     }
     
     output$threeD <- renderUI({
@@ -93,7 +93,6 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
       else{
         desc_not <<- ""
       }
-      
       desc <<- paste0(desc_enr, desc_notenr, desc_not)
       output$enrich_description<-renderText(
         return(desc)
@@ -106,17 +105,30 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
     observeEvent(input$geneset_sc, {
       
       output$expr_umap <- renderPlot({
-      withProgress(
-        tryCatch( # avoid error text
-          { plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[2]] }, #Generate plot
-          error = function(e) {""}),message = "Plotting single cell atlas...")
+        if(grepl("not found",desc_not)){
+          return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+                   text(x = 0.5, y = 0.5, paste("Please select a gene available \n in the experiment universe"), cex = 1.6, col = "black"))
+        }
+        else{
+          withProgress(
+          tryCatch( # avoid error text
+            { plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[2]] }, #Generate plot
+            error = function(e) {""}),message = "Plotting single cell atlas...")
+        }
+
         },width=600,height=800)
       
       output$expr_violin <- renderPlot({
+        if(grepl("not found",desc_not)){
+          return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+                   text(x = 0.5, y = 0.5, paste(""), cex = 1.6, col = "black"))
+        }
+        else{
         withProgress(
           tryCatch( # avoid error text
             { plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[3]] }, #Generate plot
             error = function(e) {""}),message = "Plotting violin plot of expressions...")
+        }
       },width=450,height=800)
       
       #Download button
@@ -133,20 +145,31 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
     
       # Third column: specific expression values
       output$expr_table <- DT::renderDataTable({
-        DT::datatable(plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[1]],
-                      options = list(lengthMenu = c(5,10,20), pageLength = 10),rownames = FALSE)
-        
-      })
-      output$expr_umap_zoom <- renderPlot({
-        s = input$expr_table_rows_selected
-        if (length(s)){
-          plot_expression_population(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr, cellpopulation = s)[[3]]
+        if(grepl("not found",desc_not)){
+          shiny::showNotification("No data", type = "error")
+          NULL
         }
         else{
-          return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
-                   text(x = 0.5, y = 0.5, paste("Click over a row of the table in the left \n to check tissue-specific expression"), cex = 1.6, col = "black"))
+        DT::datatable(plot_expression(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr)[[1]],
+                      options = list(lengthMenu = c(5,10,20), pageLength = 8),rownames = FALSE)
         }
-      },width=600,height=800)
+      })
+      output$expr_umap_zoom <- renderPlot({
+        if(grepl("not found",desc_not)){
+          shiny::showNotification("No data", type = "error")
+          NULL
+        }
+        else{
+          s = input$expr_table_rows_selected
+          if (length(s)){
+            plot_expression_population(experiment_path = experiment_path, gene = input$geneset_sc, color = input$color_expr, cellpopulation = s)[[3]]
+          }
+          else{
+            return(plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')+
+                     text(x = 0.5, y = 0.5, paste("Click over a row of the table in the left \n to check tissue-specific expression"), cex = 1.6, col = "black"))
+          }
+        }
+      },width=550,height=800)
       
     })
 
@@ -154,34 +177,34 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
   })
 }
 
-# Testing purposes:
-# setwd("C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenòmica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM_actual/shinyTOTEM")
-x<-"./experiments/Arabidopsis thaliana/Leaf_SingleCell"
-# c("AT2G41650","AT4G39400","AT1G04560","AT1G65484","AT2G21400","AT5G59310","AT5G02020")
-# c("AT2G01430","AT2G41650","AT3G13380","AT4G39400","AT2G27550","AT5G59220","AT5G62420","AT3G20810","AT5G25610","AT1G11600")
-z<-c("AT2G41650", "AT4G39400","AT1G04560","AT1G65484","AT2G21400","AT5G59310","AT5G02020")
-sp = "Arabidopsis thaliana"
-y = "Leaf_SingleCell"
-desc<-"Enter a description for your gene list (optional)"
-
-
-single_cellApp <- function(id) {
-
-  ui <- fluidPage(
-    single_cellUI("sc")
-  )
-
-  server<-function(input,output,session) {
-
-    single_cellServer("sc",
-                      experiment_path = x,
-                      user_description = desc,
-                      experiment_id = y,
-                      specie = sp,
-                      gene_set = z)
-  }
-
-  shinyApp(ui, server)
-}
-single_cellApp()
-
+# # Testing purposes:
+# # setwd("C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenòmica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM_actual/shinyTOTEM")
+# x<-"./experiments/Arabidopsis thaliana/Leaf_SingleCell"
+# # c("AT2G41650","AT4G39400","AT1G04560","AT1G65484","AT2G21400","AT5G59310","AT5G02020")
+# # c("AT2G01430","AT2G41650","AT3G13380","AT4G39400","AT2G27550","AT5G59220","AT5G62420","AT3G20810","AT5G25610","AT1G11600")
+# z<-c("AT2G41650", "AT4G39400","AT1G04560","AT1G65484","AT2G21400","AT5G59310","AT5G02020")
+# sp = "Arabidopsis thaliana"
+# y = "Leaf_SingleCell"
+# desc<-"Enter a description for your gene list (optional)"
+# 
+# 
+# single_cellApp <- function(id) {
+# 
+#   ui <- fluidPage(
+#     single_cellUI("sc")
+#   )
+# 
+#   server<-function(input,output,session) {
+# 
+#     single_cellServer("sc",
+#                       experiment_path = x,
+#                       user_description = desc,
+#                       experiment_id = y,
+#                       specie = sp,
+#                       gene_set = z)
+#   }
+# 
+#   shinyApp(ui, server)
+# }
+# single_cellApp()
+# 

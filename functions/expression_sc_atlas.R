@@ -55,7 +55,7 @@ plot_expression<- function(experiment_path, gene, color){
       geom_point(data=df, aes(x=UMAP_1,y=UMAP_2, color = Expression))+
       scale_color_gradient(low = "lightgrey", high = color)+
       labs(color=paste0(gene, " expression"))+
-    theme(text = element_text(size=15))
+    theme(text = element_text(size=10))
   
   ## violin plot with expressions
   df_dot = aggregate(df$Expression, list(df$CellPopulation), FUN=mean) 

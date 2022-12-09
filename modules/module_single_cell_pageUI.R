@@ -56,19 +56,7 @@ single_cellUI <- function(id) {
                              multiple = FALSE,
                              width = "100%"),
                     ),
-                    hr() #,
-                    # column(12,
-                    #        # Title
-                    #        tags$label(class = "control-label","Non tissue-specific genes"),
-                    #        # Not enriched in any tissue box
-                    #        verbatimTextOutput(outputId = NS(id,"not_enriched"),placeholder = TRUE)
-                    # ),     
-                    # column(12,
-                    #        # Title
-                    #        tags$label(class = "control-label","Non found genes"),
-                    #        # Not found genes
-                    #        verbatimTextOutput(outputId = NS(id,"not_found"),placeholder = TRUE)
-                    # )
+                    hr()
              ),
              
          column(12,
@@ -78,6 +66,7 @@ single_cellUI <- function(id) {
                  solidHeader = F,
                  collapsible = F,
                  width = "100%",
+                 height = 900,
                 column(10,
                         verbatimTextOutput(outputId = NS(id,"enrich_description"),placeholder = TRUE)
                 ),
@@ -85,10 +74,10 @@ single_cellUI <- function(id) {
                        downloadButton(outputId = NS(id,"download_scExpression"))
                 ),
                 column(7, 
-                       plotOutput(outputId = NS(id,"expr_umap"), width = "100%", height = "120%")
+                       plotOutput(outputId = NS(id,"expr_umap"), width = "100%", height = "100%")
                 ),
                 column(5,
-                        plotOutput(outputId = NS(id,"expr_violin"), width = "100%", height = "120%")
+                        plotOutput(outputId = NS(id,"expr_violin"), width = "100%", height = "100%")
                          
                 )
             )   
@@ -103,6 +92,7 @@ single_cellUI <- function(id) {
                  solidHeader = F,
                  collapsible = F,
                  width = "100%",
+                 height = 900,
              column(6,
                     fluidRow(
                       
