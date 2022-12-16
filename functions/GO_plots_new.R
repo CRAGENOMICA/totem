@@ -21,15 +21,15 @@
 
 dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
   
-  if(specie == "Tomato"){ 
+  if(specie == "Solanum lycopersicum"){ 
     genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
     org = "slycopersicum"
   }
-  else if(specie == "Sorghum"){
+  else if(specie == "Sorghum bicolor"){
     genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
     org = "sbicolor"
   }
-  else if(specie == "Arabidopsis"){
+  else if(specie == "Arabidopsis thaliana"){
     genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
     org = "athaliana"
   }
@@ -81,15 +81,15 @@ dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjme
 }
 
 netgenesGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
-  if(specie == "Tomato"){
-    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene
+  if(specie == "Solanum lycopersicum"){ 
+    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
     org = "slycopersicum"
   }
-  else if(specie == "Sorghum"){
+  else if(specie == "Sorghum bicolor"){
     genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
     org = "sbicolor"
   }
-  else if(specie == "Arabidopsis"){
+  else if(specie == "Arabidopsis thaliana"){
     genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
     org = "athaliana"
   }
@@ -138,15 +138,15 @@ netgenesGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjm
   }
 }
 heatmapGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
-  if(specie == "Tomato"){
-    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene
+  if(specie == "Solanum lycopersicum"){ 
+    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
     org = "slycopersicum"
   }
-  else if(specie == "Sorghum"){
+  else if(specie == "Sorghum bicolor"){
     genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
     org = "sbicolor"
   }
-  else if(specie == "Arabidopsis"){
+  else if(specie == "Arabidopsis thaliana"){
     genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
     org = "athaliana"
   }
@@ -196,15 +196,15 @@ heatmapGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjme
 }
 
 dotplotKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, pvalcutoff) {
-  if(specie == "Tomato"){ 
+  if(specie == "Solanum lycopersicum"){ 
     genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
     org = "slycopersicum"
   }
-  else if(specie == "Sorghum"){
+  else if(specie == "Sorghum bicolor"){
     genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
     org = "sbicolor"
   }
-  else if(specie == "Arabidopsis"){
+  else if(specie == "Arabidopsis thaliana"){
     genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
     org = "athaliana"
   }
@@ -251,15 +251,15 @@ dotplotKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, 
   }
 }
 heatmapKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, pvalcutoff) {
-  if(specie == "Tomato"){
-    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene
+  if(specie == "Solanum lycopersicum"){ 
+    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
     org = "slycopersicum"
   }
-  else if(specie == "Sorghum"){
+  else if(specie == "Sorghum bicolor"){
     genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
     org = "sbicolor"
   }
-  else if(specie == "Arabidopsis"){
+  else if(specie == "Arabidopsis thaliana"){
     genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
     org = "athaliana"
   }

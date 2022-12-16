@@ -60,7 +60,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     
     # download table
   
-    filename_table = c(gsub(" ", "_", gsub(":",".",description_exp), fixed = TRUE), # User description / Specie_Experiment / Date (replace : by ; -> invalid filename)
+    filename_table = c(gsub(" ", "_", gsub("\n", "",gsub(":",".",description_exp)), fixed = TRUE), # User description / Specie_Experiment / Date (replace : by ; -> invalid filename)
                  gsub(" ", "", tissue, fixed = TRUE) #Tissue
     )
     output$download_annotation <- downloadHandler(
@@ -127,7 +127,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     })
     # Download button for plots
     ##Filename
-    filename = c(gsub(" ", "_", gsub(":",".",description_exp), fixed = TRUE), # User description / Specie_Experiment / Date (replace : by ; -> invalid filename)
+    filename = c(gsub(" ", "_", gsub("\n", "",gsub(":",".",description_exp)), fixed = TRUE), # User description / Specie_Experiment / Date (replace : by ; -> invalid filename)
                  gsub(" ", "", tissue, fixed = TRUE), #Tissue
                  gsub("GO:","", ontology, fixed = TRUE) # ontology
     )

@@ -96,7 +96,8 @@ enrichment_resultsServer <- function(id, experiment_path,user_description,experi
         
         ## Download button for barplot
         #filename
-        filename = c(gsub(" ", "_", gsub(":",".",description_exp), fixed = TRUE) # User description / Specie_Experiment / Date (replace : by ; -> invalid filename)
+        filename = c(gsub(" ", "_", gsub("\n", "",gsub(":",".",description_exp)), 
+                          fixed = TRUE) # User description / Specie_Experiment / Date (replace : by ; -> invalid filename)
         )
         #download button
         output$download_barplot <- downloadHandler(
