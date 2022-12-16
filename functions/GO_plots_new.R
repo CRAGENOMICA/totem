@@ -116,7 +116,7 @@ netgenesGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjm
 
       #remove redundant GO terms -> cutoff as in revigo, 0,7
       go2 <- clusterProfiler::simplify(gp_mod_enrich, cutoff=0.7, by="p.adjust", select_fun=min)
-      go2@gene = genes
+      # go2@gene = genes
 
       # Create plots
       emap = emapplot(pairwise_termsim(go2), showCategory = 20, cex_label_category = 0.8)+
