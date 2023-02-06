@@ -121,7 +121,7 @@ ui <- dashboardPage(
                      box(
                        title = "Introduction tour", 
                        width = "50%",
-                       HTML('<iframe width="760" height="415" src="home_video/images_home_help.mp4" frameborder="0" allow="accelerometer; 
+                       HTML('<iframe width="700" height="400" src="home_video/images_home_help.mp4" frameborder="0" allow="accelerometer; 
                    autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
                      )
               ),
@@ -129,7 +129,7 @@ ui <- dashboardPage(
                      box(
                        title = "TOTEM usage example", 
                        width = "50%",
-                       HTML('<iframe width="760" height="415" src="home_video/TOTEMusage.mp4" frameborder="0" allow="accelerometer; 
+                       HTML('<iframe width="700" height="400" src="home_video/TOTEMusage.mp4" frameborder="0" allow="accelerometer; 
                    autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>')
                      )
               )
