@@ -28,9 +28,10 @@ generate_color_scale<-function(input,color="tomato",normalized=FALSE,only_signif
     maxval = 1001
   } else {
     enrich_values_norm<-input
-    # For no normalization, the number of colors to generate is 1000*(max enrich value+1 -> to avoid round when <0.5)+1
-    maxval = 1000*round(max(enrich_values_norm)+1, digits = 0)+1
+    # For no normalization, the number of colors to generate is 1001, but then in colorvector we have to select the correct color
+    maxval = 1001
   }
+  
   if(color=="viridis"){
     # Generate lineal color scale with viridis palette colors
     color_ramp<-c("white", viridis(maxval-1)[(maxval-1):1])
@@ -55,10 +56,19 @@ generate_color_scale<-function(input,color="tomato",normalized=FALSE,only_signif
   # Take the enrich_values_norm and asign to values of color vectors
   colorvector<-c()
   for (i in enrich_values_norm) {
-    colorvector<-c(colorvector,color_ramp[round(x = i,digits = 3)*1000+1])
+    if (normalized){
+      #extract colors based on the normalized enrichment values (from 1 = white to 1001 = highest color of the palette)
+      colorvector<-c(colorvector,color_ramp[round(x = i,digits = 3)*1000+1])
+    }
+    else{
+      #extract colors based on the actual enrichment value (from 1 = white to 1001 = highest color of the palette)
+      colorvector<-c(colorvector,color_ramp[round((i*1000/max(enrich_values_norm))+1, digits = 0)])
+    }
+    
   }
   
   names(colorvector)<-names(enrich_values_norm)
+  
   # Return vector with colors
   return(colorvector)
   
