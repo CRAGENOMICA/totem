@@ -2,6 +2,7 @@
 
 #echo "reaching totem-data"
 #wget --no-check-certificate https://bioinformatics.cragenomica.es/totem-data/test.txt
+# TODO - before rm, check that the folder exists with an if
 echo "Copying whole experiments folder"
 date && \
 rm -rf /srv/actions-runner/_work/totem/totem/experiments && \
