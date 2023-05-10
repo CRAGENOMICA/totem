@@ -3,6 +3,7 @@
 #echo "reaching totem-data"
 #wget --no-check-certificate https://bioinformatics.cragenomica.es/totem-data/test.txt
 # TODO - before rm, check that the folder exists with an if
+# TODO2 - We need to check if there is enough disk space.
 echo "Copying whole experiments folder"
 date && \
 rm -rf /srv/actions-runner/_work/totem/totem/experiments && \
