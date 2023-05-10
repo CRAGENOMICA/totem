@@ -19,7 +19,7 @@ R (>3.0.2)
 - ggplot2
 - viridis
 
-## NEXT (Meeting on 11/07/22
+## Previous Meeting on 11/07/22
 
 Task 1. Code the App
 Task 1.1. Fidel: Solve the errors
