@@ -48,6 +48,7 @@ source("modules/module_about.R")
 
 # == UI PART ====
 ui <- dashboardPage(
+  title = "TOTEM",
   #= HEADER ====
   dashboardHeader(
     title = tags$img(
