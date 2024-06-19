@@ -76,7 +76,9 @@ enrichment_pageUI <- function(id) {
                fluidRow(
                    
                    # Tissue finder selector
+                 tags$label(class = "control-label","Tissue-specific genes"),
                    uiOutput(outputId = NS(id,"tissue_finder")),
+                   hr(),
                    verbatimTextOutput(outputId = NS(id,"genes_in_tissue"),placeholder = TRUE),
                    column(6,
                           actionButton(inputId = NS(id,"func_char_tiss"), label = "Functional characterization", align = "center")

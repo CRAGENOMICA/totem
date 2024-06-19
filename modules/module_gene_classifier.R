@@ -26,19 +26,32 @@ gene_classifierServer <- function(id, experiment_path,user_genelist) {
         
         ## Create a UI with the available tissues names + number of genes
         output$tissue_finder<-renderUI({
-            selectInput(inputId = NS(id,"tissue_finder"),
-                        label = "Tissue-specific genes",
+            # selectInput(inputId = NS(id,"tissue_finder"),
+            #             label = "Tissue-specific genes",
+            #             choices = intersection_tissue_labels,
+            #             multiple = TRUE,
+            #             width = "100%",
+            #             selected = intersection_tissue_labels[1],
+            #             selectize = TRUE
+            # )
+          div(id = NS(id,"tissue_finder"), style = 'height: 100px; overflow-y: scroll;', 
+            checkboxGroupInput(inputId = NS(id,"tissue_finder"),
+                        label = "Select tissue(s)",
                         choices = intersection_tissue_labels,
-                        multiple = FALSE,
-                        width = "100%"
+                        width = "100%",
+                        selected = intersection_tissue_labels[1],
+                        inline = TRUE
             )
+          )
         })
         
         ## Output the genes of the selected tissue
         source("functions/tissue_gene_finder.R")
         observeEvent(input$tissue_finder, {
             ### Here used tissue_gene_finder function
-            selected_tissue<<-strsplit(input$tissue_finder,split = "  ")[[1]][1]
+          selected_tissue <<- unlist(lapply(sapply(input$tissue_finder, FUN = strsplit, split = "  "), '[[', 1))
+          
+             # selected_tissue<<-strsplit(input$tissue_finder,split = " ")
             genes_tissue<<-tissue_gene_finder(user_genes = user_genelist,
                                    tissue_atlas = tissue_atlas,
                                    tissue = selected_tissue)

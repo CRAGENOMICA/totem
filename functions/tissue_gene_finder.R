@@ -20,7 +20,7 @@
 
 tissue_gene_finder<-function(user_genes,tissue,tissue_atlas) {
     
-    output<-user_genes[which(user_genes%in%tissue_atlas[[tissue]])]
+    output<-user_genes[which(user_genes%in%unlist(tissue_atlas[match(tissue, names(tissue_atlas))]))]
     
     if (length(output)>0) {
         return(paste(output,collapse = "\n"))
@@ -28,3 +28,4 @@ tissue_gene_finder<-function(user_genes,tissue,tissue_atlas) {
         return("none")
     }
 }
+

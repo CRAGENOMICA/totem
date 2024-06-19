@@ -4,7 +4,7 @@
 ##
 ## Purpose of script:
 ##
-## Author: Fidel Lozano-Elena
+## Author: Fidel Lozano-Elena and Veredas Coleto-Alcudia
 ##
 ## Date Created: 2022-05-25
 ##
@@ -13,7 +13,7 @@
 ##
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 ##
-## Notes:
+## Notes: Main script for TOTEM web tool. Functionalities are in modules and functions directories.
 ##
 ##
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
