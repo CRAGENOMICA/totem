@@ -18,9 +18,7 @@
 ##
 ## %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
-  
+gene_list_org <- function(updateProgress = NULL, input_genes, specie){
   if(specie == "Solanum lycopersicum"){ 
     genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
     org = "slycopersicum"
@@ -33,6 +31,18 @@ dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjme
     genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
     org = "athaliana"
   }
+  else if(specie == "Zea mays"){
+    ann = read.delim("experiments/Zea mays/annotation_file.txt", header= T)
+    genes = unique(ann[ann$locusName %in% user_genelist, "locusName_B73"]) #gprofiler uses the B73 v5 gene ID
+    genes = genes[is.na(genes)==F]
+    org = "zmays"
+  }
+  
+  return(list(genes, org))
+  
+}
+
+dotplotGO<-function(updateProgress = NULL, genes, org, ontology, padjmethod, pvalcutoff) {
     
   if(length(genes)>2){ #only GO terms 
 
@@ -80,19 +90,7 @@ dotplotGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjme
   }
 }
 
-netgenesGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
-  if(specie == "Solanum lycopersicum"){ 
-    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
-    org = "slycopersicum"
-  }
-  else if(specie == "Sorghum bicolor"){
-    genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
-    org = "sbicolor"
-  }
-  else if(specie == "Arabidopsis thaliana"){
-    genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
-    org = "athaliana"
-  }
+netgenesGO<-function(updateProgress = NULL, genes, org, ontology, padjmethod, pvalcutoff) {
 
   if(length(genes)>2){ #only GO terms
     # use gost gprofiler function to calculate enrichment
@@ -137,19 +135,7 @@ netgenesGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjm
              text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for gene ontology enrichment analysis"), cex = 1.6, col = "black"))
   }
 }
-heatmapGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjmethod, pvalcutoff) {
-  if(specie == "Solanum lycopersicum"){ 
-    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
-    org = "slycopersicum"
-  }
-  else if(specie == "Sorghum bicolor"){
-    genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
-    org = "sbicolor"
-  }
-  else if(specie == "Arabidopsis thaliana"){
-    genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
-    org = "athaliana"
-  }
+heatmapGO<-function(updateProgress = NULL, genes, org, ontology, padjmethod, pvalcutoff) {
 
   if(length(genes)>2){ #only GO terms
 
@@ -195,19 +181,7 @@ heatmapGO<-function(updateProgress = NULL, input_genes, specie, ontology, padjme
   }
 }
 
-dotplotKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, pvalcutoff) {
-  if(specie == "Solanum lycopersicum"){ 
-    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
-    org = "slycopersicum"
-  }
-  else if(specie == "Sorghum bicolor"){
-    genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
-    org = "sbicolor"
-  }
-  else if(specie == "Arabidopsis thaliana"){
-    genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
-    org = "athaliana"
-  }
+dotplotKEGG <- function(updateProgress = NULL, genes, org, padjmethod, pvalcutoff) {
 
   ## KEGG plots
   if(length(genes)>2){
@@ -250,19 +224,7 @@ dotplotKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, 
              text(x = 0.5, y = 0.5, paste("Please, select a gene set with more than 2 genes \n for KEGG enrichment analysis"), cex = 1.6, col = "black"))
   }
 }
-heatmapKEGG <- function(updateProgress = NULL, input_genes, specie, padjmethod, pvalcutoff) {
-  if(specie == "Solanum lycopersicum"){ 
-    genes = paste0(input_genes, ".1")  # gprofiler tomato input needs transcript ID instead of gene -> add .1 to the gene 
-    org = "slycopersicum"
-  }
-  else if(specie == "Sorghum bicolor"){
-    genes = gsub("Sobic.", "SORBI_3", input_genes)# gprofiler sorghum input uses ensembl plant id --> change sobic. prefix for sorbi_3
-    org = "sbicolor"
-  }
-  else if(specie == "Arabidopsis thaliana"){
-    genes = input_genes # for arbidopsis, gprofiler input is AT*G*****
-    org = "athaliana"
-  }
+heatmapKEGG <- function(updateProgress = NULL, genes, org, padjmethod, pvalcutoff) {
 
   ## KEGG plots
   if(length(genes)>2){

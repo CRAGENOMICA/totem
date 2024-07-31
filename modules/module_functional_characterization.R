@@ -72,27 +72,27 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
     
     ## GO plots ##
     source("./functions/GO_plots_new.R")
-    dotGO <- reactive({dotplotGO(input_genes=gene_set,
-                                 specie = specie,
+    dotGO <- reactive({dotplotGO(genes=gene_list_org(input_genes=gene_set,specie = specie)[[1]],
+                                 org = gene_list_org(input_genes=gene_set,specie = specie)[[2]],
                                  ontology= input$select_ontology,
                                  padjmethod = input$select_padjmethod,
                                  pvalcutoff = input$select_pvalcutoff)})
-    netGO <- reactive({netgenesGO(input_genes=gene_set,
-                           specie = specie,
-                           ontology= input$select_ontology,
-                           padjmethod = input$select_padjmethod,
-                           pvalcutoff = input$select_pvalcutoff)})
-    heatGO <- reactive({heatmapGO(input_genes=gene_set,
-                                  specie = specie,
+    netGO <- reactive({netgenesGO(genes=gene_list_org(input_genes=gene_set,specie = specie)[[1]],
+                                  org = gene_list_org(input_genes=gene_set,specie = specie)[[2]],
+                                 ontology= input$select_ontology,
+                                 padjmethod = input$select_padjmethod,
+                                 pvalcutoff = input$select_pvalcutoff)})
+    heatGO <- reactive({heatmapGO(genes=gene_list_org(input_genes=gene_set,specie = specie)[[1]],
+                                  org = gene_list_org(input_genes=gene_set,specie = specie)[[2]],
                                   ontology= input$select_ontology,
                                   padjmethod = input$select_padjmethod,
                                   pvalcutoff = input$select_pvalcutoff)})
-    dotKEGG <- reactive({dotplotKEGG(input_genes=gene_set,
-                                     specie = specie,
+    dotKEGG <- reactive({dotplotKEGG(genes=gene_list_org(input_genes=gene_set,specie = specie)[[1]],
+                                     org = gene_list_org(input_genes=gene_set,specie = specie)[[2]],
                                      padjmethod = input$select_padjmethod,
                                      pvalcutoff = input$select_pvalcutoff)})
-    heatKEGG <- reactive({heatmapKEGG(input_genes=gene_set,
-                                      specie = specie,
+    heatKEGG <- reactive({heatmapKEGG(genes=gene_list_org(input_genes=gene_set,specie = specie)[[1]],
+                                      org = gene_list_org(input_genes=gene_set,specie = specie)[[2]],
                                       padjmethod = input$select_padjmethod,
                                       pvalcutoff = input$select_pvalcutoff)})
     output$dotGO <- renderPlot({
@@ -186,7 +186,7 @@ functional_characterizationServer<-function(id,experiment_path,user_description,
 
 
 # # Testing purposes:
-# x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigenòmica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM_actual/shinyTOTEM/experiments/Arabidopsis/Root_SingleCell"
+# x<-"C:/Users/vcoleto/OneDrive - CRAG - Centre de Recerca en Agrigen?mica - CSIC IRTA UAB UB/ACano-LAB/SingleCell/TOTEM/shinyTOTEM_actual/shinyTOTEM/experiments/Arabidopsis/Root_SingleCell"
 # z<-c("AT2G41650\nAT4G39400\nAT1G04560\nAT1G65484\nAT2G21400\nAT5G59310\nAT5G02020")
 # sp = "Arabidopsis"
 # y = "Root_SingleCell"
