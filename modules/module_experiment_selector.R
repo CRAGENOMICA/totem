@@ -163,17 +163,17 @@ experiment_selectorServer <- function(id) {
   })
 }
 
-experiment_selectorApp <- function() {
-  
-  ui <- fluidPage(
-    experiment_selectorUI("x")
-  )
-  
-  server<-function(input,output,session) {
-    
-    experiment_selectorServer("x")  
-  }
-  
-  shinyApp(ui, server)
-}
+# experiment_selectorApp <- function() {
+#   
+#   ui <- fluidPage(
+#     experiment_selectorUI("x")
+#   )
+#   
+#   server<-function(input,output,session) {
+#     
+#     experiment_selectorServer("x")  
+#   }
+#   
+#   shinyApp(ui, server)
+# }
 # experiment_selectorApp()

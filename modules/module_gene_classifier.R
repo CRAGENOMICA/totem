@@ -8,12 +8,23 @@
 # Tissue-specific, Non tissue-specific or Not found
 # according to the selected experiment
 
-gene_classifierServer <- function(id, experiment_path,user_genelist) {
+gene_classifierServer <- function(id,experiment_id, experiment_path,user_genelist) {
     
     moduleServer(id, function(input,output,session) {
-        
+      
+      
+      if(experiment_id == "Custom"){
+        # load the corresponding variables
+        tissue_atlas=experiment_path()$df_dataset
+        geneuniverse=experiment_path()$geneuniverse
+      }
+      
+      else{
         # LOAD AN R DATA
         load(paste(experiment_path,"data.RData",sep = "/"))
+      }
+        
+        
         
         ## For loop here to extract number of genes per tissue
         intersection_tissue_labels<-c()
@@ -26,14 +37,7 @@ gene_classifierServer <- function(id, experiment_path,user_genelist) {
         
         ## Create a UI with the available tissues names + number of genes
         output$tissue_finder<-renderUI({
-            # selectInput(inputId = NS(id,"tissue_finder"),
-            #             label = "Tissue-specific genes",
-            #             choices = intersection_tissue_labels,
-            #             multiple = TRUE,
-            #             width = "100%",
-            #             selected = intersection_tissue_labels[1],
-            #             selectize = TRUE
-            # )
+            
           div(id = NS(id,"tissue_finder"), style = 'height: 100px; overflow-y: scroll;', 
             checkboxGroupInput(inputId = NS(id,"tissue_finder"),
                         label = "Select tissue(s)",

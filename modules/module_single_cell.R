@@ -17,7 +17,7 @@ single_cellServer<-function(id,experiment_path,user_description,experiment_id,sp
       description_exp<-paste(specie, experiment_id, "experiment \n", Sys.time(), sep = " ")
     }
     else(
-      description_exp<-paste("Single cell expression of genes from user experiment: ", user_description, sep = " ")
+      description_exp<-paste(" user experiment: ", user_description, sep = " ")
     )
     # Selected tissue information
     output$description_sc<-renderText({

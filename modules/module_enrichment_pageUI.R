@@ -81,7 +81,8 @@ enrichment_pageUI <- function(id) {
                    hr(),
                    verbatimTextOutput(outputId = NS(id,"genes_in_tissue"),placeholder = TRUE),
                    column(6,
-                          actionButton(inputId = NS(id,"func_char_tiss"), label = "Functional characterization", align = "center")
+                          uiOutput(outputId = NS(id,"func_char_button")),
+                          # actionButton(inputId = NS(id,"func_char_tiss"), label = "Functional characterization", align = "center")
                           ),
                    column(6,
                          )

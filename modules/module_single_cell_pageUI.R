@@ -18,7 +18,7 @@ single_cellUI <- function(id) {
       column(12,
              # Description
              # Here add the user experient ID
-             verbatimTextOutput(outputId = NS(id,"description_sc"))
+             verbatimTextOutput(outputId = NS(id,"description_sc")),
       ),
       
       hr(),
